@@ -4,7 +4,7 @@
 #include "proc.h"
 #include "stack.h"
 
-unsigned int StackSize = 1024;
+unsigned int StackSize = 8;
 
 void Run()
 {
@@ -28,6 +28,7 @@ void Run()
 
             continue;
         }
+
         if (strcmp(cmd, "sub") == 0)
         {
             StackElem_t a = StackPop(stkId);
@@ -38,6 +39,7 @@ void Run()
 
             continue;
         }
+
         if (strcmp(cmd, "add") == 0)
         {
             StackElem_t a = StackPop(stkId);
@@ -48,6 +50,7 @@ void Run()
 
             continue;
         }
+
         if (strcmp(cmd, "mul") == 0)
         {
             StackElem_t a = StackPop(stkId);
@@ -58,6 +61,7 @@ void Run()
 
             continue;
         }
+
         if (strcmp(cmd, "div") == 0)
         {
             StackElem_t a = StackPop(stkId);
@@ -68,6 +72,7 @@ void Run()
 
             continue;
         }
+
         if (strcmp(cmd, "out") == 0)
         {
             StackElem_t a = StackPop(stkId);
@@ -76,6 +81,14 @@ void Run()
 
             continue;
         }
+
+        if (strcmp(cmd , "dump") == 0)
+        {
+            SpecialStackDump(stkId);
+
+            continue;
+        }
+
         if (strcmp(cmd, "hlt") == 0)
         {
             running = false;
