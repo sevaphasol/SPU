@@ -14,89 +14,97 @@ void Run()
 
     while (running)
     {
-        char cmd[50] = "";
+        int cmd = -1;
 
-        scanf("%s", cmd);
+        scanf("%d", &cmd);
 
-        if (strcmp(cmd, "push") == 0)
+        switch (cmd)
         {
-            StackElem_t arg = 0;
+            case HLT:
+            {
+                running = false;
 
-            scanf("%d", &arg);
+                break;
+            }
 
-            StackPush(stkId, arg);
+            case PUSH:
+            {
+                StackElem_t arg = 0;
 
-            continue;
+                scanf("%d", &arg);
+
+                StackPush(stkId, arg);
+
+                break;
+            }
+
+            case ADD:
+            {
+                StackElem_t a = StackPop(stkId);
+
+                StackElem_t b = StackPop(stkId);
+
+                StackPush(stkId, a + b);
+
+                break;
+            }
+
+            case SUB:
+            {
+                StackElem_t a = StackPop(stkId);
+
+                StackElem_t b = StackPop(stkId);
+
+                StackPush(stkId, b - a);
+
+                break;
+            }
+
+            case MUL:
+            {
+                StackElem_t a = StackPop(stkId);
+
+                StackElem_t b = StackPop(stkId);
+
+                StackPush(stkId, a * b);
+
+                break;
+            }
+
+
+            case DIV:
+            {
+                StackElem_t a = StackPop(stkId);
+
+                StackElem_t b = StackPop(stkId);
+
+                StackPush(stkId, b / a);
+
+                continue;
+            }
+
+
+            case OUT:
+            {
+                StackElem_t a = StackPop(stkId);
+
+                printf("%d\n", a);
+
+                break;
+            }
+
+
+            case DUMP:
+            {
+                SpecialStackDump(stkId);
+
+                break;
+            }
+
+            default:
+                fprintf(stderr, "Syntax error: %d\n", cmd);
+                break;
         }
-
-        if (strcmp(cmd, "sub") == 0)
-        {
-            StackElem_t a = StackPop(stkId);
-
-            StackElem_t b = StackPop(stkId);
-
-            StackPush(stkId, b - a);
-
-            continue;
-        }
-
-        if (strcmp(cmd, "add") == 0)
-        {
-            StackElem_t a = StackPop(stkId);
-
-            StackElem_t b = StackPop(stkId);
-
-            StackPush(stkId, a + b);
-
-            continue;
-        }
-
-        if (strcmp(cmd, "mul") == 0)
-        {
-            StackElem_t a = StackPop(stkId);
-
-            StackElem_t b = StackPop(stkId);
-
-            StackPush(stkId, a * b);
-
-            continue;
-        }
-
-        if (strcmp(cmd, "div") == 0)
-        {
-            StackElem_t a = StackPop(stkId);
-
-            StackElem_t b = StackPop(stkId);
-
-            StackPush(stkId, b / a);
-
-            continue;
-        }
-
-        if (strcmp(cmd, "out") == 0)
-        {
-            StackElem_t a = StackPop(stkId);
-
-            printf("%d\n", a);
-
-            continue;
-        }
-
-        if (strcmp(cmd , "dump") == 0)
-        {
-            SpecialStackDump(stkId);
-
-            continue;
-        }
-
-        if (strcmp(cmd, "hlt") == 0)
-        {
-            running = false;
-
-            continue;
-        }
-
-        fprintf(stderr, "Syntax error: %s\n", cmd);
     }
 
     StackDtor(stkId);

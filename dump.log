@@ -1,7 +1,7 @@
-Local time and date: Thu Oct 10 16:52:42 2024
+Local time and date: Thu Oct 10 18:13:22 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -30,10 +30,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:42 2024
+Local time and date: Thu Oct 10 18:13:22 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -62,10 +62,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:42 2024
+Local time and date: Thu Oct 10 18:13:22 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:173 in function StackId_t StackCtor(int, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:173 in function StackId_t StackCtor(int, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -76,7 +76,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -94,10 +94,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:198 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:198 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -108,7 +108,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -126,10 +126,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -140,7 +140,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -158,10 +158,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:204 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:204 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -172,7 +172,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -190,10 +190,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -204,7 +204,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -222,10 +222,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -236,7 +236,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -254,10 +254,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:235 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:235 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -268,13 +268,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -286,10 +286,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -300,13 +300,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -318,10 +318,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -332,13 +332,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9901499864540551063
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -350,10 +350,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:241 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:241 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -364,13 +364,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -382,10 +382,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -396,13 +396,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -414,10 +414,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:243 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:243 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -428,13 +428,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -446,10 +446,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -460,13 +460,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -478,10 +478,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:44 2024
+Local time and date: Thu Oct 10 18:13:24 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -492,13 +492,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -510,10 +510,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:198 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:198 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -524,13 +524,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -542,10 +542,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -556,13 +556,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -574,10 +574,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:204 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:204 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -588,13 +588,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -606,10 +606,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -620,13 +620,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -638,10 +638,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -652,13 +652,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -670,10 +670,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:235 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:235 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -684,14 +684,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -702,10 +702,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -716,14 +716,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -734,10 +734,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -748,14 +748,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -766,10 +766,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:241 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:241 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -780,14 +780,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -798,10 +798,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -812,14 +812,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -830,10 +830,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:243 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:243 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -844,14 +844,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -862,10 +862,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -876,14 +876,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -894,10 +894,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:47 2024
+Local time and date: Thu Oct 10 18:13:26 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -908,14 +908,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -926,10 +926,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:252 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:252 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -940,14 +940,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -958,10 +958,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -972,14 +972,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -990,10 +990,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:258 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:258 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1004,14 +1004,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -1022,10 +1022,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1036,14 +1036,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -1054,10 +1054,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1068,14 +1068,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 2
 
-[0] = 1
-[1] = 3
+[0] = 12
+[1] = 12
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -1086,10 +1086,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1100,14 +1100,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6882334203846173323
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 6997824442584983008
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
-[1] = 3 (POISON) 
+[0] = 12
+[1] = 12 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -1118,10 +1118,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:289 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:289 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1132,13 +1132,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 5610530453440965546
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 5726020692179775231
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1150,10 +1150,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1164,13 +1164,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 5610530453440965546
-DATA   HASH          = 8200815145810155
+STRUCT HASH          = 5726020692179775231
+DATA   HASH          = 8201295571894623
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1182,10 +1182,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1196,13 +1196,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 5610530453440965546
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 5726020692179775231
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1214,10 +1214,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:295 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:295 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1228,13 +1228,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1246,10 +1246,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1260,13 +1260,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1278,10 +1278,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:297 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:297 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1292,13 +1292,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1310,10 +1310,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1324,13 +1324,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1342,10 +1342,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1356,13 +1356,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1374,10 +1374,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:252 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:252 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1388,13 +1388,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1406,10 +1406,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1420,13 +1420,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1438,10 +1438,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:258 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:258 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1452,13 +1452,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1470,10 +1470,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1484,13 +1484,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1502,10 +1502,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1516,13 +1516,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 1
 
-[0] = 1
+[0] = 12
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1534,10 +1534,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1548,13 +1548,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1498533035561471610
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 9471073557044886912
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 0
 
-[0] = 1 (POISON) 
+[0] = 12 (POISON) 
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -1566,10 +1566,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:289 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:289 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1580,40 +1580,8 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 226729285156263833
-DATA   HASH          = 8200811271406248
-
-capacity             = 8
-size                 = 0
-
-[0] = 0 (POISON) 
-[1] = 0 (POISON) 
-[2] = 0 (POISON) 
-[3] = 0 (POISON) 
-[4] = 0 (POISON) 
-[5] = 0 (POISON) 
-[6] = 0 (POISON) 
-[7] = 0 (POISON) 
-
-
----------------------------------------------------------------------
-
-Local time and date: Thu Oct 10 16:52:48 2024
-
-ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
-Born at src/proc.cpp:11 in function void Run()
-
-Stack ID             = 1
-
-LEFT  STRUCT CANARY  = 58188442558455514
-RIGHT STRUCT CANARY  = 58188442558455514
-
-LEFT  DATA   CANARY  = 58188442558455514
-RIGHT DATA   CANARY  = 58188442558455514
-
-STRUCT HASH          = 226729285156263833
-DATA   HASH          = 8200811271406248
+STRUCT HASH          = 8199269806639679135
+DATA   HASH          = 8201280074278995
 
 capacity             = 8
 size                 = 0
@@ -1630,10 +1598,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1644,7 +1612,39 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 226729285156263833
+STRUCT HASH          = 8199269806639679135
+DATA   HASH          = 8201280074278995
+
+capacity             = 8
+size                 = 0
+
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:27 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 8199269806639679135
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1662,10 +1662,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:295 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:295 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1676,7 +1676,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1694,10 +1694,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1708,7 +1708,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1726,10 +1726,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:297 in function StackElem_t StackPop(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:297 in function StackElem_t StackPop(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1740,7 +1740,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1758,10 +1758,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1772,7 +1772,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1790,10 +1790,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1804,7 +1804,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1822,10 +1822,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:198 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:198 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1836,7 +1836,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1854,10 +1854,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1868,7 +1868,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1886,10 +1886,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:204 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:204 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1900,7 +1900,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1918,10 +1918,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1932,7 +1932,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1950,10 +1950,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1964,7 +1964,7 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
@@ -1982,10 +1982,10 @@ size                 = 0
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:235 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:235 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -1996,13 +1996,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
 size                 = 1
 
-[0] = 4
+[0] = 144
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -2014,10 +2014,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -2028,13 +2028,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
+STRUCT HASH          = 9901499864540551063
 DATA   HASH          = 8200768652963271
 
 capacity             = 8
 size                 = 1
 
-[0] = 4
+[0] = 144
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -2046,10 +2046,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -2060,13 +2060,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 7111968542028134667
-DATA   HASH          = 8200939126735179
+STRUCT HASH          = 9901499864540551063
+DATA   HASH          = 8206905708751959
 
 capacity             = 8
 size                 = 1
 
-[0] = 4
+[0] = 144
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -2078,10 +2078,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:241 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:241 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -2092,13 +2092,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 14234064230988249924
-DATA   HASH          = 8200939126735179
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
 
 capacity             = 8
 size                 = 1
 
-[0] = 4
+[0] = 144
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -2110,10 +2110,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -2124,13 +2124,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 14234064230988249924
-DATA   HASH          = 8200939126735179
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
 
 capacity             = 8
 size                 = 1
 
-[0] = 4
+[0] = 144
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -2142,10 +2142,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:243 in function StackReturnCode StackPush(StackId_t, StackElem_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:243 in function StackReturnCode StackPush(StackId_t, StackElem_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -2156,13 +2156,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 14234064230988249924
-DATA   HASH          = 8200939126735179
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
 
 capacity             = 8
 size                 = 1
 
-[0] = 4
+[0] = 144
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -2174,10 +2174,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -2188,13 +2188,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 14234064230988249924
-DATA   HASH          = 8200939126735179
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
 
 capacity             = 8
 size                 = 1
 
-[0] = 4
+[0] = 144
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -2206,10 +2206,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Thu Oct 10 16:52:48 2024
+Local time and date: Thu Oct 10 18:13:27 2024
 
 ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5b3480c95840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
 Born at src/proc.cpp:11 in function void Run()
 
 Stack ID             = 1
@@ -2220,13 +2220,461 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 14234064230988249924
-DATA   HASH          = 8200939126735179
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
 
 capacity             = 8
 size                 = 1
 
-[0] = 4
+[0] = 144
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:252 in function StackElem_t StackPop(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
+
+capacity             = 8
+size                 = 1
+
+[0] = 144
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
+
+capacity             = 8
+size                 = 1
+
+[0] = 144
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:258 in function StackElem_t StackPop(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
+
+capacity             = 8
+size                 = 1
+
+[0] = 144
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
+
+capacity             = 8
+size                 = 1
+
+[0] = 144
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
+
+capacity             = 8
+size                 = 1
+
+[0] = 144
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9830334839398274415
+DATA   HASH          = 8206905708751959
+
+capacity             = 8
+size                 = 0
+
+[0] = 144 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:289 in function StackElem_t StackPop(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 8558531088993066638
+DATA   HASH          = 8206905708751959
+
+capacity             = 8
+size                 = 0
+
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 8558531088993066638
+DATA   HASH          = 8206905708751959
+
+capacity             = 8
+size                 = 0
+
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 8558531088993066638
+DATA   HASH          = 8200768652963271
+
+capacity             = 8
+size                 = 0
+
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:295 in function StackElem_t StackPop(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9901499864540551063
+DATA   HASH          = 8200768652963271
+
+capacity             = 8
+size                 = 0
+
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:885 in function StackReturnCode StackIsDamaged(StackId_t, int, const char*, const char*)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9901499864540551063
+DATA   HASH          = 8200768652963271
+
+capacity             = 8
+size                 = 0
+
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:297 in function StackElem_t StackPop(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9901499864540551063
+DATA   HASH          = 8200768652963271
+
+capacity             = 8
+size                 = 0
+
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:696 in function StackReturnCode CountDataHash(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9901499864540551063
+DATA   HASH          = 8200768652963271
+
+capacity             = 8
+size                 = 0
+
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
+[5] = 0 (POISON) 
+[6] = 0 (POISON) 
+[7] = 0 (POISON) 
+
+
+---------------------------------------------------------------------
+
+Local time and date: Thu Oct 10 18:13:32 2024
+
+ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
+Stack_t[0x62c293d69840] stack at src/stack.cpp:718 in function StackReturnCode CountStructHash(StackId_t)
+Born at src/proc.cpp:11 in function void Run()
+
+Stack ID             = 1
+
+LEFT  STRUCT CANARY  = 58188442558455514
+RIGHT STRUCT CANARY  = 58188442558455514
+
+LEFT  DATA   CANARY  = 58188442558455514
+RIGHT DATA   CANARY  = 58188442558455514
+
+STRUCT HASH          = 9901499864540551063
+DATA   HASH          = 8200768652963271
+
+capacity             = 8
+size                 = 0
+
+[0] = 0 (POISON) 
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
