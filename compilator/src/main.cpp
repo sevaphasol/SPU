@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "compilator.h"
 
@@ -6,15 +7,21 @@ int main(int argc, const char* argv[])
 {
     if (argc != 3)
     {
-        printf(stderr, "INCORRECT INPUT\n");
+        fprintf(stderr, "INCORRECT INPUT\n");
 
         return 0;
     }
 
-    FILE* inputFile = fopen(argv[1], "r");
-    FILE* ouputFile = fopen(argv[2], "w");
+    FILE* inputFile  = fopen(argv[1], "r");
+    FILE* outputFile = fopen(argv[2], "w");
 
-    Compile(inputFile, outputFile);
+    LenArr_t codeArrStruct = {.len = 0, .codeArr = {-1}};
+
+    Labels_t labelsStruct  = {.nLabels = 0, .Addrs = {-1}};
+
+    MakeArr(&codeArrStruct, &labelsStruct, inputFile);
+
+    Write  (&codeArrStruct, outputFile);
 
     return 0;
 }
