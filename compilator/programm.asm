@@ -6,6 +6,7 @@ mul
 dump
 out
 jmp 3
+3:
 ja 2
 jb 5
 je 1

@@ -10,9 +10,15 @@ void MakeArr(LenArr_t* codeArrStruct, Labels_t* labelsStruct, FILE* inputFile)
 
     int* codeArr = codeArrStruct->codeArr;
 
-    int* labels  = labelsStruct->Addrs;
+    int* labels    = labelsStruct->Addrs;
+    size_t nLabels = labelsStruct->nLabels;
 
     int ip = 0;
+
+    for (int i =0; i < 16; i++)
+    {
+        printf("%d\n", codeArr[i]);
+    }
 
     while (reading)
     {
@@ -21,6 +27,41 @@ void MakeArr(LenArr_t* codeArrStruct, Labels_t* labelsStruct, FILE* inputFile)
 
         if (strcmp(cmd, "") == 0)
         {
+            continue;
+        }
+
+        if (strchr(cmd, ':'))
+        {
+            int label = atoi(cmd);
+
+            if (nLabels >= LabelsSize)
+            {
+                fprintf(stderr, "LABELS OVERFLOW\n");
+
+                break;
+            }
+
+            if (!((0 <= label) && (label <= LabelsSize - 1)))
+            {
+                fprintf(stderr, "INVALID LABEL\n");
+
+                break;
+            }
+
+            fprintf(stderr, "%d\n", labels[label]);
+
+            if(labels[label] != -1)
+            {
+                fprintf(stderr, "REDEFENITION OF LABEL\n");
+
+                break;
+            }
+
+            if ((nLabels < LabelsSize) && (0 <= label <= nLabels - 1) && (labels[label] != -1))
+            {
+                labels[label] = ip;
+            }
+
             continue;
         }
 
@@ -105,7 +146,16 @@ void MakeArr(LenArr_t* codeArrStruct, Labels_t* labelsStruct, FILE* inputFile)
 
             fscanf(inputFile, "%s", cmd);
 
-            codeArr[ip++] = atoi(cmd);
+            int arg = atoi(cmd);
+
+            if (strchr(cmd, ':'))
+            {
+                codeArr[ip++] = labels[arg];
+            }
+            else
+            {
+                codeArr[ip++] = arg;
+            }
 
             continue;
         }
