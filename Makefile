@@ -8,6 +8,7 @@ LDFLAGS =
 
 SOURCES_DIR = src
 OBJECTS_DIR = bin
+LOGS_DIR    = logs
 BUILD_DIR   = build
 
 EXECUTABLE = proc
@@ -20,6 +21,7 @@ all: $(EXECUTABLE_PATH)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+	mkdir -p $(LOGS_DIR)
 
 $(OBJECTS_DIR):
 	mkdir -p $(OBJECTS_DIR)
@@ -31,4 +33,4 @@ $(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.cpp $(OBJECTS_DIR)
 	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
-	rm -fr $(OBJECTS_DIR) $(BUILD_DIR)
+	rm -fr $(OBJECTS_DIR) $(BUILD_DIR) $(LOGS_DIR)

@@ -6,19 +6,17 @@
 
 unsigned int StackSize = 8;
 
-void Run()
+void Run(int codeArr[ArrSize])
 {
     StackId_t stkId = STACK_CTOR(StackSize);
 
     bool running = true;
 
+    int ip = 0;
+
     while (running)
     {
-        int cmd = -1;
-
-        scanf("%d", &cmd);
-
-        switch (cmd)
+        switch (codeArr[ip])
         {
             case HLT:
             {
@@ -29,11 +27,11 @@ void Run()
 
             case PUSH:
             {
-                StackElem_t arg = 0;
-
-                scanf("%d", &arg);
+                StackElem_t arg = codeArr[++ip];
 
                 StackPush(stkId, arg);
+
+                ip++;
 
                 break;
             }
@@ -41,10 +39,11 @@ void Run()
             case ADD:
             {
                 StackElem_t a = StackPop(stkId);
-
                 StackElem_t b = StackPop(stkId);
 
                 StackPush(stkId, a + b);
+
+                ip++;
 
                 break;
             }
@@ -52,10 +51,11 @@ void Run()
             case SUB:
             {
                 StackElem_t a = StackPop(stkId);
-
                 StackElem_t b = StackPop(stkId);
 
                 StackPush(stkId, b - a);
+
+                ip++;
 
                 break;
             }
@@ -63,10 +63,11 @@ void Run()
             case MUL:
             {
                 StackElem_t a = StackPop(stkId);
-
                 StackElem_t b = StackPop(stkId);
 
                 StackPush(stkId, a * b);
+
+                ip++;
 
                 break;
             }
@@ -75,10 +76,11 @@ void Run()
             case DIV:
             {
                 StackElem_t a = StackPop(stkId);
-
                 StackElem_t b = StackPop(stkId);
 
                 StackPush(stkId, b / a);
+
+                ip++;
 
                 continue;
             }
@@ -90,6 +92,8 @@ void Run()
 
                 printf("%d\n", a);
 
+                ip++;
+
                 break;
             }
 
@@ -98,11 +102,16 @@ void Run()
             {
                 SpecialStackDump(stkId);
 
+                ip++;
+
                 break;
             }
 
             default:
-                fprintf(stderr, "Syntax error: %d\n", cmd);
+                fprintf(stderr, "Syntax error: %d\n", codeArr[ip]);
+
+                running = false;
+
                 break;
         }
     }

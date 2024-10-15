@@ -1,6 +1,8 @@
 #ifndef PROC_H__
 #define PROC_H__
 
+const int ArrSize = 16;
+
 typedef enum CommadCodes
 {
     HLT  = 0,
@@ -13,6 +15,6 @@ typedef enum CommadCodes
     DUMP = 7,
 } CommandCode;
 
-void Run();
+void Run(int codeAddr[ArrSize]);
 
 #endif
