@@ -1,7 +1,7 @@
-Local time and date: Tue Oct 15 19:41:48 2024
+Local time and date: Sat Oct 19 00:47:45 2024
 
-ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5740c0104a30] stack Born at src/proc.cpp:11 in function void Run(int*)
+OK
+Stack_t[0x61ca6548ec10] stack Born at src/proc.cpp:48 in function void ProcCtor(Proc_t*, int, const char**)
 
 Stack ID             = 1
 
@@ -11,13 +11,13 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 2909658448619510396
-DATA   HASH          = 8200939126735179
+STRUCT HASH          = 16027419922033942174
+DATA   HASH          = 8200768652963271
 
 capacity             = 8
-size                 = 1
+size                 = 0
 
-[0] = 4
+[0] = 0 (POISON) 
 [1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
@@ -29,10 +29,10 @@ size                 = 1
 
 ---------------------------------------------------------------------
 
-Local time and date: Tue Oct 15 19:41:49 2024
+Local time and date: Sat Oct 19 00:47:45 2024
 
-ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5740c0104a30] stack Born at src/proc.cpp:11 in function void Run(int*)
+OK
+Stack_t[0x61ca6548ec10] stack Born at src/proc.cpp:48 in function void ProcCtor(Proc_t*, int, const char**)
 
 Stack ID             = 1
 
@@ -42,14 +42,14 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 1531853649194723944
-DATA   HASH          = 8200816437278124
+STRUCT HASH          = 7662667363621008283
+DATA   HASH          = 8200853889849225
 
 capacity             = 8
-size                 = 2
+size                 = 1
 
-[0] = 1
-[1] = 4
+[0] = 2
+[1] = 0 (POISON) 
 [2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
@@ -60,10 +60,10 @@ size                 = 2
 
 ---------------------------------------------------------------------
 
-Local time and date: Tue Oct 15 19:41:49 2024
+Local time and date: Sat Oct 19 00:47:45 2024
 
-ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5740c0104a30] stack Born at src/proc.cpp:11 in function void Run(int*)
+OK
+Stack_t[0x61ca6548ec10] stack Born at src/proc.cpp:48 in function void ProcCtor(Proc_t*, int, const char**)
 
 Stack ID             = 1
 
@@ -73,15 +73,15 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 4203323981381407678
-DATA   HASH          = 8200812719415789
+STRUCT HASH          = 16027419922033942174
+DATA   HASH          = 8200768652963271
 
 capacity             = 8
-size                 = 3
+size                 = 0
 
-[0] = 1
-[1] = 1
-[2] = 4
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
 [3] = 0 (POISON) 
 [4] = 0 (POISON) 
 [5] = 0 (POISON) 
@@ -91,10 +91,10 @@ size                 = 3
 
 ---------------------------------------------------------------------
 
-Local time and date: Tue Oct 15 19:41:49 2024
+Local time and date: Sat Oct 19 00:47:45 2024
 
-ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5740c0104a30] stack Born at src/proc.cpp:11 in function void Run(int*)
+OK
+Stack_t[0x61ca6548ec10] stack Born at src/proc.cpp:48 in function void ProcCtor(Proc_t*, int, const char**)
 
 Stack ID             = 1
 
@@ -104,16 +104,16 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 6811367620871049643
-DATA   HASH          = 8200812606753294
+STRUCT HASH          = 17233973203897275415
+DATA   HASH          = 8264184896113047
 
 capacity             = 8
-size                 = 4
+size                 = 1
 
-[0] = 1
-[1] = 1
-[2] = 1
-[3] = 4
+[0] = 1488
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
 [4] = 0 (POISON) 
 [5] = 0 (POISON) 
 [6] = 0 (POISON) 
@@ -122,10 +122,10 @@ size                 = 4
 
 ---------------------------------------------------------------------
 
-Local time and date: Tue Oct 15 19:41:49 2024
+Local time and date: Sat Oct 19 00:47:45 2024
 
-ERRORS: INVALID STRUCT CANARY INVALID DATA CANARY INVALID HASH DAMAGED STACK ERR INVALID FILE POINTER REQUESTED TOO MUCH REQUESTED TOO LITTLE INVALID SIZE STACK OVERFLOW STACK UNDERFLOW 
-Stack_t[0x5740c0104a30] stack Born at src/proc.cpp:11 in function void Run(int*)
+OK
+Stack_t[0x61ca6548ec10] stack Born at src/proc.cpp:48 in function void ProcCtor(Proc_t*, int, const char**)
 
 Stack ID             = 1
 
@@ -135,20 +135,21 @@ RIGHT STRUCT CANARY  = 58188442558455514
 LEFT  DATA   CANARY  = 58188442558455514
 RIGHT DATA   CANARY  = 58188442558455514
 
-STRUCT HASH          = 5064284733527167905
-DATA   HASH          = 8200812603339279
+STRUCT HASH          = 16027419922033942174
+DATA   HASH          = 8200768652963271
 
 capacity             = 8
-size                 = 5
+size                 = 0
 
-[0] = 1
-[1] = 1
-[2] = 1
-[3] = 1
-[4] = 4
+[0] = 0 (POISON) 
+[1] = 0 (POISON) 
+[2] = 0 (POISON) 
+[3] = 0 (POISON) 
+[4] = 0 (POISON) 
 [5] = 0 (POISON) 
 [6] = 0 (POISON) 
 [7] = 0 (POISON) 
 
 
------------------
+---------------------------------------------------------------------
+

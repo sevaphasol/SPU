@@ -13,7 +13,7 @@ STACK_BIN_DIR = ../stack/bin
 LOGS_DIR      = logs
 BUILD_DIR     = build
 
-EXECUTABLE = compilator
+EXECUTABLE = asm
 EXECUTABLE_PATH = $(BUILD_DIR)/$(EXECUTABLE)
 
 SOURCE_FILES = $(wildcard $(SOURCES_DIR)/*.cpp)

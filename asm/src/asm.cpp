@@ -1,10 +1,10 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include "compilator.h"
+#include "asm.h"
 
-void MakeArr(LenArr_t* codeArrStruct, Labels_t* labelsStruct, FILE* inputFile)
+void MakeArr(Code_t* code)
 {
     bool reading = true;
 
@@ -48,9 +48,7 @@ void MakeArr(LenArr_t* codeArrStruct, Labels_t* labelsStruct, FILE* inputFile)
                 break;
             }
 
-            fprintf(stderr, "%d\n", labels[label]);
-
-            if(labels[label] != -1)
+            if(labels[label] != Poison)
             {
                 fprintf(stderr, "REDEFENITION OF LABEL\n");
 

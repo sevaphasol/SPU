@@ -3,21 +3,15 @@
 #include "proc.h"
 #include "stack.h"
 
-int main()
+int main(const int argc, const char* argv[])
 {
-    FILE* code = fopen("programm_code.txt", "r");
+    Proc_t proc = {};
 
-    int codeArr[ArrSize] = {};
+    ProcCtor(&proc, argc, argv);
 
-    int arg  = 0;
-    int size = 0;
+    Run(&proc);
 
-    for ( ; fscanf(code, "%d", &arg) != EOF; size++)
-    {
-        codeArr[size] = arg;
-    }
-
-    Run(codeArr);
+    ProcDtor(&proc);
 
     return 0;
 }

@@ -1,0 +1,305 @@
+Local time and date: Sat Oct 19 00:47:45 2024
+
+input file = programm_code.txt
+input file pointer = 0x61ca6548d2a0
+
+running = true
+
+arr_size = 20
+regs_size = 4
+ram_size = 16
+
+len_code = 19
+ip       = 1
+
+CODE ARRAY
+
+[0] = 12
+[1] = 1
+[2] = 1
+[3] = 2
+[4] = 12
+[5] = 2
+[6] = 2
+[7] = 1
+[8] = 12
+[9] = 1
+[10] = 1
+[11] = 1488
+[12] = 12
+[13] = 2
+[14] = 7
+[15] = 1
+[16] = 1
+[17] = 12
+[18] = 0
+
+REGISTERS
+
+ax = 0
+bx = 0
+cx = 0
+dx = 0
+
+RAM
+
+[0] = 0
+[1] = 0
+[2] = 0
+[3] = 0
+[4] = 0
+[5] = 0
+[6] = 0
+[7] = 0
+[8] = 0
+[9] = 0
+[10] = 0
+[11] = 0
+[12] = 0
+[13] = 0
+[14] = 0
+[15] = 0
+Local time and date: Sat Oct 19 00:47:45 2024
+
+input file = programm_code.txt
+input file pointer = 0x61ca6548d2a0
+
+running = true
+
+arr_size = 20
+regs_size = 4
+ram_size = 16
+
+len_code = 19
+ip       = 5
+
+CODE ARRAY
+
+[0] = 12
+[1] = 1
+[2] = 1
+[3] = 2
+[4] = 12
+[5] = 2
+[6] = 2
+[7] = 1
+[8] = 12
+[9] = 1
+[10] = 1
+[11] = 1488
+[12] = 12
+[13] = 2
+[14] = 7
+[15] = 1
+[16] = 1
+[17] = 12
+[18] = 0
+
+REGISTERS
+
+ax = 0
+bx = 0
+cx = 0
+dx = 0
+
+RAM
+
+[0] = 0
+[1] = 0
+[2] = 0
+[3] = 0
+[4] = 0
+[5] = 0
+[6] = 0
+[7] = 0
+[8] = 0
+[9] = 0
+[10] = 0
+[11] = 0
+[12] = 0
+[13] = 0
+[14] = 0
+[15] = 0
+Local time and date: Sat Oct 19 00:47:45 2024
+
+input file = programm_code.txt
+input file pointer = 0x61ca6548d2a0
+
+running = true
+
+arr_size = 20
+regs_size = 4
+ram_size = 16
+
+len_code = 19
+ip       = 9
+
+CODE ARRAY
+
+[0] = 12
+[1] = 1
+[2] = 1
+[3] = 2
+[4] = 12
+[5] = 2
+[6] = 2
+[7] = 1
+[8] = 12
+[9] = 1
+[10] = 1
+[11] = 1488
+[12] = 12
+[13] = 2
+[14] = 7
+[15] = 1
+[16] = 1
+[17] = 12
+[18] = 0
+
+REGISTERS
+
+ax = 2
+bx = 0
+cx = 0
+dx = 0
+
+RAM
+
+[0] = 0
+[1] = 0
+[2] = 0
+[3] = 0
+[4] = 0
+[5] = 0
+[6] = 0
+[7] = 0
+[8] = 0
+[9] = 0
+[10] = 0
+[11] = 0
+[12] = 0
+[13] = 0
+[14] = 0
+[15] = 0
+Local time and date: Sat Oct 19 00:47:45 2024
+
+input file = programm_code.txt
+input file pointer = 0x61ca6548d2a0
+
+running = true
+
+arr_size = 20
+regs_size = 4
+ram_size = 16
+
+len_code = 19
+ip       = 13
+
+CODE ARRAY
+
+[0] = 12
+[1] = 1
+[2] = 1
+[3] = 2
+[4] = 12
+[5] = 2
+[6] = 2
+[7] = 1
+[8] = 12
+[9] = 1
+[10] = 1
+[11] = 1488
+[12] = 12
+[13] = 2
+[14] = 7
+[15] = 1
+[16] = 1
+[17] = 12
+[18] = 0
+
+REGISTERS
+
+ax = 2
+bx = 0
+cx = 0
+dx = 0
+
+RAM
+
+[0] = 0
+[1] = 0
+[2] = 0
+[3] = 0
+[4] = 0
+[5] = 0
+[6] = 0
+[7] = 0
+[8] = 0
+[9] = 0
+[10] = 0
+[11] = 0
+[12] = 0
+[13] = 0
+[14] = 0
+[15] = 0
+Local time and date: Sat Oct 19 00:47:45 2024
+
+input file = programm_code.txt
+input file pointer = 0x61ca6548d2a0
+
+running = true
+
+arr_size = 20
+regs_size = 4
+ram_size = 16
+
+len_code = 19
+ip       = 18
+
+CODE ARRAY
+
+[0] = 12
+[1] = 1
+[2] = 1
+[3] = 2
+[4] = 12
+[5] = 2
+[6] = 2
+[7] = 1
+[8] = 12
+[9] = 1
+[10] = 1
+[11] = 1488
+[12] = 12
+[13] = 2
+[14] = 7
+[15] = 1
+[16] = 1
+[17] = 12
+[18] = 0
+
+REGISTERS
+
+ax = 2
+bx = 0
+cx = 0
+dx = 0
+
+RAM
+
+[0] = 0
+[1] = 0
+[2] = 0
+[3] = 1488
+[4] = 0
+[5] = 0
+[6] = 0
+[7] = 0
+[8] = 0
+[9] = 0
+[10] = 0
+[11] = 0
+[12] = 0
+[13] = 0
+[14] = 0
+[15] = 0

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include "compilator.h"
+#include "asm.h"
 
 int main(int argc, const char* argv[])
 {
@@ -15,9 +16,11 @@ int main(int argc, const char* argv[])
     FILE* inputFile  = fopen(argv[1], "r");
     FILE* outputFile = fopen(argv[2], "w");
 
-    LenArr_t codeArrStruct = {.len = 0, .codeArr = {-1}};
+    LenArr_t codeArrStruct = {.len = 0, .codeArr = {}};
+    memset((void*) codeArrStruct.codeArr, Poison, ArrSize);
 
-    Labels_t labelsStruct  = {.nLabels = 0, .Addrs = {-1}};
+    Labels_t labelsStruct  = {.nLabels = 0, .Addrs = {}};
+    memset((void*) labelsStruct.Addrs, Poison, LabelsSize);
 
     MakeArr(&codeArrStruct, &labelsStruct, inputFile);
 
