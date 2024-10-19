@@ -6,25 +6,17 @@
 
 int main(int argc, const char* argv[])
 {
-    if (argc != 3)
-    {
-        fprintf(stderr, "INCORRECT INPUT\n");
+    AsmInfo_t asm_info = {ASM_INFO_INIT};
 
-        return 0;
-    }
+    OpenCode(&asm_info, argc, argv) asserted;
 
-    FILE* inputFile  = fopen(argv[1], "r");
-    FILE* outputFile = fopen(argv[2], "w");
+    ReadCode(&asm_info)             asserted;
 
-    LenArr_t codeArrStruct = {.len = 0, .codeArr = {}};
-    memset((void*) codeArrStruct.codeArr, Poison, ArrSize);
+    BuildCode(&asm_info)            asserted;
 
-    Labels_t labelsStruct  = {.nLabels = 0, .Addrs = {}};
-    memset((void*) labelsStruct.Addrs, Poison, LabelsSize);
+    WriteCode(&asm_info)            asserted;
 
-    MakeArr(&codeArrStruct, &labelsStruct, inputFile);
-
-    Write  (&codeArrStruct, outputFile);
+    CloseCode(&asm_info)            asserted;
 
     return 0;
 }

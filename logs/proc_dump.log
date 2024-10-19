@@ -1,7 +1,7 @@
-Local time and date: Sat Oct 19 00:47:45 2024
+Local time and date: Sat Oct 19 14:21:36 2024
 
 input file = programm_code.txt
-input file pointer = 0x61ca6548d2a0
+input file pointer = 0x633ac0db72a0
 
 running = true
 
@@ -9,7 +9,7 @@ arr_size = 20
 regs_size = 4
 ram_size = 16
 
-len_code = 19
+len_code = 23
 ip       = 1
 
 CODE ARRAY
@@ -32,7 +32,11 @@ CODE ARRAY
 [15] = 1
 [16] = 1
 [17] = 12
-[18] = 0
+[18] = 1
+[19] = 3
+[20] = 1
+[21] = 8
+[22] = 0
 
 REGISTERS
 
@@ -59,10 +63,10 @@ RAM
 [13] = 0
 [14] = 0
 [15] = 0
-Local time and date: Sat Oct 19 00:47:45 2024
+Local time and date: Sat Oct 19 14:21:36 2024
 
 input file = programm_code.txt
-input file pointer = 0x61ca6548d2a0
+input file pointer = 0x633ac0db72a0
 
 running = true
 
@@ -70,7 +74,7 @@ arr_size = 20
 regs_size = 4
 ram_size = 16
 
-len_code = 19
+len_code = 23
 ip       = 5
 
 CODE ARRAY
@@ -93,7 +97,11 @@ CODE ARRAY
 [15] = 1
 [16] = 1
 [17] = 12
-[18] = 0
+[18] = 1
+[19] = 3
+[20] = 1
+[21] = 8
+[22] = 0
 
 REGISTERS
 
@@ -120,10 +128,10 @@ RAM
 [13] = 0
 [14] = 0
 [15] = 0
-Local time and date: Sat Oct 19 00:47:45 2024
+Local time and date: Sat Oct 19 14:21:36 2024
 
 input file = programm_code.txt
-input file pointer = 0x61ca6548d2a0
+input file pointer = 0x633ac0db72a0
 
 running = true
 
@@ -131,7 +139,7 @@ arr_size = 20
 regs_size = 4
 ram_size = 16
 
-len_code = 19
+len_code = 23
 ip       = 9
 
 CODE ARRAY
@@ -154,7 +162,11 @@ CODE ARRAY
 [15] = 1
 [16] = 1
 [17] = 12
-[18] = 0
+[18] = 1
+[19] = 3
+[20] = 1
+[21] = 8
+[22] = 0
 
 REGISTERS
 
@@ -181,10 +193,10 @@ RAM
 [13] = 0
 [14] = 0
 [15] = 0
-Local time and date: Sat Oct 19 00:47:45 2024
+Local time and date: Sat Oct 19 14:21:36 2024
 
 input file = programm_code.txt
-input file pointer = 0x61ca6548d2a0
+input file pointer = 0x633ac0db72a0
 
 running = true
 
@@ -192,7 +204,7 @@ arr_size = 20
 regs_size = 4
 ram_size = 16
 
-len_code = 19
+len_code = 23
 ip       = 13
 
 CODE ARRAY
@@ -215,7 +227,11 @@ CODE ARRAY
 [15] = 1
 [16] = 1
 [17] = 12
-[18] = 0
+[18] = 1
+[19] = 3
+[20] = 1
+[21] = 8
+[22] = 0
 
 REGISTERS
 
@@ -242,10 +258,10 @@ RAM
 [13] = 0
 [14] = 0
 [15] = 0
-Local time and date: Sat Oct 19 00:47:45 2024
+Local time and date: Sat Oct 19 14:21:36 2024
 
 input file = programm_code.txt
-input file pointer = 0x61ca6548d2a0
+input file pointer = 0x633ac0db72a0
 
 running = true
 
@@ -253,7 +269,7 @@ arr_size = 20
 regs_size = 4
 ram_size = 16
 
-len_code = 19
+len_code = 23
 ip       = 18
 
 CODE ARRAY
@@ -276,7 +292,11 @@ CODE ARRAY
 [15] = 1
 [16] = 1
 [17] = 12
-[18] = 0
+[18] = 1
+[19] = 3
+[20] = 1
+[21] = 8
+[22] = 0
 
 REGISTERS
 

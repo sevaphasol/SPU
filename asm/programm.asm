@@ -1,5 +1,5 @@
-push 1
-push 1
+push [1]
+push 1 + CX
 add
 push 2
 mul

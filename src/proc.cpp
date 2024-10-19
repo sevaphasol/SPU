@@ -5,7 +5,6 @@
 #include "proc.h"
 #include "stack.h"
 
-
 void ProcCtor(Proc_t* proc, const int argc, const char* argv[])
 {
     if (argc != 2 && argc != 1)
@@ -229,6 +228,7 @@ fprintf(stderr, "2: arg value = %d\n", arg_value);
 
     if (arg_type & 1 && arg_type & 2)
     {
+fprintf(stderr, "3: %d\n", arg_value);
         arg_addr = &arg_value;
     }
 
@@ -236,7 +236,7 @@ fprintf(stderr, "2: arg value = %d\n", arg_value);
     {
         int ram_addres = arg_value;
 
-fprintf(stderr, "2: ram addres = %d\n", ram_addres);
+fprintf(stderr, "4: ram addres = %d\n", ram_addres);
 
         arg_addr = &proc->ram[ram_addres];
     }
@@ -337,6 +337,40 @@ void CmdDump (Proc_t* proc)
     struct tm* TimeInfo;
     time(&RawTime);
     TimeInfo = localtime(&RawTime);
+//
+//     fprintf(dump_file, "Local time and date: %s\n", asctime(TimeInfo));
+//
+//     Stack_t* stack = Stacks[proc->stk_id - 1];
+//
+//     if (!stack)
+//     {
+//         fprintf(stderr, "HUY\n");
+//     }
+//
+//     for (int i = 0; i < 16; i++)
+//     {
+//     fprintf(stderr, "Stacks[%d]: %p\n", i, Stacks[i]);
+//     }
+//
+// fprintf(stderr, "huy\n");
+//
+// fprintf(stderr, "huy\n");
+//
+//     for (int i = 0; i < stack->capacity; i++)
+//     {
+// fprintf(stderr, "huy\n");
+//
+//         if (i < stack->size)
+//         {
+//             fprintf(dump_file, "[%d] = %d\n", i, stack->data[i]);
+//         }
+//         else
+//         {
+//             fprintf(dump_file, "[%d] = %d (POISON) \n", i, stack->data[i]);
+//         }
+//     }
+//
+//     fprintf(dump_file, "\n\n---------------------------------------------------------------------\n\n");
 
     fprintf(dump_file, "Local time and date: %s\n", asctime(TimeInfo));
 
