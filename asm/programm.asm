@@ -5,9 +5,9 @@ push 2
 mul
 dump
 out
-3:
-jmp 3:
+NEXT:
+jmp NEXT:
 ja 2
-jb 5
+jb NEXT:
 je 1
 hlt

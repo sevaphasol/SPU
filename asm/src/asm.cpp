@@ -236,9 +236,23 @@ AsmReturnCode ParseJumpArg (AsmInfo_t* asm_info, const char* arg)
         return NO_ERROR;
     }
 
-    if (sscanf(arg, "%s:", label_name) == 1) //TODO parse label name
+    if (sscanf(arg, "%s:", label_name) == 1) //TODO ERROR CHECK
     {
-        fprintf(stderr, "label name format\n");
+        for (int i = 0; i < LabelsSize; i++)
+        {
+            if (!asm_info->labels.labels[i].name)
+            {
+                continue;
+            }
+
+fprintf(stderr, "%d\n", __LINE__);
+            if (strcmp(label_name, asm_info->labels.labels[i].name) == 0)
+            {
+                asm_info->code.code[++asm_info->code.ip] = asm_info->labels.labels[i].addr;
+
+                return NO_ERROR;
+            }
+        }
 
         return NO_ERROR;
     }
@@ -248,7 +262,41 @@ AsmReturnCode ParseJumpArg (AsmInfo_t* asm_info, const char* arg)
 
 AsmReturnCode AddLable (AsmInfo* asm_info, const char* cmd) //TODO named labels
 {
-    int label = atoi(cmd);
+    int  label              = atoi(cmd);
+    char name[MaxLabelName] = {};
+
+    if (label == 0)
+    {
+        sscanf(cmd, "%s:", name);
+
+        int i = 0;
+
+        for ( ; i < asm_info->labels.len; i++)
+        {
+fprintf(stderr, "%d\n", __LINE__);
+            if (!asm_info->labels.labels[i].name)
+            {
+                if (asm_info->labels.labels[i].addr == 0)
+                {
+                    memcpy((void*) asm_info->labels.labels[i].name, (void*) name, MaxLabelName);
+                    asm_info->labels.labels[i].addr    = asm_info->code.ip + 1;
+                    asm_info->labels.labels[i].inited  = true;
+                    asm_info->labels.n_labels++;
+
+                    return NO_ERROR;
+                }
+
+                continue;
+            }
+
+            if (strcmp(name, asm_info->labels.labels[i].name) == 0)
+            {
+                return DOUBLE_LABEL_ERROR;
+            }
+        }
+
+        return NO_ERROR;
+    }
 
     if ((label < 1) || (label > LabelsSize))
     {
@@ -260,7 +308,9 @@ AsmReturnCode AddLable (AsmInfo* asm_info, const char* cmd) //TODO named labels
         return DOUBLE_LABEL_ERROR;
     }
 
-    asm_info->labels.labels[label - 1].addr = asm_info->code.ip + 1;
+    asm_info->labels.labels[label - 1].addr    = asm_info->code.ip + 1;
+    asm_info->labels.labels[label - 1].inited = true;
+    asm_info->labels.n_labels++;
 
     return NO_ERROR;
 }

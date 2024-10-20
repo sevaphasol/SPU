@@ -9,13 +9,11 @@
 #define ASM_INFO_INIT .input  = {.name = nullptr, .ptr = nullptr, .size = 0, .data = nullptr}, \
                       .output = {.name = nullptr, .ptr = nullptr, .size = 0, .data = nullptr}, \
                       .code   = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = {0}},  \
-                      .labels = {.len = 0, .elem_size = sizeof(int), .labels = {0}},           \
-                      .ram    = {.len = 0, .elem_size = sizeof(int), .ram    = {0}},           \
+                      .labels = {.len = LabelsSize, .elem_size = sizeof(int), .labels = {0}},  \
 
 #define asserted && fprintf(stderr, "asserted macro %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__)
 
 const int CodeArrSize   = 64;
-const int RamSize       = 1024;
 const int LabelsSize    = 16;
 const int MaxLabelName  = 10;
 const int MaxLineSize   = 64;
@@ -47,9 +45,9 @@ typedef struct Code
 
 typedef struct Label
 {
-    bool        inited;
-    const char* name;
-    int         addr;
+    bool inited;
+    char name[MaxLabelName];
+    int  addr;
 } Label_t;
 
 typedef struct Labels
@@ -60,20 +58,12 @@ typedef struct Labels
     Label_t labels[LabelsSize];
 } Labels_t;
 
-typedef struct Ram
-{
-    size_t len;
-    size_t elem_size;
-    int    ram[RamSize];
-} Ram_t;
-
 typedef struct AsmInfo
 {
     Stream_t input;
     Stream_t output;
     Code_t   code;
     Labels_t labels;
-    Ram_t    ram;
 } AsmInfo_t;
 
 typedef enum AsmReturnCodes
@@ -90,8 +80,9 @@ typedef enum AsmReturnCodes
     MAKE_STRINGS_ERROR       = 8,
     PARSE_ARG_ERROR          = 9,
     INVALID_LABEL_ERROR      = 10,
-    DOUBLE_LABEL_ERROR       = 11,
-    PARSE_JMP_ARG_ERROR      = 12,
+    INVALID_LABEL_NAME_ERROR = 11,
+    DOUBLE_LABEL_ERROR       = 12,
+    PARSE_JMP_ARG_ERROR      = 13,
 } AsmReturnCode;
 
 typedef enum CmdCodes
