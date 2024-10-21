@@ -1,203 +1,273 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <time.h>
 
 #include "proc.h"
 #include "stack.h"
 
-void ProcCtor(Proc_t* proc, const int argc, const char* argv[])
+//------------------------------------------------//
+
+SpuReturnCode SpuInfoCtor(SpuInfo_t* spu_info, int argc, const char* argv[])
 {
-    if (argc != 2 && argc != 1)
-   {
-        fprintf(stderr, "INCORRECT INPUT\n");
-
-        return;
-    }
-
-    if (argc == 1)
+    if (OpenCode(spu_info, argc, argv) != SPU_SUCCESS)
     {
-        proc->input_file_name = DefaultInput;
+        fprintf(stderr, "OPEN CODE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_OPEN_CODE_ERROR;
     }
-    else
+
+    if (ReadCode(spu_info) != SPU_SUCCESS)
     {
-        proc->input_file_name = argv[1];
+        fprintf(stderr, "READ CODE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_READ_CODE_ERROR;
     }
 
-    proc->input_file      = fopen(proc->input_file_name, "r");
+    spu_info->stk.id = STACK_CTOR(StackSize);
 
-    proc->dump_file_name  = DmpName;
-    proc->dump_file       = fopen(proc->dump_file_name,  "w");
+    REG_CTOR(AX);
+    REG_CTOR(BX);
+    REG_CTOR(CX);
+    REG_CTOR(DX);
 
-    proc->arr_size = CodeArrSize;
-
-    size_t size = 0;
-
-    int arg = 0;
-
-    for ( ; fscanf(proc->input_file, "%d", &arg) != EOF; size++)
-    {
-        proc->code[size] = arg;
-    }
-
-    proc->len_code = size;
-
-    proc->ip = 0;
-
-    proc->stk_size = StackSize;
-    proc->stk_id   = STACK_CTOR(proc->stk_size);
-
-    proc->regs_size = RegsSize;
-    memset((void*) proc->regs, 0, proc->regs_size);
-
-    proc->ram_size = RamSize;
-    memset((void*) proc->ram,  0, proc->ram_size);
-
-    proc->running  = false;
+    return SPU_SUCCESS;
 }
 
-void Run(Proc_t* proc)
-{
-    proc->running = true;
+//------------------------------------------------//
 
-    while (proc->running)
+SpuReturnCode OpenCode(SpuInfo_t* spu_info, int argc, const char* argv[])
+{
+    if (argc != 3)
     {
-        switch (proc->code[proc->ip++])
+        if (argc != 1)
+        {
+            fprintf(stderr, "INCORRECT INPUT\n input/dump files set as default\n\n");
+        }
+
+        spu_info->input.name  = DefaultInput;
+        spu_info->dump.name   = DefaultDump;
+    }
+
+    else
+    {
+        spu_info->input.name  = argv[1];
+        spu_info->dump.name   = argv[2];
+    }
+
+    spu_info->input.ptr  = fopen(spu_info->input.name,  "rb");
+    spu_info->dump.ptr   = fopen(spu_info->dump.name,   "w");
+
+    if (!(spu_info->input.ptr) || !(spu_info->dump.ptr))
+    {
+        fprintf(stderr, "FILE OPEN ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_FILE_OPEN_ERROR;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode ReadCode(SpuInfo_t* spu_info)
+{
+    if (fread(&spu_info->proc.len, sizeof(size_t), 1, spu_info->input.ptr) != 1)
+    {
+        fprintf(stderr, "READ CODE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_READ_CODE_ERROR;
+    }
+
+    spu_info->proc.elem_size = sizeof(int);
+
+    spu_info->proc.code = (int*) calloc(spu_info->proc.len, spu_info->proc.elem_size);
+
+    if (fread(spu_info->proc.code, spu_info->proc.elem_size, spu_info->proc.len, spu_info->input.ptr) !=spu_info->proc.len)                                             \
+    {
+        fprintf(stderr, "READ CODE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_READ_CODE_ERROR;
+    }
+
+    #ifdef PRINT_READ_CODE
+
+    printf("ReadCode:\n");
+
+    for (int i = 0; i < spu_info->proc.len; i++)
+    {
+        printf("[%d] = %d\n", i, spu_info->proc.code[i]);
+    }
+
+    #endif
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode ExecuteCode(SpuInfo_t* spu_info)
+{
+    spu_info->proc.running = true;
+
+    while (spu_info->proc.running)
+    {
+        switch (spu_info->proc.code[spu_info->proc.ip++])
         {
             case HLT:
             {
-                CmdHlt(proc);
+                CmdHlt(spu_info);
 
                 break;
             }
 
             case PUSH:
             {
-                CmdPush(proc);
+                CmdPush(spu_info);
 
                 break;
             }
 
             case ADD:
             {
-                CmdAdd(proc);
+                CmdAdd(spu_info);
 
                 break;
             }
 
             case SUB:
             {
-                CmdSub(proc);
+                CmdSub(spu_info);
 
                 break;
             }
 
             case MUL:
             {
-                CmdMul(proc);
+                CmdMul(spu_info);
 
                 break;
             }
 
             case DIV:
             {
-                CmdDiv(proc);
+                CmdDiv(spu_info);
 
                 continue;
             }
 
             case OUT:
             {
-                CmdOut(proc);
+                CmdOut(spu_info);
 
                 break;
             }
 
             case DUMP:
             {
-                CmdDump(proc);
+                CmdDump(spu_info);
 
                 break;
             }
 
             case POP:
             {
-                CmdPop(proc);
+                CmdPop(spu_info);
 
                 break;
             }
 
             case JMP:
             {
-                CmdJmp(proc);
+                CmdJmp(spu_info);
 
                 break;
             }
 
             case JA:
             {
-                CmdJa(proc);
+                CmdJa(spu_info);
 
                 break;
             }
 
             case JB:
             {
-                CmdJb(proc);
+                CmdJb(spu_info);
 
                 break;
             }
 
             case JAE:
             {
-                CmdJae(proc);
+                CmdJae(spu_info);
 
                 break;
             }
 
             case JBE:
             {
-                CmdJbe(proc);
+                CmdJbe(spu_info);
 
                 break;
             }
 
             case JE:
             {
-                CmdJe(proc);
+                CmdJe(spu_info);
 
                 break;
             }
 
             case JNE:
             {
-                CmdJne(proc);
+                CmdJne(spu_info);
+
+                break;
+            }
+
+            case DRAW:
+            {
+                CmdDraw(spu_info);
+
+                break;
+            }
+
+            case CALL:
+            {
+
+                CmdCall(spu_info);
+
+                break;
+            }
+
+            case RET:
+            {
+                CmdRet(spu_info);
 
                 break;
             }
 
             default:
             {
-                fprintf(stderr, "Invalid instruction: %d\n", proc->code[proc->ip]);
+                fprintf(stderr, "INVALID INSTRUCTION ERROR: %d in %s:%d:%s\n", \
+                                spu_info->proc.code[spu_info->proc.ip], __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-                proc->running = false;
+                spu_info->proc.running = false;
 
-                break;
+                return SPU_INVALID_INSRUCTION_ERROR;
             }
         }
     }
+
+    return SPU_SUCCESS;
 }
 
-void ProcDtor(Proc_t* proc)
-{
-    fclose(proc->input_file);
-    fclose(proc->dump_file);
+//------------------------------------------------//
 
-    StackDtor(proc->stk_id);
-}
-
-int* GetArg(Proc_t* proc)
+int* GetArg(SpuInfo_t* spu_info)
 {
-    int        arg_type  = proc->code[proc->ip++];
+    int        arg_type  = spu_info->proc.code[spu_info->proc.ip++];
     static int arg_value;
 
     arg_value = 0;
@@ -206,29 +276,24 @@ int* GetArg(Proc_t* proc)
 
     if (arg_type & 1)
     {
-        arg_value +=  proc->code[proc->ip];
-        arg_addr   = &proc->code[proc->ip];
+        arg_value +=  spu_info->proc.code[spu_info->proc.ip];
+        arg_addr   = &spu_info->proc.code[spu_info->proc.ip];
 
-fprintf(stderr, "1: arg value = %d\n", arg_value);
-
-        proc->ip++;
+        spu_info->proc.ip++;
     }
 
     if (arg_type & 2)
     {
-        int reg_number = proc->code[proc->ip] - 1;
+        int reg_number = spu_info->proc.code[spu_info->proc.ip] - 1;
 
-        arg_value +=  proc->regs[reg_number];
-        arg_addr   = &proc->regs[reg_number];
+        arg_value +=  spu_info->proc.regs.regs[reg_number].value;
+        arg_addr   = &spu_info->proc.regs.regs[reg_number].value;
 
-fprintf(stderr, "2: arg value = %d\n", arg_value);
-
-        proc->ip++;
+        spu_info->proc.ip++;
     }
 
     if (arg_type & 1 && arg_type & 2)
     {
-fprintf(stderr, "3: %d\n", arg_value);
         arg_addr = &arg_value;
     }
 
@@ -236,111 +301,164 @@ fprintf(stderr, "3: %d\n", arg_value);
     {
         int ram_addres = arg_value;
 
-fprintf(stderr, "4: ram addres = %d\n", ram_addres);
-
-        arg_addr = &proc->ram[ram_addres];
+        arg_addr = &spu_info->ram.ram[ram_addres];
     }
 
     return arg_addr;
 }
 
-void CmdHlt  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdHlt  (SpuInfo_t* spu_info)
 {
-    proc->running = false;
+    spu_info->proc.running = false;
+
+    return SPU_SUCCESS;
 }
 
-void CmdPush (Proc_t* proc)
-{
-    int arg = *GetArg(proc);
+//------------------------------------------------//
 
-    StackPush(proc->stk_id, arg);
+SpuReturnCode CmdPush (SpuInfo_t* spu_info)
+{
+    int arg = *GetArg(spu_info);
+
+    StackPush(spu_info->stk.id, arg);
+
+    return SPU_SUCCESS;
 }
 
-void CmdPop  (Proc_t* proc)
-{
-    int* arg = GetArg(proc);
+//------------------------------------------------//
 
-    int val = StackPop(proc->stk_id);
+SpuReturnCode CmdPop  (SpuInfo_t* spu_info)
+{
+    int* arg = GetArg(spu_info);
+
+    int val = StackPop(spu_info->stk.id);
 
     *arg = val;
+
+    return SPU_SUCCESS;
 }
 
-void CmdAdd  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdAdd  (SpuInfo_t* spu_info)
 {
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
 
-    StackPush(proc->stk_id, a + b);
+    StackPush(spu_info->stk.id, a + b);
+
+    return SPU_SUCCESS;
 }
 
-void CmdSub  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdSub  (SpuInfo_t* spu_info)
 {
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
 
-    StackPush(proc->stk_id, b - a);
+    StackPush(spu_info->stk.id, b - a);
+
+    return SPU_SUCCESS;
 }
 
-void CmdMul  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdMul  (SpuInfo_t* spu_info)
 {
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
 
-    StackPush(proc->stk_id, a * b);
+    StackPush(spu_info->stk.id, a * b);
+
+    return SPU_SUCCESS;
 }
 
-void CmdDiv  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdDiv  (SpuInfo_t* spu_info)
 {
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
 
-    StackPush(proc->stk_id, b / a);
+    if (a == 0)
+    {
+        fprintf(stderr, "DIVISION BY ZERO ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_DIVISION_BY_ZERO_ERROR;
+    }
+
+    StackPush(spu_info->stk.id, b / a);
+
+    return SPU_SUCCESS;
 }
 
-void CmdSqrt (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdSqrt (SpuInfo_t* spu_info)
 {
-
+    return SPU_SUCCESS;
 }
 
-void CmdSin  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdSin  (SpuInfo_t* spu_info)
 {
-
+    return SPU_SUCCESS;
 }
 
-void CmdCos  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdCos  (SpuInfo_t* spu_info)
 {
-
+    return SPU_SUCCESS;
 }
 
-void CmdIn   (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdIn   (SpuInfo_t* spu_info)
 {
     int a = 0;
     scanf("Enter value: %d", &a);
 
-    StackPush(proc->stk_id, a);
+    StackPush(spu_info->stk.id, a);
+
+    return SPU_SUCCESS;
 }
 
-void CmdOut  (Proc_t* proc)
-{
-    int a = StackPop(proc->stk_id);
+//------------------------------------------------//
 
-    printf("%d\n", a);
+SpuReturnCode CmdOut  (SpuInfo_t* spu_info)
+//------------------------------------------------//
+
+{
+    int a = StackPop(spu_info->stk.id);
+
+    printf("OUT: %d\n", a);
+
+    return SPU_SUCCESS;
 }
 
-void CmdDump (Proc_t* proc)
-{
-    SpecialStackDump(proc->stk_id);
+//------------------------------------------------//
 
-    FILE* dump_file = proc->dump_file;
+SpuReturnCode CmdDump (SpuInfo_t* spu_info)
+{
+    // fprintf(stderr, "Dumping...\n");
+
+    SpecialStackDump(spu_info->stk.id);
+
+    FILE* dump_file = spu_info->dump.ptr;
 
     time_t RawTime;
     struct tm* TimeInfo;
     time(&RawTime);
     TimeInfo = localtime(&RawTime);
-//
-//     fprintf(dump_file, "Local time and date: %s\n", asctime(TimeInfo));
-//
-//     Stack_t* stack = Stacks[proc->stk_id - 1];
+
+    fprintf(dump_file, "Local time and date: %s\n", asctime(TimeInfo));
+
+//     Stack_t* stack = Stacks[spu_info->stk.id - 1];
 //
 //     if (!stack)
 //     {
@@ -374,146 +492,276 @@ void CmdDump (Proc_t* proc)
 
     fprintf(dump_file, "Local time and date: %s\n", asctime(TimeInfo));
 
-    fprintf(dump_file, "input file = %s\n", proc->input_file_name);
-    fprintf(dump_file, "input file pointer = %p\n\n", proc->input_file);
+    fprintf(dump_file, "input file = %s\n", spu_info->input.name);
+    fprintf(dump_file, "input file pointer = %p\n\n", spu_info->input.ptr);
 
-    fprintf(dump_file, "running = %s\n\n", proc->running ? "true" : "false");
+    fprintf(dump_file, "running = %s\n\n", spu_info->proc.running ? "true" : "false");
 
-    fprintf(dump_file, "arr_size = %ld\n",  proc->arr_size);
-    fprintf(dump_file, "regs_size = %ld\n", proc->regs_size);
-    fprintf(dump_file, "ram_size = %ld\n",  proc->ram_size);
+    fprintf(dump_file, "arr_size = %ld\n",  spu_info->proc.len);
+    fprintf(dump_file, "regs_size = %ld\n", spu_info->proc.regs.len);
+    fprintf(dump_file, "ram_size = %ld\n",  spu_info->ram.len);
 
-    fprintf(dump_file, "\nlen_code = %ld\n",  proc->len_code);
-    fprintf(dump_file, "ip       = %d\n\n", proc->ip);
+    fprintf(dump_file, "\nlen_code = %ld\n",  spu_info->proc.len);
+    fprintf(dump_file, "ip       = %d\n\n", spu_info->proc.ip);
 
     fprintf(dump_file, "CODE ARRAY\n\n");
 
-    for (int i = 0; i < proc->len_code; i++)
+    for (int i = 0; i < spu_info->proc.len; i++)
     {
-        fprintf(dump_file, "[%d] = %d\n", i, proc->code[i]);
-        printf("%d\n", proc->code[i]);
+        fprintf(dump_file, "[%d] = %d\n", i, spu_info->proc.code[i]);
     }
 
 
     fprintf(dump_file, "\nREGISTERS\n\n");
 
-    fprintf(dump_file, "ax = %d\n", proc->regs[0]);
-    fprintf(dump_file, "bx = %d\n", proc->regs[1]);
-    fprintf(dump_file, "cx = %d\n", proc->regs[2]);
-    fprintf(dump_file, "dx = %d\n", proc->regs[3]);
+    for (int i = 0; i < spu_info->proc.regs.len; i++)
+    {
+        fprintf(dump_file, "%s [ak %d] = %d\n",
+                spu_info->proc.regs.regs[i].name, spu_info->proc.regs.regs[i].code, spu_info->proc.regs.regs[i].value);
+    }
 
     fprintf(dump_file, "\nRAM\n\n");
 
-    for (int i = 0; i < proc->ram_size; i++)
+    for (int i = 0; i < 8; i++) // TODO 8 -> spu_info->ram.len
     {
-        fprintf(dump_file, "[%d] = %d\n", i, proc->ram[i]);
-    }
-}
-
-void CmdJmp  (Proc_t* proc)
-{
-    proc->ip = proc->code[proc->ip + 1];
-
-    getchar();
-}
-
-void CmdJa   (Proc_t* proc)
-{
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
-
-    if (a > b)
-    {
-        proc->ip = proc->code[proc->ip + 1];
-
-        getchar();
+        fprintf(dump_file, "[%d] = %d\n", i, spu_info->ram.ram[i]);
     }
 
-    StackPush(proc->stk_id, b);
-    StackPush(proc->stk_id, a);
+    fflush(dump_file);
+
+    return SPU_SUCCESS;
 }
 
-void CmdJb   (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdJmp  (SpuInfo_t* spu_info)
 {
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
+    spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
 
-    if (a < b)
+    // getchar();
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdJa   (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    if (b > a)
     {
-        proc->ip = proc->code[proc->ip + 1];
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
 
-        getchar();
+        // getchar();
+    }
+    else
+    {
+        spu_info->proc.ip++;
     }
 
-    StackPush(proc->stk_id, b);
-    StackPush(proc->stk_id, a);
+    StackPush(spu_info->stk.id, b);
+    StackPush(spu_info->stk.id, a);
+
+    return SPU_SUCCESS;
 }
 
-void CmdJae  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdJb   (SpuInfo_t* spu_info)
 {
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
 
-    if (a >= b)
+    if (b < a)
     {
-        proc->ip = proc->code[proc->ip + 1];
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
 
-        getchar();
+        // getchar();
+    }
+    else
+    {
+        spu_info->proc.ip++;
     }
 
-    StackPush(proc->stk_id, b);
-    StackPush(proc->stk_id, a);
+    StackPush(spu_info->stk.id, b);
+    StackPush(spu_info->stk.id, a);
+
+    return SPU_SUCCESS;
 }
 
-void CmdJbe  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdJae  (SpuInfo_t* spu_info)
 {
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
 
-    if (a <= b)
+    if (b >= a)
     {
-        proc->ip = proc->code[proc->ip + 1];
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
 
-        getchar();
+        // getchar();
+    }
+    else
+    {
+        spu_info->proc.ip++;
     }
 
-    StackPush(proc->stk_id, b);
-    StackPush(proc->stk_id, a);
+    StackPush(spu_info->stk.id, b);
+    StackPush(spu_info->stk.id, a);
+
+    return SPU_SUCCESS;
 }
 
-void CmdJe   (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdJbe  (SpuInfo_t* spu_info)
 {
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
 
-    if (a == b)
+    if (b <= a)
     {
-        proc->ip = proc->code[proc->ip + 1];
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
 
-        getchar();
+        // getchar();
+    }
+    else
+    {
+        spu_info->proc.ip++;
     }
 
-    StackPush(proc->stk_id, b);
-    StackPush(proc->stk_id, a);
+    StackPush(spu_info->stk.id, b);
+    StackPush(spu_info->stk.id, a);
+
+    return SPU_SUCCESS;
 }
 
-void CmdJne  (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdJe   (SpuInfo_t* spu_info)
 {
-    int a = StackPop(proc->stk_id);
-    int b = StackPop(proc->stk_id);
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
 
-    if (a != b)
+    if (b == a)
     {
-        proc->ip = proc->code[proc->ip + 1];
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
 
-        getchar();
+        // getchar();
+    }
+    else
+    {
+        spu_info->proc.ip++;
     }
 
-    StackPush(proc->stk_id, b);
-    StackPush(proc->stk_id, a);
+    StackPush(spu_info->stk.id, b);
+    StackPush(spu_info->stk.id, a);
+
+    return SPU_SUCCESS;
 }
 
-void CmdDraw (Proc_t* proc)
+//------------------------------------------------//
+
+SpuReturnCode CmdJne  (SpuInfo_t* spu_info)
 {
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
 
+    if (b != a)
+    {
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
+
+        // getchar();
+    }
+
+    StackPush(spu_info->stk.id, b);
+    StackPush(spu_info->stk.id, a);
+
+    return SPU_SUCCESS;
 }
+
+//------------------------------------------------//
+
+SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
+{
+    int ram_ptr = spu_info->proc.code[spu_info->proc.ip++];
+    int size    = spu_info->proc.code[spu_info->proc.ip++];
+
+    for (int i = ram_ptr; i < size; i++)
+    {
+        for (int j = i * size; j < (i + 1) * size; j++)
+        {
+            spu_info->ram.ram[j] ? printf("\033[37;41m  \033[0m") : printf("\033[37;44m \033[0m");
+            // spu_info->ram.ram[j] ? printf("*") : printf(".");
+        }
+
+        printf("\n");
+    }
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdCall(SpuInfo_t* spu_info)
+{
+    int func_ip = spu_info->proc.code[spu_info->proc.ip];
+    int ret_ip  = spu_info->proc.ip + 1;
+
+    StackPush(spu_info->stk.id, ret_ip);
+
+    spu_info->proc.ip = func_ip;
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdRet(SpuInfo_t* spu_info)
+{
+    int ret_ip = StackPop(spu_info->stk.id);
+
+    spu_info->proc.ip = ret_ip;
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode SpuInfoDtor(SpuInfo_t* spu_info)
+{
+    if (!spu_info)
+    {
+        fprintf(stderr, "SPU INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!spu_info->input.ptr)
+    {
+        fprintf(stderr, "SPU CLOSE INPUT FILE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_CLOSE_INPUT_FILE_ERROR;
+    }
+
+    fclose(spu_info->input.ptr);
+
+    if (!spu_info->dump.ptr)
+    {
+        fprintf(stderr, "SPU CLOSE DUMP FILE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_CLOSE_DUMP_FILE_ERROR;
+    }
+
+    fclose(spu_info->dump.ptr);
+
+    free(spu_info->proc.code);
+
+    StackDtor(spu_info->stk.id);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//

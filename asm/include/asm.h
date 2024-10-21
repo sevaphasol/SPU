@@ -6,16 +6,16 @@
 
 #define ASSERT(validation_info) assert(validation_info != ASM_INFO_INVALID)
 
-#define ASM_INFO_INIT .input  = {.name = nullptr, .ptr = nullptr, .size = 0, .data = nullptr}, \
-                      .output = {.name = nullptr, .ptr = nullptr, .size = 0, .data = nullptr}, \
-                      .code   = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = {0}},  \
-                      .labels = {.len = LabelsSize, .elem_size = sizeof(int), .labels = {0}},  \
+#define ASM_INFO_INIT .input        = {.name = nullptr, .ptr = nullptr, .size = 0, .data = nullptr},                     \
+                      .output       = {.name = nullptr, .ptr = nullptr, .size = 0, .data = nullptr},                     \
+                      .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = {0}},                      \
+                      .labels       = {.len = LabelsSize, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}}  \
 
-#define asserted && fprintf(stderr, "asserted macro %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__)
+// #define PRINT_WRITTEN_CODE
 
 const int CodeArrSize   = 64;
 const int LabelsSize    = 16;
-const int MaxLabelName  = 10;
+const int MaxLabelName  = 64;
 const int MaxLineSize   = 64;
 const int Poison        = -1;
 
@@ -23,8 +23,8 @@ const int ImmerseConstCode = 1;
 const int RegisterCode     = 2;
 const int RamCode          = 4;
 
-const char* const DefaultInput  = "programm.asm";
-const char* const DefaultOutput = "programm_code.bin";
+const char* const DefaultInput  = "asm files/example_programm.asm";
+const char* const DefaultOutput = "assembled files/example_programm_code.bin";
 
 typedef struct Stream
 {
@@ -50,39 +50,60 @@ typedef struct Label
     int  addr;
 } Label_t;
 
+typedef struct FixUpElem
+{
+    bool named;
+    int ip;
+    char label_name[MaxLabelName];
+    Label_t* label_ptr;
+} FixUpElem_t;
+
+typedef struct FixUpTable
+{
+    size_t n_labels;
+    FixUpElem fix_ups[CodeArrSize];
+} FixUpTable_t;
+
 typedef struct Labels
 {
-    size_t  len;
-    size_t  elem_size;
-    size_t  n_labels;
-    Label_t labels[LabelsSize];
+    size_t    len;
+    size_t    elem_size;
+    size_t    n_labels;
+    Label_t   labels[LabelsSize];
+    FixUpTable_t fix_up_table;
 } Labels_t;
 
 typedef struct AsmInfo
 {
-    Stream_t input;
-    Stream_t output;
-    Code_t   code;
-    Labels_t labels;
+    Stream_t  input;
+    Stream_t  output;
+    Code_t    code;
+    Labels_t  labels;
 } AsmInfo_t;
 
 typedef enum AsmReturnCodes
 {
-    ERROR                    = -1,
-    NO_ERROR                 = 0,
-    FILE_OPEN_ERROR          = 1,
-    FILE_READ_ERROR          = 2,
-    NULL_PTR_ERROR           = 3,
-    ASM_INFO_VALID           = 4,
-    ASM_INFO_INVALID         = 5,
-    GET_FILE_SIZE_ERROR      = 6,
-    GET_NUM_OF_STRINGS_ERROR = 7,
-    MAKE_STRINGS_ERROR       = 8,
-    PARSE_ARG_ERROR          = 9,
-    INVALID_LABEL_ERROR      = 10,
-    INVALID_LABEL_NAME_ERROR = 11,
-    DOUBLE_LABEL_ERROR       = 12,
-    PARSE_JMP_ARG_ERROR      = 13,
+    ASM_SUCCESS,
+    ASM_FILE_OPEN_ERROR,
+    ASM_FILE_READ_ERROR,
+    ASM_FILE_CLOSE_ERROR,
+    ASM_INFO_NULL_PTR_ERROR,
+    ASM_INFO_VALID,
+    ASM_INFO_INVALID,
+    ASM_GET_FILE_SIZE_ERROR,
+    ASM_GET_NUM_OF_STRINGS_ERROR,
+    ASM_MAKE_STRINGS_ERROR,
+    ASM_PARSE_ARG_ERROR,
+    ASM_INVALID_LABEL_ERROR,
+    ASM_INVALID_LABEL_NAME_ERROR,
+    ASM_DOUBLE_LABEL_ERROR,
+    ASM_ADD_LABEL_ERROR,
+    ASM_NOT_INITIALIZED_LABEL_ERROR,
+    ASM_INVALID_REGISTER_CODE_ERROR,
+    ASM_PARSE_PUSH_POP_ARG_ERROR,
+    ASM_PARSE_LABEL_ARG_ERROR,
+    ASM_DRAW_SIZE_ERROR,
+    INVALID_COMMAND_ERROR,
 } AsmReturnCode;
 
 typedef enum CmdCodes
@@ -108,30 +129,31 @@ typedef enum CmdCodes
     JE    = 18,
     JNE   = 19,
     DRAW  = 20,
+    CALL  = 21,
+    RET   = 22,
 } CmdCode;
 
 typedef enum RegCodes
 {
-    INVALID_CODE = -1,
-    AX           = 1,
-    BX           = 2,
-    CX           = 3,
-    DX           = 4,
+    INVALID_REG_CODE = -1,
+    AX               = 1,
+    BX               = 2,
+    CX               = 3,
+    DX               = 4,
 } RegCode;
 
-AsmReturnCode AsmInfoValid      (const AsmInfo* asm_info);
-
-AsmReturnCode OpenCode          (AsmInfo_t* asm_info, int argc, const char* argv[]);
+AsmReturnCode OpenCode          (AsmInfo_t* asm_info, int argc, char* argv[]);
 
 AsmReturnCode ReadCode          (AsmInfo_t* asm_info);
 AsmReturnCode GetFileSize       (FILE* const file, size_t* file_size);
-AsmReturnCode GetNumOfStrings   (Stream_t* stream);
 
 AsmReturnCode BuildCode         (AsmInfo_t* asm_info);
 RegCode       GetRegCode        (const char* reg_name);
 AsmReturnCode ParsePushPopArg   (AsmInfo_t* asm_info, const char* arg);
-AsmReturnCode ParseJumpArg      (AsmInfo_t* asm_info, const char* arg);
+AsmReturnCode ParseLabelArg     (AsmInfo_t* asm_info, const char* arg);
 AsmReturnCode AddLable          (AsmInfo* asm_info, const char* cmd);
+
+AsmReturnCode FixUpLabes        (AsmInfo_t* asm_info);
 
 AsmReturnCode WriteCode         (const AsmInfo_t* asm_info);
 

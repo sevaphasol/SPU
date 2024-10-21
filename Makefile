@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -I include -I stack/include -Wcast-qual -Wconversion -Wctor-dtor-privacy    \
+CFLAGS = -g -I include -fPIC -I stack/include -Wcast-qual -Wconversion -Wctor-dtor-privacy    \
 		 -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op \
          -Wno-missing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual     \
 		 -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing           \
@@ -19,6 +19,7 @@ SOURCE_FILES = $(wildcard $(SOURCES_DIR)/*.cpp)
 OBJECT_FILES = $(subst $(SOURCES_DIR), $(OBJECTS_DIR), $(SOURCE_FILES:.cpp=.o))
 
 all: $(EXECUTABLE_PATH)
+	echo "cd asm; build/asm; cd ..; build/proc"
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)

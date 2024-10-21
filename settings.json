@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+<<<<<<< HEAD
+        "typeinfo": "cpp",
+        "stdio.h": "c",
+        "argp.h": "c",
+        "cstdlib": "cpp"
+=======
+        "typeinfo": "cpp"
+>>>>>>> 508fc7c (CmdDraw)
+    }
+}

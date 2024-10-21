@@ -3,17 +3,39 @@
 #ifndef PROC_H__
 #define PROC_H__
 
-const size_t CodeArrSize   = 20;
+#define SPU_INFO_INIT .input = {.name = nullptr, .ptr = nullptr, .size = 0, .n_strings = 0, .data = nullptr},    \
+                      .dump  = {.name = nullptr, .ptr = nullptr, .size = 0, .n_strings = 0, .data = nullptr},    \
+                      .proc  = {.running = false, .len = 0, .elem_size = sizeof(int), .ip = 0, .code = nullptr,  \
+                      .regs  = {.len = RegsSize, .regs = {0}}},                                                  \
+                      .stk   = {.len = StackSize, .id = {0}},                                                    \
+                      .ram   = {.len = RamSize, .ram = {0}}                                                      \
+
+#define REG_CTOR(reg_code) spu_info->proc.regs.regs[reg_code - 1].name = #reg_code; \
+                           spu_info->proc.regs.regs[reg_code - 1].code = reg_code;  \
+
+// #define PRINT_READ_CODE
 
 const size_t StackSize     = 8;
-
+const size_t RamSize       = 256;
+const size_t MaxRegName    = 2;
 const size_t RegsSize      = 4;
 
-const size_t RamSize       = 16;
+const char* const DefaultInput = "asm/assembled files/example_programm_code.bin";
 
-const char* const DefaultInput = "programm_code.txt";
+const char* const DefaultDump  = "logs/proc_dump.log";
 
-const char* const DmpName      = "logs/proc_dump.log";
+typedef enum SpuReturnCodes
+{
+    SPU_SUCCESS,
+    SPU_FILE_OPEN_ERROR,
+    SPU_OPEN_CODE_ERROR,
+    SPU_READ_CODE_ERROR,
+    SPU_INVALID_INSRUCTION_ERROR,
+    SPU_DIVISION_BY_ZERO_ERROR,
+    SPU_INFO_NULL_PTR_ERROR,
+    SPU_CLOSE_INPUT_FILE_ERROR,
+    SPU_CLOSE_DUMP_FILE_ERROR,
+} SpuReturnCode;
 
 typedef enum CmdCodes
 {
@@ -38,6 +60,8 @@ typedef enum CmdCodes
     JE    = 18,
     JNE   = 19,
     DRAW  = 20,
+    CALL  = 21,
+    RET   = 22,
 } CmdCode;
 
 typedef enum RegisterCodes
@@ -48,60 +72,95 @@ typedef enum RegisterCodes
     DX = 4,
 } RegisterCode;
 
+typedef struct Stream
+{
+    const char* name;
+    FILE*       ptr;
+    size_t      size;
+    size_t      n_strings;
+    char*       data;
+} Stream_t;
+
+typedef struct Register
+{
+    const char* name;
+    int         code;
+    int         value;
+} Reg_t;
+
+typedef struct Registers
+{
+    size_t len;
+    Reg_t  regs[RegsSize];
+} Regs_t;
+
 typedef struct Proc
 {
-    const char* input_file_name;
-    FILE*       input_file;
-
-    const char* dump_file_name;
-    FILE*       dump_file;
-
-    bool      running;
-
-    size_t    arr_size;
-    size_t    len_code;
-    int       ip;
-    int       code[CodeArrSize];
-
-    size_t    stk_size;
-    StackId_t stk_id;
-
-    size_t    regs_size;
-    int       regs[RegsSize];
-
-    size_t    ram_size;
-    int       ram[RamSize];
+    bool running;
+    size_t len;
+    size_t elem_size;
+    int    ip;
+    int*   code;
+    Regs_t regs;
 } Proc_t;
 
-void ProcCtor(Proc_t* proc, const int argc, const char* argv[]);
+typedef struct Stk
+{
+    size_t len;
+    StackId_t id;
+} Stk_t;
 
-void Run     (Proc_t* proc);
+typedef struct Ram
+{
+    size_t len;
+    size_t elem_size;
+    int    ram[RamSize];
+} Ram_t;
 
-void ProcDtor(Proc_t* proc);
+typedef struct SpuInfo
+{
+    Stream_t input;
+    Stream_t dump;
+    Proc_t   proc;
+    Stk_t    stk;
+    Ram_t    ram;
+} SpuInfo_t;
 
-int* GetArg  (Proc_t* proc);
+SpuReturnCode SpuInfoCtor(SpuInfo_t* spu_info, int argc, const char* argv[]);
 
-void CmdHlt  (Proc_t* proc);
-void CmdPush (Proc_t* proc);
-void CmdPop  (Proc_t* proc);
-void CmdAdd  (Proc_t* proc);
-void CmdSub  (Proc_t* proc);
-void CmdMul  (Proc_t* proc);
-void CmdDiv  (Proc_t* proc);
-void CmdSqrt (Proc_t* proc);
-void CmdSin  (Proc_t* proc);
-void CmdCos  (Proc_t* proc);
-void CmdIn   (Proc_t* proc);
-void CmdOut  (Proc_t* proc);
-void CmdDump (Proc_t* proc);
-void CmdJmp  (Proc_t* proc);
-void CmdJa   (Proc_t* proc);
-void CmdJb   (Proc_t* proc);
-void CmdJae  (Proc_t* proc);
-void CmdJbe  (Proc_t* proc);
-void CmdJe   (Proc_t* proc);
-void CmdJne  (Proc_t* proc);
-void CmdDraw (Proc_t* proc);
+SpuReturnCode OpenCode   (SpuInfo_t* spu_info, int argc, const char* argv[]);
 
-#endif
+SpuReturnCode ReadCode   (SpuInfo_t* spu_info);
+
+SpuReturnCode ExecuteCode(SpuInfo_t* spu_info);
+
+SpuReturnCode SpuInfoDtor(SpuInfo_t* spu_info);
+
+int*          GetArg  (SpuInfo_t* spu_info);
+
+SpuReturnCode CmdHlt  (SpuInfo_t* spu_info);
+SpuReturnCode CmdPush (SpuInfo_t* spu_info);
+SpuReturnCode CmdPop  (SpuInfo_t* spu_info);
+SpuReturnCode CmdAdd  (SpuInfo_t* spu_info);
+SpuReturnCode CmdSub  (SpuInfo_t* spu_info);
+SpuReturnCode CmdMul  (SpuInfo_t* spu_info);
+SpuReturnCode CmdDiv  (SpuInfo_t* spu_info);
+SpuReturnCode CmdSqrt (SpuInfo_t* spu_info);
+SpuReturnCode CmdSin  (SpuInfo_t* spu_info);
+SpuReturnCode CmdCos  (SpuInfo_t* spu_info);
+SpuReturnCode CmdIn   (SpuInfo_t* spu_info);
+SpuReturnCode CmdOut  (SpuInfo_t* spu_info);
+SpuReturnCode CmdDump (SpuInfo_t* spu_info);
+SpuReturnCode CmdJmp  (SpuInfo_t* spu_info);
+SpuReturnCode CmdJa   (SpuInfo_t* spu_info);
+SpuReturnCode CmdJb   (SpuInfo_t* spu_info);
+SpuReturnCode CmdJae  (SpuInfo_t* spu_info);
+SpuReturnCode CmdJbe  (SpuInfo_t* spu_info);
+SpuReturnCode CmdJe   (SpuInfo_t* spu_info);
+SpuReturnCode CmdJne  (SpuInfo_t* spu_info);
+SpuReturnCode CmdDraw (SpuInfo_t* spu_info);
+SpuReturnCode CmdCall (SpuInfo_t* spu_info);
+SpuReturnCode CmdRet  (SpuInfo_t* spu_info);
+
+#endif // PROC_H__
 
