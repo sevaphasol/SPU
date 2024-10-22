@@ -13,7 +13,7 @@
 
 #define PRINT_WRITTEN_CODE
 
-const int CodeArrSize   = 64;
+const int CodeArrSize   = 128;
 const int LabelsSize    = 16;
 const int MaxLabelName  = 64;
 const int MaxLineSize   = 64;

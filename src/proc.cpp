@@ -687,28 +687,28 @@ SpuReturnCode CmdJne  (SpuInfo_t* spu_info)
 
 SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
 {
-    int ram_ptr = spu_info->proc.code[spu_info->proc.ip++];
-    int size    = spu_info->proc.code[spu_info->proc.ip++];
+    int ram_index = spu_info->proc.code[spu_info->proc.ip++];
+    int size      = spu_info->proc.code[spu_info->proc.ip++];
 
-    for (int i = ram_ptr; i < size; i++)
+    for (int i = 0; i < size; i++)
     {
         for (int j = i * size; j < (i + 1) * size; j++)
         {
-            if (spu_info->ram.ram[j] == 0)
+            if (spu_info->ram.ram[ram_index + j] == 0)
             {
                 printf("\033[37;47m           \033[0m");
 
                 continue;
             }
 
-            if (spu_info->ram.ram[j] == 1)
+            if (spu_info->ram.ram[ram_index + j] == 1)
             {
                 printf("\033[37;44m           \033[0m");
 
                 continue;
             }
 
-            if (spu_info->ram.ram[j] == 2)
+            if (spu_info->ram.ram[ram_index + j] == 2)
             {
                 printf("\033[37;41m           \033[0m");
 
