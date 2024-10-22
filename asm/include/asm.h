@@ -11,7 +11,7 @@
                       .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = {0}},                      \
                       .labels       = {.len = LabelsSize, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}}  \
 
-// #define PRINT_WRITTEN_CODE
+#define PRINT_WRITTEN_CODE
 
 const int CodeArrSize   = 64;
 const int LabelsSize    = 16;
@@ -23,8 +23,8 @@ const int ImmerseConstCode = 1;
 const int RegisterCode     = 2;
 const int RamCode          = 4;
 
-const char* const DefaultInput  = "asm files/example_programm.asm";
-const char* const DefaultOutput = "assembled files/example_programm_code.bin";
+const char* const DefaultInput  = "asm_files/example_programm.asm";
+const char* const DefaultOutput = "assembled_files/example_programm_code.bin";
 
 typedef struct Stream
 {

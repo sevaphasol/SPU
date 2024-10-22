@@ -421,12 +421,21 @@ AsmReturnCode BuildCode (AsmInfo_t* asm_info)
 
         if (strchr(str, ' '))
         {
-            sscanf(str, "%[^ ] %[^\n]", cmd, arg);
+            sscanf(str, "%[^\n ] %[^\n]", cmd, arg);
         }
 
         else
         {
             sscanf(str, "%[^\n]", cmd);
+        }
+
+        if (cmd[0] == '\0')
+        {
+            *arg = '\0';
+
+            str += 1;
+
+            continue;
         }
 
         if (strcmp(cmd, "hlt") == 0)

@@ -522,7 +522,7 @@ SpuReturnCode CmdDump (SpuInfo_t* spu_info)
 
     fprintf(dump_file, "\nRAM\n\n");
 
-    for (int i = 0; i < 8; i++) // TODO 8 -> spu_info->ram.len
+    for (int i = 0; i < 300; i++) // TODO 8 -> spu_info->ram.len
     {
         fprintf(dump_file, "[%d] = %d\n", i, spu_info->ram.ram[i]);
     }
@@ -694,12 +694,31 @@ SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
     {
         for (int j = i * size; j < (i + 1) * size; j++)
         {
-            spu_info->ram.ram[j] ? printf("\033[37;41m  \033[0m") : printf("\033[37;44m \033[0m");
-            // spu_info->ram.ram[j] ? printf("*") : printf(".");
+            if (spu_info->ram.ram[j] == 0)
+            {
+                printf("\033[37;47m           \033[0m");
+
+                continue;
+            }
+
+            if (spu_info->ram.ram[j] == 1)
+            {
+                printf("\033[37;44m           \033[0m");
+
+                continue;
+            }
+
+            if (spu_info->ram.ram[j] == 2)
+            {
+                printf("\033[37;41m           \033[0m");
+
+                continue;
+            }
         }
 
         printf("\n");
     }
+
     return SPU_SUCCESS;
 }
 

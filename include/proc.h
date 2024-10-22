@@ -16,11 +16,11 @@
 // #define PRINT_READ_CODE
 
 const size_t StackSize     = 8;
-const size_t RamSize       = 256;
+const size_t RamSize       = 1024;
 const size_t MaxRegName    = 2;
 const size_t RegsSize      = 4;
 
-const char* const DefaultInput = "asm/assembled files/example_programm_code.bin";
+const char* const DefaultInput = "asm/assembled_files/example_programm_code.bin";
 
 const char* const DefaultDump  = "logs/proc_dump.log";
 
