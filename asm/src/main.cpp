@@ -4,7 +4,7 @@
 
 #include "asm.h"
 
-int main(int argc, char* argv[]) // char* argv[] for compatibility with getopt
+int main(int argc, const char* argv[])
 {
     AsmInfo_t asm_info = {ASM_INFO_INIT};
 

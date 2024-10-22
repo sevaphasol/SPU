@@ -11,11 +11,11 @@
                       .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = {0}},                      \
                       .labels       = {.len = LabelsSize, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}}  \
 
-#define PRINT_WRITTEN_CODE
+// #define PRINT_WRITTEN_CODE
 
 const int CodeArrSize   = 128;
 const int LabelsSize    = 16;
-const int MaxLabelName  = 64;
+const int MaxLabelName  = 16;
 const int MaxLineSize   = 64;
 const int Poison        = -1;
 
@@ -60,7 +60,7 @@ typedef struct FixUpElem
 
 typedef struct FixUpTable
 {
-    size_t n_labels;
+    size_t n_fix_ups;
     FixUpElem fix_ups[CodeArrSize];
 } FixUpTable_t;
 
@@ -142,7 +142,7 @@ typedef enum RegCodes
     DX               = 4,
 } RegCode;
 
-AsmReturnCode OpenCode          (AsmInfo_t* asm_info, int argc, char* argv[]);
+AsmReturnCode OpenCode          (AsmInfo_t* asm_info, int argc, const char* argv[]);
 
 AsmReturnCode ReadCode          (AsmInfo_t* asm_info);
 AsmReturnCode GetFileSize       (FILE* const file, size_t* file_size);

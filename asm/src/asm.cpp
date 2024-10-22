@@ -9,7 +9,7 @@
 
 //------------------------------------------------//
 
-AsmReturnCode OpenCode(AsmInfo* asm_info, int argc, char* argv[])
+AsmReturnCode OpenCode(AsmInfo* asm_info, int argc, const char* argv[])
 {
     if (!asm_info)
     {
@@ -292,7 +292,7 @@ AsmReturnCode ParseLabelArg (AsmInfo_t* asm_info, const char* arg)
 
         if (!asm_info->labels.labels[label - 1].inited)
         {
-            size_t fix_up_index = asm_info->labels.fix_up_table.n_labels++;
+            size_t fix_up_index = asm_info->labels.fix_up_table.n_fix_ups++;
 
             asm_info->labels.fix_up_table.fix_ups[fix_up_index].label_ptr = &(asm_info->labels.labels[label - 1]);
             asm_info->labels.fix_up_table.fix_ups[fix_up_index].ip        = asm_info->code.ip;
@@ -315,7 +315,7 @@ AsmReturnCode ParseLabelArg (AsmInfo_t* asm_info, const char* arg)
 
         asm_info->code.code[++asm_info->code.ip] = -1;
 
-        size_t fix_up_index = asm_info->labels.fix_up_table.n_labels++;
+        size_t fix_up_index = asm_info->labels.fix_up_table.n_fix_ups++;
 
         memcpy((void*) asm_info->labels.fix_up_table.fix_ups[fix_up_index].label_name,
                (void*) label_name, MaxLabelName);
@@ -878,24 +878,24 @@ AsmReturnCode FixUpLabes(AsmInfo* asm_info)
         return ASM_INFO_NULL_PTR_ERROR;
     }
 
-    for (size_t i = 0; i < asm_info->labels.fix_up_table.n_labels; i++)
+    for (int fix_up_index = 0; fix_up_index < asm_info->labels.fix_up_table.n_fix_ups; fix_up_index++)
     {
-        int      insert_ip        = asm_info->labels.fix_up_table.fix_ups[i].ip;
+        int      insert_ip        = asm_info->labels.fix_up_table.fix_ups[fix_up_index].ip;
         Label_t* insert_label_ptr = nullptr;
 
         if (!asm_info->labels.fix_up_table.fix_ups->named)
         {
-            insert_label_ptr = asm_info->labels.fix_up_table.fix_ups[i].label_ptr;
+            insert_label_ptr = asm_info->labels.fix_up_table.fix_ups[fix_up_index].label_ptr;
         }
         else
         {
-            const char* fix_up_label_name = asm_info->labels.fix_up_table.fix_ups[i].label_name;
+            const char* fix_up_label_name = asm_info->labels.fix_up_table.fix_ups[fix_up_index].label_name;
 
-            for (int label_index = 0; label_index < asm_info->labels.len; i++)
+            for (int label_index = 0; label_index < asm_info->labels.len; label_index++)
             {
-                if (strcmp(fix_up_label_name, asm_info->labels.labels[i].name) == 0)
+                if (strcmp(fix_up_label_name, asm_info->labels.labels[label_index].name) == 0)
                 {
-                    insert_label_ptr = &asm_info->labels.labels[i];
+                    insert_label_ptr = &asm_info->labels.labels[label_index];
 
                     break;
                 }
