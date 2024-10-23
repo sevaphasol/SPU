@@ -8,7 +8,7 @@
                       .proc  = {.running = false, .len = 0, .elem_size = sizeof(int), .ip = 0, .code = nullptr,  \
                       .regs  = {.len = RegsSize, .regs = {0}}},                                                  \
                       .stk   = {.len = StackSize, .id = {0}},                                                    \
-                      .ram   = {.len = RamSize, .ram = {0}}                                                      \
+                      .ram   = {.len = 0, .elem_size = sizeof(int), .ram = nullptr}                              \
 
 #define REG_CTOR(reg_code) spu_info->proc.regs.regs[reg_code - 1].name = #reg_code; \
                            spu_info->proc.regs.regs[reg_code - 1].code = reg_code;  \
@@ -16,7 +16,7 @@
 // #define PRINT_READ_CODE
 
 const size_t StackSize     = 8;
-const size_t RamSize       = 1024;
+const size_t RamSize       = 1024*1024*1024;
 const size_t MaxRegName    = 2;
 const size_t RegsSize      = 4;
 
@@ -35,6 +35,8 @@ typedef enum SpuReturnCodes
     SPU_INFO_NULL_PTR_ERROR,
     SPU_CLOSE_INPUT_FILE_ERROR,
     SPU_CLOSE_DUMP_FILE_ERROR,
+    INVALID_START_RAM_INDEX_ERROR,
+    CMD_DRAW_ERROR,
 } SpuReturnCode;
 
 typedef enum CmdCodes
@@ -114,7 +116,7 @@ typedef struct Ram
 {
     size_t len;
     size_t elem_size;
-    int    ram[RamSize];
+    int*   ram;
 } Ram_t;
 
 typedef struct SpuInfo
@@ -137,6 +139,11 @@ SpuReturnCode ExecuteCode(SpuInfo_t* spu_info);
 SpuReturnCode SpuInfoDtor(SpuInfo_t* spu_info);
 
 int*          GetArg  (SpuInfo_t* spu_info);
+
+SpuReturnCode StaticTerminalDraw       (SpuInfo_t* spu_info, int start_ram_index, int size);
+SpuReturnCode DynamicTerminalDraw      (SpuInfo_t* spu_info, int start_ram_index, int size);
+SpuReturnCode StaticGraphicWindowDraw  (SpuInfo_t* spu_info, int start_ram_index, int size);
+SpuReturnCode DynamicGraphicWindowDraw (SpuInfo_t* spu_info, int start_ram_index, int size);
 
 SpuReturnCode CmdHlt  (SpuInfo_t* spu_info);
 SpuReturnCode CmdPush (SpuInfo_t* spu_info);

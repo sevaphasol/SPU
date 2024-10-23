@@ -9,5 +9,5 @@ push AX
 add
 pop AX
 ja SQUARE:
-draw 0 15
+draw 0 0 15
 hlt

@@ -20,13 +20,21 @@ AsmReturnCode OpenCode(AsmInfo* asm_info, int argc, const char* argv[])
 
     if (argc != 3)
     {
-        if (argc != 1)
+        if (argc != 2)
         {
-            fprintf(stderr, "INCORRECT INPUT\n I/O files set as default\n\n");
-        }
+            if (argc != 1)
+                    {
+                        fprintf(stderr, "INCORRECT INPUT\n I/O files set as default\n\n");
+                    }
 
-        asm_info->input.name  = DefaultInput;
-        asm_info->output.name = DefaultOutput;
+                    asm_info->input.name  = DefaultInput;
+                    asm_info->output.name = DefaultOutput;
+        }
+        else
+        {
+            asm_info->input.name  = argv[1];
+            asm_info->output.name = DefaultOutput;
+        }
     }
 
     else
@@ -69,6 +77,8 @@ AsmReturnCode ReadCode(AsmInfo_t* asm_info)
     }
 
     asm_info->input.data = (char*) calloc(asm_info->input.size, sizeof(char));
+    asm_info->code.code  = (int*)  calloc(asm_info->input.size, sizeof(int));
+    asm_info->code.len   = asm_info->input.size;
 
     if (fread(asm_info->input.data, sizeof(char), asm_info->input.size, asm_info->input.ptr) != asm_info->input.size)
     {
@@ -800,7 +810,7 @@ AsmReturnCode BuildCode (AsmInfo_t* asm_info)
         {
             asm_info->code.code[asm_info->code.ip++] = DRAW;
 
-            int ram_ptr, size = 0;
+            int mode, ram_ptr, size = 0;
 
             if (size < 0)
             {
@@ -809,8 +819,14 @@ AsmReturnCode BuildCode (AsmInfo_t* asm_info)
                 return ASM_DRAW_SIZE_ERROR;
             }
 
-            sscanf(arg, "%d %d", &ram_ptr, &size);
+            if (sscanf(arg, "%d %d %d", &mode, &ram_ptr, &size) != 3)
+            {
+                fprintf(stderr, "DRAW ARGS SCANF ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
+                return ASM_DRAW_ARGS_SCANF_ERROR;
+            }
+
+            asm_info->code.code[asm_info->code.ip++] = mode;
             asm_info->code.code[asm_info->code.ip++] = ram_ptr;
             asm_info->code.code[asm_info->code.ip]   = size;
 
@@ -859,7 +875,7 @@ AsmReturnCode BuildCode (AsmInfo_t* asm_info)
 
         fprintf(stderr, "INVALID COOMMAND ERROR: \"%s\" in %s:%d:%s\n", cmd, __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-        return INVALID_COMMAND_ERROR;
+        return ASM_INVALID_COMMAND_ERROR;
     }
 
     asm_info->code.len = asm_info->code.ip;

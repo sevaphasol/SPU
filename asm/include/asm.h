@@ -23,8 +23,8 @@ const int ImmerseConstCode = 1;
 const int RegisterCode     = 2;
 const int RamCode          = 4;
 
-const char* const DefaultInput  = "asm_files/example_programm.asm";
-const char* const DefaultOutput = "assembled_files/example_programm_code.bin";
+const char* const DefaultInput  = "asm_files/quads.asm";
+const char* const DefaultOutput = "executable_files/quads.bin";
 
 typedef struct Stream
 {
@@ -40,7 +40,7 @@ typedef struct Code
     size_t len;
     size_t elem_size;
     int    ip;
-    int    code[CodeArrSize];
+    int*   code;
 } Code_t;
 
 typedef struct Label
@@ -103,7 +103,8 @@ typedef enum AsmReturnCodes
     ASM_PARSE_PUSH_POP_ARG_ERROR,
     ASM_PARSE_LABEL_ARG_ERROR,
     ASM_DRAW_SIZE_ERROR,
-    INVALID_COMMAND_ERROR,
+    ASM_INVALID_COMMAND_ERROR,
+    ASM_DRAW_ARGS_SCANF_ERROR,
 } AsmReturnCode;
 
 typedef enum CmdCodes
