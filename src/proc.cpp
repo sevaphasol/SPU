@@ -459,8 +459,6 @@ SpuReturnCode CmdOut  (SpuInfo_t* spu_info)
 
 SpuReturnCode CmdDump (SpuInfo_t* spu_info)
 {
-    // fprintf(stderr, "Dumping...\n");
-
     SpecialStackDump(spu_info->stk.id);
 
     FILE* dump_file = spu_info->dump.ptr;
@@ -471,38 +469,6 @@ SpuReturnCode CmdDump (SpuInfo_t* spu_info)
     TimeInfo = localtime(&RawTime);
 
     fprintf(dump_file, "Local time and date: %s\n", asctime(TimeInfo));
-
-//     Stack_t* stack = Stacks[spu_info->stk.id - 1];
-//
-//     if (!stack)
-//     {
-//         fprintf(stderr, "HUY\n");
-//     }
-//
-//     for (int i = 0; i < 16; i++)
-//     {
-//     fprintf(stderr, "Stacks[%d]: %p\n", i, Stacks[i]);
-//     }
-//
-// fprintf(stderr, "huy\n");
-//
-// fprintf(stderr, "huy\n");
-//
-//     for (int i = 0; i < stack->capacity; i++)
-//     {
-// fprintf(stderr, "huy\n");
-//
-//         if (i < stack->size)
-//         {
-//             fprintf(dump_file, "[%d] = %d\n", i, stack->data[i]);
-//         }
-//         else
-//         {
-//             fprintf(dump_file, "[%d] = %d (POISON) \n", i, stack->data[i]);
-//         }
-//     }
-//
-//     fprintf(dump_file, "\n\n---------------------------------------------------------------------\n\n");
 
     fprintf(dump_file, "Local time and date: %s\n", asctime(TimeInfo));
 

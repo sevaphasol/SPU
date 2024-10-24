@@ -1,5 +1,6 @@
 bin
 build
 asm/asm_files/bad_apple.asm
+asm/executable_files/bad_apple.bin
 asm/bin
 asm/build

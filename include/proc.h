@@ -20,7 +20,7 @@ const size_t RamSize       = 1024*1024*1024;
 const size_t MaxRegName    = 2;
 const size_t RegsSize      = 4;
 
-const char* const DefaultInput = "asm/assembled_files/example_programm_code.bin";
+const char* const DefaultInput = "asm/executable_files/quads.bin";
 
 const char* const DefaultDump  = "logs/proc_dump.log";
 

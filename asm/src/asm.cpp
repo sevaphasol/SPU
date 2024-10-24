@@ -9,13 +9,34 @@
 
 //------------------------------------------------//
 
-AsmReturnCode OpenCode(AsmInfo* asm_info, int argc, const char* argv[])
+AsmReturnCode OpenCode (AsmInfo* asm_info, int argc, const char* argv[])
 {
     if (!asm_info)
     {
         fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
         return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if (ParseArgv(asm_info, argc, argv) != ASM_SUCCESS)
+    {
+        fprintf(stderr, "PARSE ARGV ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_PARSE_ARGV_ERROR;
+    }
+
+    return ASM_SUCCESS;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseArgv (AsmInfo* asm_info, int argc, const char* argv[])
+{
+    if (!argv)
+    {
+        fprintf(stderr, "INVALID ARGV ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INVALID_ARGV_ERROR;
     }
 
     if (argc != 3)
@@ -58,7 +79,7 @@ AsmReturnCode OpenCode(AsmInfo* asm_info, int argc, const char* argv[])
 
 //------------------------------------------------//
 
-AsmReturnCode ReadCode(AsmInfo_t* asm_info)
+AsmReturnCode ReadCode (AsmInfo_t* asm_info)
 {
     if (!asm_info)
     {
@@ -77,7 +98,13 @@ AsmReturnCode ReadCode(AsmInfo_t* asm_info)
     }
 
     asm_info->input.data = (char*) calloc(asm_info->input.size, sizeof(char));
-    asm_info->code.code  = (int*)  calloc(asm_info->input.size, sizeof(int));
+
+    asm_info->code.code  = (int*)  calloc(asm_info->input.size + \
+                                          asm_info->input.size % sizeof(int), sizeof(char));                                                                    //TODO ask about problem with sizeof(char) -> sizeof(int)
+
+    asm_info->labels.fix_up_table.fix_ups = (FixUpElem_t*) calloc(asm_info->input.size + \
+                                             asm_info->input.size % sizeof(FixUpElem_t), sizeof(char));
+
     asm_info->code.len   = asm_info->input.size;
 
     if (fread(asm_info->input.data, sizeof(char), asm_info->input.size, asm_info->input.ptr) != asm_info->input.size)
@@ -92,7 +119,7 @@ AsmReturnCode ReadCode(AsmInfo_t* asm_info)
 
 //------------------------------------------------//
 
-AsmReturnCode GetFileSize(FILE* const file, size_t* file_size)
+AsmReturnCode GetFileSize (FILE* const file, size_t* file_size)
 {
     struct stat file_status = {};
 
@@ -110,27 +137,19 @@ AsmReturnCode GetFileSize(FILE* const file, size_t* file_size)
 
 //------------------------------------------------//
 
-RegCode GetRegCode(const char* reg_name)
+RegCode GetRegCode(const char* str)
 {
-    if (strcmp(reg_name, "AX") == 0)
+    if (!str)
     {
-        return AX;
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return INVALID_REG_CODE;
     }
 
-    if (strcmp(reg_name, "BX") == 0)
-    {
-        return BX;
-    }
-
-    if (strcmp(reg_name, "CX") == 0)
-    {
-        return CX;
-    }
-
-    if (strcmp(reg_name, "DX") == 0)
-    {
-        return DX;
-    }
+    RETURN_REG_CODE_IF_EQUAL(AX, str);
+    RETURN_REG_CODE_IF_EQUAL(BX, str);
+    RETURN_REG_CODE_IF_EQUAL(CX, str);
+    RETURN_REG_CODE_IF_EQUAL(DX, str);
 
     fprintf(stderr, "INVALID REGISTER CODE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
@@ -139,7 +158,7 @@ RegCode GetRegCode(const char* reg_name)
 
 //------------------------------------------------//
 
-AsmReturnCode ParsePushPopArg(AsmInfo_t* asm_info, const char* arg)
+AsmReturnCode ParsePushPopArg (AsmInfo_t* asm_info, const char* arg)
 {
     if (!asm_info)
     {
@@ -149,18 +168,15 @@ AsmReturnCode ParsePushPopArg(AsmInfo_t* asm_info, const char* arg)
     }
 
     int    imc  = 0;
-    char reg[2] = {};
+    char reg[3] = {};
 
     if (sscanf(arg, "[%d + %[ABCDX]]", &imc, reg) == 2)
     {
-        asm_info->code.code[++asm_info->code.ip] = RamCode + ImmerseConstCode + RegisterCode;
-        asm_info->code.code[++asm_info->code.ip] = imc;
-
-        if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+        if (ParseImcRegRam(asm_info, imc, reg) != ASM_SUCCESS)
         {
-            fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            fprintf(stderr, "PARSE IMC REG RAM ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return ASM_INVALID_REGISTER_CODE_ERROR;
+            return ASM_PARSE_PUSH_POP_ARG_ERROR;
         }
 
         return ASM_SUCCESS;
@@ -168,37 +184,36 @@ AsmReturnCode ParsePushPopArg(AsmInfo_t* asm_info, const char* arg)
 
     if (sscanf(arg, "[%[ABCDX] + %d]", reg, &imc) == 2)
     {
-        asm_info->code.code[++asm_info->code.ip] = RamCode + ImmerseConstCode + RegisterCode;
-
-        if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+        if(ParseRegImcRam(asm_info, imc, reg) != ASM_SUCCESS)
         {
-            fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            fprintf(stderr, "PARSE REG IMC RAM ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return ASM_INVALID_REGISTER_CODE_ERROR;
+            return ASM_PARSE_PUSH_POP_ARG_ERROR;
         }
 
-        asm_info->code.code[++asm_info->code.ip] = imc;
 
         return ASM_SUCCESS;
     }
 
     if (sscanf(arg, "[%d]", &imc) == 1)
     {
-        asm_info->code.code[++asm_info->code.ip] = RamCode + ImmerseConstCode;
-        asm_info->code.code[++asm_info->code.ip] = imc;
+        if (ParseImcRam(asm_info, imc) != ASM_SUCCESS)
+        {
+            fprintf(stderr, "PARSE IMC RAM ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+            return ASM_PARSE_PUSH_POP_ARG_ERROR;
+        }
 
         return ASM_SUCCESS;
     }
 
     if (sscanf(arg, "[%[ABCDX]]", reg) == 1)
     {
-        asm_info->code.code[++asm_info->code.ip] = RamCode + RegisterCode;
-
-        if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+        if (ParseRegRam(asm_info, reg) != ASM_SUCCESS)
         {
-            fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            fprintf(stderr, "PARSE REG RAM ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return ASM_INVALID_REGISTER_CODE_ERROR;
+            return ASM_PARSE_PUSH_POP_ARG_ERROR;
         }
 
         return ASM_SUCCESS;
@@ -206,13 +221,11 @@ AsmReturnCode ParsePushPopArg(AsmInfo_t* asm_info, const char* arg)
 
     if (sscanf(arg, "%[ABCDX]", reg) == 1)
     {
-        asm_info->code.code[++asm_info->code.ip] = RegisterCode;
-
-        if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+        if (ParseReg(asm_info, reg) != ASM_SUCCESS)
         {
-            fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            fprintf(stderr, "PARSE REG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return ASM_INVALID_REGISTER_CODE_ERROR;
+            return ASM_PARSE_PUSH_POP_ARG_ERROR;
         }
 
         return ASM_SUCCESS;
@@ -220,14 +233,11 @@ AsmReturnCode ParsePushPopArg(AsmInfo_t* asm_info, const char* arg)
 
     if (sscanf(arg, "%d + %[ABCDX]", &imc, reg) == 2)
     {
-        asm_info->code.code[++asm_info->code.ip] = ImmerseConstCode + RegisterCode;
-        asm_info->code.code[++asm_info->code.ip] = imc;
-
-        if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+        if (ParseImcReg(asm_info, imc, reg) != ASM_SUCCESS)
         {
-            fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            fprintf(stderr, "PARSE IMC REG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return ASM_INVALID_REGISTER_CODE_ERROR;
+            return ASM_PARSE_PUSH_POP_ARG_ERROR;
         }
 
         return ASM_SUCCESS;
@@ -235,29 +245,249 @@ AsmReturnCode ParsePushPopArg(AsmInfo_t* asm_info, const char* arg)
 
     if (sscanf(arg, "%[ABCDX] + %d", reg, &imc) == 2)
     {
-        asm_info->code.code[++asm_info->code.ip] = RegisterCode + ImmerseConstCode;
-
-        if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+        if (ParseRegImc(asm_info, imc, reg) != ASM_SUCCESS)
         {
-            fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            fprintf(stderr, "PARSE REG IMC ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return ASM_INVALID_REGISTER_CODE_ERROR;
+            return ASM_PARSE_PUSH_POP_ARG_ERROR;
         }
-
-        asm_info->code.code[++asm_info->code.ip] = imc;
 
         return ASM_SUCCESS;
     }
 
     if (sscanf(arg, "%d", &imc) == 1)
     {
-        asm_info->code.code[++asm_info->code.ip] = ImmerseConstCode;
-        asm_info->code.code[++asm_info->code.ip] = imc;
+        if (ParseImc(asm_info, imc) != ASM_SUCCESS)
+        {
+            fprintf(stderr, "PARSE IMC ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+            return ASM_PARSE_PUSH_POP_ARG_ERROR;
+        }
 
         return ASM_SUCCESS;
     }
 
     return ASM_PARSE_ARG_ERROR;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseImcRegRam (AsmInfo_t* asm_info, int imc, const char* reg)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!reg)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_NULL_PTR_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = RamCode + ImmerseConstCode + RegisterCode;
+    asm_info->code.code[++asm_info->code.ip] = imc;
+
+    if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+    {
+        fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INVALID_REGISTER_CODE_ERROR;
+    }
+
+    return ASM_SUCCESS;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseRegImcRam (AsmInfo_t* asm_info, int imc, const char* reg)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!reg)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_NULL_PTR_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = RamCode + ImmerseConstCode + RegisterCode;
+
+    if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+    {
+        fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INVALID_REGISTER_CODE_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = imc;
+
+    return ASM_SUCCESS;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseImcRam (AsmInfo_t* asm_info, int imc)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = RamCode + ImmerseConstCode;
+    asm_info->code.code[++asm_info->code.ip] = imc;
+
+    return ASM_SUCCESS;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseRegRam (AsmInfo_t* asm_info, const char* reg)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!reg)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_NULL_PTR_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = RamCode + RegisterCode;
+
+    if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+    {
+        fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INVALID_REGISTER_CODE_ERROR;
+    }
+
+    return ASM_SUCCESS;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseReg (AsmInfo_t* asm_info, const char* reg)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!reg)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_NULL_PTR_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = RegisterCode;
+
+    if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+    {
+        fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INVALID_REGISTER_CODE_ERROR;
+    }
+
+    return ASM_SUCCESS;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseImcReg (AsmInfo_t* asm_info, int imc, const char* reg)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!reg)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_NULL_PTR_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = ImmerseConstCode + RegisterCode;
+    asm_info->code.code[++asm_info->code.ip] = imc;
+
+    if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+    {
+        fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INVALID_REGISTER_CODE_ERROR;
+    }
+
+    return ASM_SUCCESS;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseRegImc (AsmInfo_t* asm_info, int imc, const char* reg)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!reg)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_NULL_PTR_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = RegisterCode + ImmerseConstCode;
+
+    if ((asm_info->code.code[++asm_info->code.ip] = GetRegCode(reg)) == INVALID_REG_CODE)
+    {
+        fprintf(stderr, "INVALID REGISTER CODE in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INVALID_REGISTER_CODE_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = imc;
+
+    return ASM_SUCCESS;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseImc (AsmInfo_t* asm_info, int imc)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = ImmerseConstCode;
+    asm_info->code.code[++asm_info->code.ip] = imc;
+
+    return ASM_SUCCESS;
 }
 
 //------------------------------------------------//
@@ -271,8 +501,8 @@ AsmReturnCode ParseLabelArg (AsmInfo_t* asm_info, const char* arg)
         return ASM_INFO_NULL_PTR_ERROR;
     }
 
-    int imrc_addr = 0;
-    int label     = 0;
+    int  imrc_addr = 0;
+    int  label     = 0;
     char label_name[MaxLabelName] = {};
 
     if (!strchr(arg, ':'))
@@ -291,21 +521,11 @@ AsmReturnCode ParseLabelArg (AsmInfo_t* asm_info, const char* arg)
 
     if (sscanf(arg, "%d:", &label) == 1)
     {
-        if ((label < 1) || (label > LabelsSize))
+        if (ParseNumLabel(asm_info, label) != ASM_SUCCESS)
         {
-            fprintf(stderr, "INVALID LABEL ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+            fprintf(stderr, "PARSE NUM LABEL ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);;
 
-            return ASM_INVALID_LABEL_ERROR;
-        }
-
-        asm_info->code.code[++asm_info->code.ip] = asm_info->labels.labels[label - 1].addr;
-
-        if (!asm_info->labels.labels[label - 1].inited)
-        {
-            size_t fix_up_index = asm_info->labels.fix_up_table.n_fix_ups++;
-
-            asm_info->labels.fix_up_table.fix_ups[fix_up_index].label_ptr = &(asm_info->labels.labels[label - 1]);
-            asm_info->labels.fix_up_table.fix_ups[fix_up_index].ip        = asm_info->code.ip;
+            return ASM_PARSE_LABEL_ARG_ERROR;
         }
 
         return ASM_SUCCESS;
@@ -313,33 +533,91 @@ AsmReturnCode ParseLabelArg (AsmInfo_t* asm_info, const char* arg)
 
     if (sscanf(arg, "%s:", label_name) == 1)
     {
-        for (int i = 0; i < LabelsSize; i++)
+        if (ParseNamedLabel(asm_info, label_name) != ASM_SUCCESS)
         {
-            if (strcmp(label_name, asm_info->labels.labels[i].name) == 0)
-            {
-                asm_info->code.code[++asm_info->code.ip] = asm_info->labels.labels[i].addr;
+            fprintf(stderr, "PARSE NAMED LABEL ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);;
 
-                return ASM_SUCCESS;
-            }
+            return ASM_PARSE_LABEL_ARG_ERROR;
         }
-
-        asm_info->code.code[++asm_info->code.ip] = -1;
-
-        size_t fix_up_index = asm_info->labels.fix_up_table.n_fix_ups++;
-
-        memcpy((void*) asm_info->labels.fix_up_table.fix_ups[fix_up_index].label_name,
-               (void*) label_name, MaxLabelName);
-
-        asm_info->labels.fix_up_table.fix_ups[fix_up_index].ip = asm_info->code.ip;
-
-        asm_info->labels.fix_up_table.fix_ups[fix_up_index].named = true;
 
         return ASM_SUCCESS;
     }
 
-    fprintf(stderr, "PARSE LABLE ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);;
+    fprintf(stderr, "PARSE NAMED LABEL ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);;
 
     return ASM_PARSE_LABEL_ARG_ERROR;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseNumLabel (AsmInfo_t* asm_info, int label)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if ((label < 1) || (label > LabelsSize))
+    {
+        fprintf(stderr, "INVALID LABEL ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INVALID_LABEL_ERROR;
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = asm_info->labels.labels[label - 1].addr;
+
+    if (!asm_info->labels.labels[label - 1].inited)
+    {
+        size_t fix_up_index = asm_info->labels.fix_up_table.n_fix_ups++;
+
+        asm_info->labels.fix_up_table.fix_ups[fix_up_index].label_ptr = &(asm_info->labels.labels[label - 1]);
+        asm_info->labels.fix_up_table.fix_ups[fix_up_index].ip        = asm_info->code.ip;
+    }
+
+    return ASM_SUCCESS;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode ParseNamedLabel (AsmInfo_t* asm_info, const char* label_name)
+{
+    if (!asm_info)
+    {
+        fprintf(stderr, "ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!label_name)
+    {
+        fprintf(stderr, "LABEL NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_NULL_PTR_ERROR;
+    }
+
+    for (int i = 0; i < LabelsSize; i++)
+    {
+        if (strcmp(label_name, asm_info->labels.labels[i].name) == 0)
+        {
+            asm_info->code.code[++asm_info->code.ip] = asm_info->labels.labels[i].addr;
+
+            return ASM_SUCCESS;
+        }
+    }
+
+    asm_info->code.code[++asm_info->code.ip] = -1;
+
+    size_t fix_up_index = asm_info->labels.fix_up_table.n_fix_ups++;
+
+    memcpy(asm_info->labels.fix_up_table.fix_ups[fix_up_index].label_name, label_name, MaxLabelName);
+
+    asm_info->labels.fix_up_table.fix_ups[fix_up_index].ip = asm_info->code.ip;
+
+    asm_info->labels.fix_up_table.fix_ups[fix_up_index].named = true;
+
+    return ASM_SUCCESS;
 }
 
 //------------------------------------------------//
@@ -371,7 +649,7 @@ AsmReturnCode AddLable (AsmInfo* asm_info, const char* cmd)
 
             if (asm_info->labels.labels[i].inited == false)
             {
-                memcpy((void*) asm_info->labels.labels[i].name, (void*) name, MaxLabelName);
+                memcpy(asm_info->labels.labels[i].name, name, MaxLabelName);
                 asm_info->labels.labels[i].addr    = asm_info->code.ip;
                 asm_info->labels.labels[i].inited  = true;
                 asm_info->labels.n_labels++;
@@ -422,460 +700,17 @@ AsmReturnCode BuildCode (AsmInfo_t* asm_info)
 
     while (true)
     {
-        sscanf(str, "%[^\n]%n", str, &nchars);
-
-        if (str - asm_info->input.data == asm_info->input.size)
+        if (str - asm_info->input.data >= asm_info->input.size)
         {
             break;
         }
 
-        if (strchr(str, ' '))
+        if (ParseLine(asm_info, &str, cmd, arg, &nchars) != ASM_SUCCESS)
         {
-            sscanf(str, "%[^\n ] %[^\n]", cmd, arg);
+            fprintf(stderr, "PARSE LINE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+            return ASM_PARSE_LINE_ERROR;
         }
-
-        else
-        {
-            sscanf(str, "%[^\n]", cmd);
-        }
-
-        if (cmd[0] == '\0')
-        {
-            *arg = '\0';
-
-            str += 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "hlt") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip++] = HLT;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "push") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = PUSH;
-
-            if (ParsePushPopArg(asm_info, arg) != ASM_SUCCESS)
-            {
-                fprintf(stderr, "PARSE PUSH POP ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_PARSE_PUSH_POP_ARG_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "pop") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = POP;
-
-            if (ParsePushPopArg(asm_info, arg))
-            {
-                fprintf(stderr, "PARSE PUSH POP ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_PARSE_PUSH_POP_ARG_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "add") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = ADD;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "sub") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = SUB;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "mul") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = MUL;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "div") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = DIV;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "sqrt") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = SQRT;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "sin") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = SIN;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "cos") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = COS;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "in") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = IN;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "out") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = OUT;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "dump") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = DUMP;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strchr(cmd, ':'))
-        {
-            if (AddLable(asm_info, cmd) != ASM_SUCCESS)
-            {
-                fprintf(stderr, "ADD LABEL ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_ADD_LABEL_ERROR;
-            }
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "jmp") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = JMP;
-
-            if (ParseLabelArg(asm_info, arg) != ASM_SUCCESS)
-            {
-                fprintf(stderr, "PARSE LABEL ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_PARSE_LABEL_ARG_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "ja") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = JA;
-
-            if (ParseLabelArg(asm_info, arg) != ASM_SUCCESS)
-            {
-                fprintf(stderr, "PARSE LABEL ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_PARSE_LABEL_ARG_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "jb") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = JB;
-
-            if (ParseLabelArg(asm_info, arg) != ASM_SUCCESS)
-            {
-                fprintf(stderr, "PARSE LABEL ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_PARSE_LABEL_ARG_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "jae") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = JAE;
-
-            if (ParseLabelArg(asm_info, arg) != ASM_SUCCESS)
-            {
-                fprintf(stderr, "PARSE LABEL ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_PARSE_LABEL_ARG_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "jbe") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = JBE;
-
-            if (ParseLabelArg(asm_info, arg) != ASM_SUCCESS)
-            {
-                fprintf(stderr, "PARSE LABEL ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_PARSE_LABEL_ARG_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "je") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = JE;
-
-            if (ParseLabelArg(asm_info, arg) != ASM_SUCCESS)
-            {
-                fprintf(stderr, "PARSE LABEL ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_PARSE_LABEL_ARG_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "jne") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = JNE;
-
-            if (ParseLabelArg(asm_info, arg) != ASM_SUCCESS)
-            {
-                fprintf(stderr, "PARSE LABEL ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_PARSE_LABEL_ARG_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "draw") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip++] = DRAW;
-
-            int mode, ram_ptr, size = 0;
-
-            if (size < 0)
-            {
-                fprintf(stderr, "DRAW SIZE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_DRAW_SIZE_ERROR;
-            }
-
-            if (sscanf(arg, "%d %d %d", &mode, &ram_ptr, &size) != 3)
-            {
-                fprintf(stderr, "DRAW ARGS SCANF ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                return ASM_DRAW_ARGS_SCANF_ERROR;
-            }
-
-            asm_info->code.code[asm_info->code.ip++] = mode;
-            asm_info->code.code[asm_info->code.ip++] = ram_ptr;
-            asm_info->code.code[asm_info->code.ip]   = size;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "call") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = CALL;
-
-            if (ParseLabelArg(asm_info, arg) != ASM_SUCCESS)
-            {
-                return ASM_ADD_LABEL_ERROR;
-            }
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        if (strcmp(cmd, "ret") == 0)
-        {
-            asm_info->code.code[asm_info->code.ip] = RET;
-
-            asm_info->code.ip++;
-
-            *cmd = '\0';
-            *arg = '\0';
-
-            str += nchars + 1;
-
-            continue;
-        }
-
-        fprintf(stderr, "INVALID COOMMAND ERROR: \"%s\" in %s:%d:%s\n", cmd, __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-        return ASM_INVALID_COMMAND_ERROR;
     }
 
     asm_info->code.len = asm_info->code.ip;
@@ -885,7 +720,160 @@ AsmReturnCode BuildCode (AsmInfo_t* asm_info)
 
 //------------------------------------------------//
 
-AsmReturnCode FixUpLabes(AsmInfo* asm_info)
+AsmReturnCode ParseLine (AsmInfo_t* asm_info, char** str, char* cmd, char* arg, int* nchars)
+{
+    if (!asm_info || !str || !*str || !cmd || !arg || !nchars)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_NULL_PTR_ERROR;
+    }
+
+    sscanf(*str, "%[^\n]%n", *str, nchars);
+
+    if (strchr(*str, ' '))
+    {
+        sscanf(*str, "%[^\n ] %[^\n]", cmd, arg);
+    }
+
+    else
+    {
+        sscanf(*str, "%[^\n]", cmd);
+    }
+
+    for (int cmd_index = 0; cmd_index < CommandsAmount; cmd_index++)
+    {
+        Command_t command = CommandsTabel[cmd_index];
+
+        if (strcmp(cmd, command.name) == 0)
+        {
+            switch (command.arg_type)
+            {
+                case NO_ARG:
+                {
+                    asm_info->code.code[asm_info->code.ip++] = command.code;
+
+                    *cmd = '\0';
+                    *arg = '\0';
+
+                    *str += *nchars + 1;
+
+                    return ASM_SUCCESS;
+                }
+
+                case PUSH_POP_ARG:
+                {
+                    asm_info->code.code[asm_info->code.ip] = command.code;
+
+                    if (ParsePushPopArg(asm_info, arg) != ASM_SUCCESS)
+                    {
+                        fprintf(stderr, "PARSE PUSH POP ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                        return ASM_PARSE_PUSH_POP_ARG_ERROR;
+                    }
+
+                    asm_info->code.ip++;
+
+                    *cmd = '\0';
+                    *arg = '\0';
+
+                    *str += *nchars + 1;
+
+                    return ASM_SUCCESS;
+                }
+
+                case LABEL_ARG:
+                {
+                    asm_info->code.code[asm_info->code.ip] = command.code;
+
+                    if (ParseLabelArg(asm_info, arg) != ASM_SUCCESS)
+                    {
+                        fprintf(stderr, "PARSE LABEL ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                        return ASM_PARSE_LABEL_ARG_ERROR;
+                    }
+
+                    asm_info->code.ip++;
+
+                    *cmd = '\0';
+                    *arg = '\0';
+
+                    *str += *nchars + 1;
+
+                    return ASM_SUCCESS;
+                }
+
+                case DRAW_ARG:
+                {
+                    asm_info->code.code[asm_info->code.ip++] = command.code;
+
+                    int mode, ram_ptr, size = 0;
+
+                    if (size < 0)
+                    {
+                        fprintf(stderr, "DRAW SIZE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                        return ASM_DRAW_SIZE_ERROR;
+                    }
+
+                    if (sscanf(arg, "%d %d %d", &mode, &ram_ptr, &size) != 3)
+                    {
+                        fprintf(stderr, "DRAW ARGS SCANF ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                        return ASM_DRAW_ARGS_SCANF_ERROR;
+                    }
+
+                    asm_info->code.code[asm_info->code.ip++] = mode;
+                    asm_info->code.code[asm_info->code.ip++] = ram_ptr;
+                    asm_info->code.code[asm_info->code.ip]   = size;
+
+                    asm_info->code.ip++;
+
+                    *cmd = '\0';
+                    *arg = '\0';
+
+                    *str += *nchars + 1;
+
+                    return ASM_SUCCESS;
+                }
+            }
+        }
+    }
+
+    if (strchr(cmd, ':'))
+    {
+        if (AddLable(asm_info, cmd) != ASM_SUCCESS)
+        {
+            fprintf(stderr, "ADD LABEL ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+            return ASM_ADD_LABEL_ERROR;
+        }
+
+        *cmd = '\0';
+        *arg = '\0';
+
+        *str += *nchars + 1;
+
+        return ASM_SUCCESS;
+    }
+
+    if (cmd[0] == '\0')
+    {
+        *arg = '\0';
+
+        *str += 1;
+
+        return ASM_SUCCESS;
+    }
+
+    fprintf(stderr, "INVALID COOMMAND ERROR: \"%s\" in %s:%d:%s\n", cmd, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+    return ASM_INVALID_COMMAND_ERROR;
+}
+
+//------------------------------------------------//
+
+AsmReturnCode FixUpLabels (AsmInfo* asm_info)
 {
     if (!asm_info)
     {

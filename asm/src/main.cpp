@@ -29,7 +29,7 @@ int main(int argc, const char* argv[])
         return EXIT_FAILURE;
     }
 
-    if (FixUpLabes (&asm_info) != ASM_SUCCESS)
+    if (FixUpLabels (&asm_info) != ASM_SUCCESS)
     {
         CloseCode (&asm_info);
 
