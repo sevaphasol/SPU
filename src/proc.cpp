@@ -740,8 +740,12 @@ SpuReturnCode CmdJne  (SpuInfo_t* spu_info)
 SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
 {
     int mode            = spu_info->proc.code[spu_info->proc.ip++];
-    int start_ram_index = spu_info->proc.code[spu_info->proc.ip++];
-    int size            = spu_info->proc.code[spu_info->proc.ip++];
+    int start_ram_index = *GetArg(spu_info);
+    // spu_info->proc.ip++;
+    // int start_ram_index = spu_info->proc.code[spu_info->proc.ip++];
+    int size            = *GetArg(spu_info);
+    // spu_info->proc.ip++;
+    // int size            = spu_info->proc.code[spu_info->proc.ip++];
 
     if (mode == 0)
     {
@@ -790,7 +794,7 @@ SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
 
 SpuReturnCode StaticTerminalDraw(SpuInfo_t* spu_info, int start_ram_index, int size)
 {
-    if (start_ram_index + size * size >= RamSize)
+    if (start_ram_index + size * size >= RamSize || size < 0)
     {
         fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
@@ -833,7 +837,7 @@ SpuReturnCode StaticTerminalDraw(SpuInfo_t* spu_info, int start_ram_index, int s
 
 SpuReturnCode DynamicTerminalDraw(SpuInfo_t* spu_info, int start_ram_index, int size)
 {
-    if (start_ram_index + size >= RamSize)
+    if (start_ram_index + size >= RamSize || size < 0)
     {
         fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
@@ -865,7 +869,7 @@ SpuReturnCode DynamicTerminalDraw(SpuInfo_t* spu_info, int start_ram_index, int 
 
 SpuReturnCode StaticGraphicWindowDraw(SpuInfo_t* spu_info, int start_ram_index, int size)
 {
-    if (start_ram_index + size * size >= RamSize)
+    if (start_ram_index + size * size >= RamSize || size < 0)
     {
         fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
@@ -927,7 +931,7 @@ SpuReturnCode StaticGraphicWindowDraw(SpuInfo_t* spu_info, int start_ram_index, 
 
 SpuReturnCode DynamicGraphicWindowDraw(SpuInfo_t* spu_info, int start_ram_index, int size)
 {
-    if (start_ram_index + size * size >= RamSize)
+    if (start_ram_index + size * size >= RamSize || size < 0)
     {
         fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 

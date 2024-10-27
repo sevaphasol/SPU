@@ -4,6 +4,11 @@ pop AX
 push -10
 pop BX
 
+push BX
+push AX
+add
+pop DI
+
 push 21
 pop  SI
 
@@ -64,7 +69,7 @@ COLL:
 jb COLL:
 
 
-draw 0 0 21
+draw 0 DI SI
 hlt
 
 INCREMENT_BX:

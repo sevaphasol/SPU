@@ -812,23 +812,28 @@ AsmReturnCode ParseLine (AsmInfo_t* asm_info, char** str, char* cmd, char* arg, 
 
                     int mode, ram_ptr, size = 0;
 
-                    if (size < 0)
+                    if (sscanf(arg, "%d", &mode) != 1)
                     {
-                        fprintf(stderr, "DRAW SIZE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-                        return ASM_DRAW_SIZE_ERROR;
-                    }
-
-                    if (sscanf(arg, "%d %d %d", &mode, &ram_ptr, &size) != 3)
-                    {
-                        fprintf(stderr, "DRAW ARGS SCANF ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+                        fprintf(stderr, "PARSE DRAW ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
                         return ASM_DRAW_ARGS_SCANF_ERROR;
                     }
 
-                    asm_info->code.code[asm_info->code.ip++] = mode;
-                    asm_info->code.code[asm_info->code.ip++] = ram_ptr;
-                    asm_info->code.code[asm_info->code.ip]   = size;
+                    asm_info->code.code[asm_info->code.ip] = mode;
+
+                    if (ParsePushPopArg(asm_info, arg) != ASM_SUCCESS)
+                    {
+                        fprintf(stderr, "PARSE DRAW ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                        return ASM_DRAW_ARGS_SCANF_ERROR;
+                    }
+
+                    if (ParsePushPopArg(asm_info, strchr(strchr(arg, ' ') + 1, ' ') + 1) != ASM_SUCCESS)
+                    {
+                        fprintf(stderr, "PARSE DRAW ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                        return ASM_DRAW_ARGS_SCANF_ERROR;
+                    }
 
                     asm_info->code.ip++;
 
