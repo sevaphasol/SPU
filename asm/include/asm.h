@@ -9,26 +9,21 @@
                       .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = {0}},                      \
                       .labels       = {.len = LabelsSize, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}}  \
 
-// #define PRINT_WRITTEN_CODE
+#define PRINT_WRITTEN_CODE
 
-#define RETURN_REG_CODE_IF_EQUAL(reg, str) \
-    if (strcmp(str, #reg) == 0)            \
-    {                                      \
-        return reg;                        \
-    }                                      \
-
-const int CommandsAmount = 23;
-const int CodeArrSize    = 128;
-const int LabelsSize     = 16;
-const int MaxLabelName   = 16;
-const int MaxLineSize    = 64;
+const int CommandsAmount  = 23;
+const int LabelsSize      = 32;
+const int MaxLabelName    = 32;
+const int MaxLineSize     = 64;
+const int RegistersAmount = 8;
+const int MaxRegNameSize  = 2;
 
 const int ImmerseConstCode = 1;
 const int RegisterCode     = 2;
 const int RamCode          = 4;
 
-const char* const DefaultInput  = "asm_files/square.asm";
-const char* const DefaultOutput = "executable_files/square.bin";
+const char* const DefaultInput  = "asm_files/circle.asm";
+const char* const DefaultOutput = "executable_files/circle.bin";
 
 typedef enum AsmReturnCodes
 {
@@ -102,6 +97,10 @@ typedef enum RegCodes
     BX               = 2,
     CX               = 3,
     DX               = 4,
+    SP               = 5,
+    BP               = 6,
+    SI               = 7,
+    DI               = 8,
 } RegCode;
 
 typedef struct Stream
@@ -131,7 +130,7 @@ typedef struct Label
 typedef struct FixUpElem
 {
     bool named;
-    int ip;
+    int  ip;
     char label_name[MaxLabelName];
     Label_t* label_ptr;
 } FixUpElem_t;
@@ -166,29 +165,45 @@ typedef struct Command
     ArgType    arg_type;
 } Command_t;
 
-const Command_t CommandsTabel[] = {{.name = "hlt",  .code = HLT,  .arg_type = NO_ARG},
-                                   {.name = "push", .code = PUSH, .arg_type = PUSH_POP_ARG},
-                                   {.name = "pop",  .code = POP,  .arg_type = PUSH_POP_ARG},
-                                   {.name = "add",  .code = ADD,  .arg_type = NO_ARG},
-                                   {.name = "sub",  .code = SUB,  .arg_type = NO_ARG},
-                                   {.name = "mul",  .code = MUL,  .arg_type = NO_ARG},
-                                   {.name = "div",  .code = DIV,  .arg_type = NO_ARG},
-                                   {.name = "sqrt", .code = SQRT, .arg_type = NO_ARG},
-                                   {.name = "sin",  .code = SIN,  .arg_type = NO_ARG},
-                                   {.name = "cos",  .code = COS,  .arg_type = NO_ARG},
-                                   {.name = "in",   .code = IN,   .arg_type = NO_ARG},
-                                   {.name = "out",  .code = OUT,  .arg_type = NO_ARG},
-                                   {.name = "dump", .code = DUMP, .arg_type = NO_ARG},
-                                   {.name = "jmp",  .code = JMP,  .arg_type = LABEL_ARG},
-                                   {.name = "ja",   .code = JA,   .arg_type = LABEL_ARG},
-                                   {.name = "jb",   .code = JB,   .arg_type = LABEL_ARG},
-                                   {.name = "jae",  .code = JAE,  .arg_type = LABEL_ARG},
-                                   {.name = "jbe",  .code = JBE,  .arg_type = LABEL_ARG},
-                                   {.name = "je",   .code = JE,   .arg_type = LABEL_ARG},
-                                   {.name = "jne",  .code = JNE,  .arg_type = LABEL_ARG},
-                                   {.name = "draw", .code = DRAW, .arg_type = DRAW_ARG},
-                                   {.name = "call", .code = CALL, .arg_type = LABEL_ARG},
-                                   {.name = "ret",  .code = RET,  .arg_type = NO_ARG}};
+
+typedef struct Register
+{
+    const char name[MaxRegNameSize + 1];
+    RegCode    code;
+} Register_t;
+
+const Command_t CommandsTabel[]   = {{.name = "hlt",  .code = HLT,  .arg_type = NO_ARG},
+                                     {.name = "push", .code = PUSH, .arg_type = PUSH_POP_ARG},
+                                     {.name = "pop",  .code = POP,  .arg_type = PUSH_POP_ARG},
+                                     {.name = "add",  .code = ADD,  .arg_type = NO_ARG},
+                                     {.name = "sub",  .code = SUB,  .arg_type = NO_ARG},
+                                     {.name = "mul",  .code = MUL,  .arg_type = NO_ARG},
+                                     {.name = "div",  .code = DIV,  .arg_type = NO_ARG},
+                                     {.name = "sqrt", .code = SQRT, .arg_type = NO_ARG},
+                                     {.name = "sin",  .code = SIN,  .arg_type = NO_ARG},
+                                     {.name = "cos",  .code = COS,  .arg_type = NO_ARG},
+                                     {.name = "in",   .code = IN,   .arg_type = NO_ARG},
+                                     {.name = "out",  .code = OUT,  .arg_type = NO_ARG},
+                                     {.name = "dump", .code = DUMP, .arg_type = NO_ARG},
+                                     {.name = "jmp",  .code = JMP,  .arg_type = LABEL_ARG},
+                                     {.name = "ja",   .code = JA,   .arg_type = LABEL_ARG},
+                                     {.name = "jb",   .code = JB,   .arg_type = LABEL_ARG},
+                                     {.name = "jae",  .code = JAE,  .arg_type = LABEL_ARG},
+                                     {.name = "jbe",  .code = JBE,  .arg_type = LABEL_ARG},
+                                     {.name = "jne",  .code = JNE,  .arg_type = LABEL_ARG},
+                                     {.name = "draw", .code = DRAW, .arg_type = DRAW_ARG},
+                                     {.name = "call", .code = CALL, .arg_type = LABEL_ARG},
+                                     {.name = "ret",  .code = RET,  .arg_type = NO_ARG}};
+
+const Register_t RegistersTabel[] = {{.name = "AX", .code = AX},
+                                     {.name = "BX", .code = BX},
+                                     {.name = "CX", .code = CX},
+                                     {.name = "DX", .code = DX},
+                                     {.name = "SP", .code = SP},
+                                     {.name = "BP", .code = BP},
+                                     {.name = "SI", .code = SI},
+                                     {.name = "DI", .code = DI},
+                                     };
 
 AsmReturnCode OpenCode          (AsmInfo_t* asm_info, int argc, const char* argv[]);
 AsmReturnCode ParseArgv         (AsmInfo* asm_info, int argc, const char* argv[]);

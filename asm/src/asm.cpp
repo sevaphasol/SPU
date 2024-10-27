@@ -25,6 +25,16 @@ AsmReturnCode OpenCode (AsmInfo* asm_info, int argc, const char* argv[])
         return ASM_PARSE_ARGV_ERROR;
     }
 
+    asm_info->input.ptr  = fopen(asm_info->input.name,  "r");
+    asm_info->output.ptr = fopen(asm_info->output.name, "wb");
+
+    if (!(asm_info->input.ptr) || !(asm_info->output.ptr))
+    {
+        fprintf(stderr, "FILE OPEN ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_FILE_OPEN_ERROR;
+    }
+
     return ASM_SUCCESS;
 }
 
@@ -62,16 +72,6 @@ AsmReturnCode ParseArgv (AsmInfo* asm_info, int argc, const char* argv[])
     {
         asm_info->input.name  = argv[1];
         asm_info->output.name = argv[2];
-    }
-
-    asm_info->input.ptr  = fopen(asm_info->input.name,  "r");
-    asm_info->output.ptr = fopen(asm_info->output.name, "wb");
-
-    if (!(asm_info->input.ptr) || !(asm_info->output.ptr))
-    {
-        fprintf(stderr, "FILE OPEN ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-        return ASM_FILE_OPEN_ERROR;
     }
 
     return ASM_SUCCESS;
@@ -146,10 +146,13 @@ RegCode GetRegCode(const char* str)
         return INVALID_REG_CODE;
     }
 
-    RETURN_REG_CODE_IF_EQUAL(AX, str);
-    RETURN_REG_CODE_IF_EQUAL(BX, str);
-    RETURN_REG_CODE_IF_EQUAL(CX, str);
-    RETURN_REG_CODE_IF_EQUAL(DX, str);
+    for (int reg_index = 0; reg_index < RegistersAmount; reg_index++)
+    {
+            if (strcmp(str, RegistersTabel[reg_index].name) == 0)
+            {
+                return RegistersTabel[reg_index].code;
+            }
+    }
 
     fprintf(stderr, "INVALID REGISTER CODE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
@@ -168,9 +171,9 @@ AsmReturnCode ParsePushPopArg (AsmInfo_t* asm_info, const char* arg)
     }
 
     int    imc  = 0;
-    char reg[3] = {};
+    char   reg[MaxRegNameSize] = {};
 
-    if (sscanf(arg, "[%d + %[ABCDX]]", &imc, reg) == 2)
+    if (sscanf(arg, "[%d + %[ABCDXSBPSDI]]", &imc, reg) == 2)
     {
         if (ParseImcRegRam(asm_info, imc, reg) != ASM_SUCCESS)
         {
@@ -182,7 +185,7 @@ AsmReturnCode ParsePushPopArg (AsmInfo_t* asm_info, const char* arg)
         return ASM_SUCCESS;
     }
 
-    if (sscanf(arg, "[%[ABCDX] + %d]", reg, &imc) == 2)
+    if (sscanf(arg, "[%[ABCDXSBPSDI] + %d]", reg, &imc) == 2)
     {
         if(ParseRegImcRam(asm_info, imc, reg) != ASM_SUCCESS)
         {
@@ -207,7 +210,7 @@ AsmReturnCode ParsePushPopArg (AsmInfo_t* asm_info, const char* arg)
         return ASM_SUCCESS;
     }
 
-    if (sscanf(arg, "[%[ABCDX]]", reg) == 1)
+    if (sscanf(arg, "[%[ABCDXSBPSDI]]", reg) == 1)
     {
         if (ParseRegRam(asm_info, reg) != ASM_SUCCESS)
         {
@@ -219,7 +222,7 @@ AsmReturnCode ParsePushPopArg (AsmInfo_t* asm_info, const char* arg)
         return ASM_SUCCESS;
     }
 
-    if (sscanf(arg, "%[ABCDX]", reg) == 1)
+    if (sscanf(arg, "%[ABCDXSBPSDI]", reg) == 1)
     {
         if (ParseReg(asm_info, reg) != ASM_SUCCESS)
         {
@@ -231,7 +234,7 @@ AsmReturnCode ParsePushPopArg (AsmInfo_t* asm_info, const char* arg)
         return ASM_SUCCESS;
     }
 
-    if (sscanf(arg, "%d + %[ABCDX]", &imc, reg) == 2)
+    if (sscanf(arg, "%d + %[ABCDXSBPSDI]", &imc, reg) == 2)
     {
         if (ParseImcReg(asm_info, imc, reg) != ASM_SUCCESS)
         {
@@ -243,7 +246,7 @@ AsmReturnCode ParsePushPopArg (AsmInfo_t* asm_info, const char* arg)
         return ASM_SUCCESS;
     }
 
-    if (sscanf(arg, "%[ABCDX] + %d", reg, &imc) == 2)
+    if (sscanf(arg, "%[ABCDXSBPSDI] + %d", reg, &imc) == 2)
     {
         if (ParseRegImc(asm_info, imc, reg) != ASM_SUCCESS)
         {

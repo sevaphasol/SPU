@@ -15,12 +15,17 @@
 
 // #define PRINT_READ_CODE
 
-const size_t StackSize     = 8;
-const size_t RamSize       = 1024*1024*1024;
-const size_t MaxRegName    = 2;
-const size_t RegsSize      = 4;
+const size_t StackSize      = 8;
+const size_t RamSize        = 1024*1024*1024;
+const size_t RamDisplaySize = 128;
+const size_t FrameSize      = 97*36;
+const size_t MaxRegName     = 2;
+const size_t RegsSize       = 8;
+const int    ImcCode        = 1;
+const int    RegCode        = 2;
+const int    RamIndexCode   = 4;
 
-const char* const DefaultInput = "asm/executable_files/quads.bin";
+const char* const DefaultInput = "asm/executable_files/bad_apple.bin";
 
 const char* const DefaultDump  = "logs/proc_dump.log";
 
@@ -28,6 +33,8 @@ typedef enum SpuReturnCodes
 {
     SPU_SUCCESS,
     SPU_FILE_OPEN_ERROR,
+    SPU_INVALID_ARGV_ERROR,
+    SPU_NULL_PTR_ERROR,
     SPU_OPEN_CODE_ERROR,
     SPU_READ_CODE_ERROR,
     SPU_INVALID_INSRUCTION_ERROR,
@@ -35,8 +42,11 @@ typedef enum SpuReturnCodes
     SPU_INFO_NULL_PTR_ERROR,
     SPU_CLOSE_INPUT_FILE_ERROR,
     SPU_CLOSE_DUMP_FILE_ERROR,
-    INVALID_START_RAM_INDEX_ERROR,
-    CMD_DRAW_ERROR,
+    SPU_INVALID_START_RAM_INDEX_ERROR,
+    SPU_CMD_DRAW_ERROR,
+    SPU_ROOT_OF_A_NEGATIVE_ERROR,
+    SPU_DIV_ERROR,
+    SPU_SQRT_ERROR,
 } SpuReturnCode;
 
 typedef enum CmdCodes
@@ -72,6 +82,10 @@ typedef enum RegisterCodes
     BX = 2,
     CX = 3,
     DX = 4,
+    SP = 5,
+    BP = 6,
+    SI = 7,
+    DI = 8,
 } RegisterCode;
 
 typedef struct Stream
@@ -131,6 +145,7 @@ typedef struct SpuInfo
 SpuReturnCode SpuInfoCtor(SpuInfo_t* spu_info, int argc, const char* argv[]);
 
 SpuReturnCode OpenCode   (SpuInfo_t* spu_info, int argc, const char* argv[]);
+SpuReturnCode ParseArgv  (SpuInfo*   spu_info, int argc, const char* argv[]);
 
 SpuReturnCode ReadCode   (SpuInfo_t* spu_info);
 

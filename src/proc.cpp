@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 #include <time.h>
 #include <SFML/Graphics.hpp>
 #include <unistd.h>
@@ -32,6 +33,11 @@ SpuReturnCode SpuInfoCtor(SpuInfo_t* spu_info, int argc, const char* argv[])
     REG_CTOR(BX);
     REG_CTOR(CX);
     REG_CTOR(DX);
+    REG_CTOR(SP);
+    REG_CTOR(BP);
+    REG_CTOR(SI);
+    REG_CTOR(DI);
+
 
     spu_info->ram.ram = (int*) calloc(RamSize , spu_info->ram.elem_size);
 
@@ -44,6 +50,46 @@ SpuReturnCode SpuInfoCtor(SpuInfo_t* spu_info, int argc, const char* argv[])
 
 SpuReturnCode OpenCode(SpuInfo_t* spu_info, int argc, const char* argv[])
 {
+    if (!spu_info)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_NULL_PTR_ERROR;
+    }
+
+    if (!argv)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_NULL_PTR_ERROR;
+    }
+
+    ParseArgv(spu_info, argc, argv);
+
+    spu_info->input.ptr  = fopen(spu_info->input.name,  "rb");
+    spu_info->dump.ptr   = fopen(spu_info->dump.name,   "w");
+
+    if (!(spu_info->input.ptr) || !(spu_info->dump.ptr))
+    {
+        fprintf(stderr, "FILE OPEN ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_FILE_OPEN_ERROR;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode ParseArgv (SpuInfo* spu_info, int argc, const char* argv[])
+{
+    if (!argv)
+    {
+        fprintf(stderr, "INVALID ARGV ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_INVALID_ARGV_ERROR;
+    }
+
     if (argc != 3)
     {
         if (argc != 2)
@@ -67,16 +113,6 @@ SpuReturnCode OpenCode(SpuInfo_t* spu_info, int argc, const char* argv[])
     {
         spu_info->input.name  = argv[1];
         spu_info->dump.name   = argv[2];
-    }
-
-    spu_info->input.ptr  = fopen(spu_info->input.name,  "rb");
-    spu_info->dump.ptr   = fopen(spu_info->dump.name,   "w");
-
-    if (!(spu_info->input.ptr) || !(spu_info->dump.ptr))
-    {
-        fprintf(stderr, "FILE OPEN ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
-
-        return SPU_FILE_OPEN_ERROR;
     }
 
     return SPU_SUCCESS;
@@ -165,7 +201,45 @@ SpuReturnCode ExecuteCode(SpuInfo_t* spu_info)
 
             case DIV:
             {
-                CmdDiv(spu_info);
+                if (CmdDiv(spu_info) != SPU_SUCCESS)
+                {
+                    fprintf(stderr, "DIV ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                    return SPU_DIV_ERROR;
+                }
+
+                continue;
+            }
+
+            case SQRT:
+            {
+                if (CmdSqrt(spu_info) != SPU_SUCCESS)
+                {
+                    fprintf(stderr, "SQRT ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                    return SPU_SQRT_ERROR;
+                }
+
+                continue;
+            }
+
+            case SIN:
+            {
+                CmdSin(spu_info);
+
+                continue;
+            }
+
+            case COS:
+            {
+                CmdCos(spu_info);
+
+                continue;
+            }
+
+            case IN:
+            {
+                CmdIn(spu_info);
 
                 continue;
             }
@@ -288,7 +362,7 @@ int* GetArg(SpuInfo_t* spu_info)
 
     int*       arg_addr  = nullptr;
 
-    if (arg_type & 1)
+    if (arg_type & ImcCode)
     {
         arg_value +=  spu_info->proc.code[spu_info->proc.ip];
         arg_addr   = &spu_info->proc.code[spu_info->proc.ip];
@@ -296,7 +370,7 @@ int* GetArg(SpuInfo_t* spu_info)
         spu_info->proc.ip++;
     }
 
-    if (arg_type & 2)
+    if (arg_type & RegCode)
     {
         int reg_number = spu_info->proc.code[spu_info->proc.ip] - 1;
 
@@ -306,12 +380,12 @@ int* GetArg(SpuInfo_t* spu_info)
         spu_info->proc.ip++;
     }
 
-    if (arg_type & 1 && arg_type & 2)
+    if (arg_type & ImcCode && arg_type & RegCode)
     {
         arg_addr = &arg_value;
     }
 
-    if (arg_type & 4)
+    if (arg_type & RamIndexCode)
     {
         int ram_addres = arg_value;
 
@@ -413,6 +487,17 @@ SpuReturnCode CmdDiv  (SpuInfo_t* spu_info)
 
 SpuReturnCode CmdSqrt (SpuInfo_t* spu_info)
 {
+    int a = StackPop(spu_info->stk.id);
+
+    if (a < 0)
+    {
+        fprintf(stderr, "ROOT OF A NEGATIVE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_ROOT_OF_A_NEGATIVE_ERROR;
+    }
+
+    StackPush(spu_info->stk.id, (int) sqrt(a));
+
     return SPU_SUCCESS;
 }
 
@@ -420,6 +505,8 @@ SpuReturnCode CmdSqrt (SpuInfo_t* spu_info)
 
 SpuReturnCode CmdSin  (SpuInfo_t* spu_info)
 {
+    StackPush(spu_info->stk.id, (int) sin(StackPop(spu_info->stk.id))); // allways returns 0
+
     return SPU_SUCCESS;
 }
 
@@ -427,6 +514,8 @@ SpuReturnCode CmdSin  (SpuInfo_t* spu_info)
 
 SpuReturnCode CmdCos  (SpuInfo_t* spu_info)
 {
+    StackPush(spu_info->stk.id, (int) cos(StackPop(spu_info->stk.id))); // allways returns 0
+
     return SPU_SUCCESS;
 }
 
@@ -435,7 +524,7 @@ SpuReturnCode CmdCos  (SpuInfo_t* spu_info)
 SpuReturnCode CmdIn   (SpuInfo_t* spu_info)
 {
     int a = 0;
-    scanf("Enter value: %d", &a);
+    scanf("%d", &a);
 
     StackPush(spu_info->stk.id, a);
 
@@ -445,12 +534,10 @@ SpuReturnCode CmdIn   (SpuInfo_t* spu_info)
 //------------------------------------------------//
 
 SpuReturnCode CmdOut  (SpuInfo_t* spu_info)
-//------------------------------------------------//
-
 {
     int a = StackPop(spu_info->stk.id);
 
-    printf("OUT: %d\n", a);
+    printf("%d\n", a);
 
     return SPU_SUCCESS;
 }
@@ -502,7 +589,7 @@ SpuReturnCode CmdDump (SpuInfo_t* spu_info)
 
     fprintf(dump_file, "\nRAM\n\n");
 
-    for (int i = 0; i < 300; i++) // TODO 8 -> spu_info->ram.len
+    for (int i = 0; i < RamDisplaySize; i++)
     {
         fprintf(dump_file, "[%d] = %d\n", i, spu_info->ram.ram[i]);
     }
@@ -518,8 +605,6 @@ SpuReturnCode CmdJmp  (SpuInfo_t* spu_info)
 {
     spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
 
-    // getchar();
-
     return SPU_SUCCESS;
 }
 
@@ -533,8 +618,6 @@ SpuReturnCode CmdJa   (SpuInfo_t* spu_info)
     if (b > a)
     {
         spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
-
-        // getchar();
     }
     else
     {
@@ -557,8 +640,6 @@ SpuReturnCode CmdJb   (SpuInfo_t* spu_info)
     if (b < a)
     {
         spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
-
-        // getchar();
     }
     else
     {
@@ -581,8 +662,6 @@ SpuReturnCode CmdJae  (SpuInfo_t* spu_info)
     if (b >= a)
     {
         spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
-
-        // getchar();
     }
     else
     {
@@ -605,8 +684,6 @@ SpuReturnCode CmdJbe  (SpuInfo_t* spu_info)
     if (b <= a)
     {
         spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
-
-        // getchar();
     }
     else
     {
@@ -629,8 +706,6 @@ SpuReturnCode CmdJe   (SpuInfo_t* spu_info)
     if (b == a)
     {
         spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
-
-        // getchar();
     }
     else
     {
@@ -653,8 +728,6 @@ SpuReturnCode CmdJne  (SpuInfo_t* spu_info)
     if (b != a)
     {
         spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
-
-        // getchar();
     }
 
     StackPush(spu_info->stk.id, b);
@@ -677,7 +750,7 @@ SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
         {
             fprintf(stderr, "CMD DRAW ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return CMD_DRAW_ERROR;
+            return SPU_CMD_DRAW_ERROR;
         }
     }
 
@@ -687,7 +760,7 @@ SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
         {
             fprintf(stderr, "CMD DRAW ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return CMD_DRAW_ERROR;
+            return SPU_CMD_DRAW_ERROR;
         }
     }
 
@@ -697,7 +770,7 @@ SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
         {
             fprintf(stderr, "CMD DRAW ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return CMD_DRAW_ERROR;
+            return SPU_CMD_DRAW_ERROR;
         }
     }
 
@@ -707,7 +780,7 @@ SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
         {
             fprintf(stderr, "CMD DRAW ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-            return CMD_DRAW_ERROR;
+            return SPU_CMD_DRAW_ERROR;
         }
     }
 
@@ -722,7 +795,7 @@ SpuReturnCode StaticTerminalDraw(SpuInfo_t* spu_info, int start_ram_index, int s
     {
         fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-        return INVALID_START_RAM_INDEX_ERROR;
+        return SPU_INVALID_START_RAM_INDEX_ERROR;
     }
 
     for (int i = 0; i < size; i++)
@@ -765,18 +838,18 @@ SpuReturnCode DynamicTerminalDraw(SpuInfo_t* spu_info, int start_ram_index, int 
     {
         fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-        return INVALID_START_RAM_INDEX_ERROR;
+        return SPU_INVALID_START_RAM_INDEX_ERROR;
     }
 
     int* ram = spu_info->ram.ram;
 
-    for (int frame_index = 0; frame_index < size/(97*36); frame_index++) //TODO get frame_size from asm file
+    for (int frame_index = 0; frame_index < size/(FrameSize); frame_index++)
     {
-        char buf[97*36];
+        char buf[FrameSize];
 
-        for (int i = 0; i < 97*36; i++)
+        for (int i = 0; i < FrameSize; i++)
         {
-            buf[i] = (char) ram[start_ram_index + frame_index * 97 * 36 + i];
+            buf[i] = (char) ram[start_ram_index + frame_index * FrameSize + i];
         }
 
         fputs(buf, stderr);
@@ -797,18 +870,18 @@ SpuReturnCode StaticGraphicWindowDraw(SpuInfo_t* spu_info, int start_ram_index, 
     {
         fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-        return INVALID_START_RAM_INDEX_ERROR;
+        return SPU_INVALID_START_RAM_INDEX_ERROR;
     }
 
     sf::RenderWindow window(sf::VideoMode(1000, 660), "SFML works!");
 
     sf::RectangleShape rectangle(sf::Vector2f(5.f, 5.f));
 
-    int x, y = 0;
+    float x, y = 0;
 
     for (int i = 0; i < size; i++)
     {
-        for (int j = start_ram_index + i * size; j < start_ram_index + (i + 1) * size; j++)
+        for (int j = start_ram_index + i * size; j < start_ram_index + (i + 1) * size; j++) // render texture
         {
             rectangle.setPosition(x, y);
 
@@ -859,7 +932,7 @@ SpuReturnCode DynamicGraphicWindowDraw(SpuInfo_t* spu_info, int start_ram_index,
     {
         fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
-        return INVALID_START_RAM_INDEX_ERROR;
+        return SPU_INVALID_START_RAM_INDEX_ERROR;
     }
 
     return SPU_SUCCESS;
