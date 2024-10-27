@@ -1,19 +1,17 @@
-push 5
+push 10
 pop AX
 
-push 0
+push -10
 pop BX
 
-push 15
-pop  DX
+push 21
+pop  SI
 
 COLL:
-    push 0
+    push -10
     pop CX
 
     RAW:
-
-
         push BX
         push BX
         mul
@@ -26,20 +24,30 @@ COLL:
         push AX
         mul
 
+        push AX
+        out
+        push BX
+        out
+        push CX
+        out
+
         jb RED:
 
         push 0
-
         jmp STEP:
 
         RED:
             push 2
-        STEP:
 
+        STEP:
         push BX
-        push AX
+        push 10
+        add
+        push SI
         mul
         push CX
+        push 10
+        add
         add
         pop DX
 
@@ -47,16 +55,16 @@ COLL:
 
         call INCREMENT_CX:
         push CX
-        push AX
+        push SI
     jb RAW:
 
     call INCREMENT_BX:
     push BX
-    push AX
+    push SI
 jb COLL:
 
 
-draw 0 0 5
+draw 0 0 21
 hlt
 
 INCREMENT_BX:

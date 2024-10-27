@@ -202,8 +202,7 @@ const Register_t RegistersTabel[] = {{.name = "AX", .code = AX},
                                      {.name = "SP", .code = SP},
                                      {.name = "BP", .code = BP},
                                      {.name = "SI", .code = SI},
-                                     {.name = "DI", .code = DI},
-                                     };
+                                     {.name = "DI", .code = DI}};
 
 AsmReturnCode OpenCode          (AsmInfo_t* asm_info, int argc, const char* argv[]);
 AsmReturnCode ParseArgv         (AsmInfo* asm_info, int argc, const char* argv[]);

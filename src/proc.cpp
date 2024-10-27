@@ -323,7 +323,6 @@ SpuReturnCode ExecuteCode(SpuInfo_t* spu_info)
 
             case CALL:
             {
-
                 CmdCall(spu_info);
 
                 break;
@@ -519,8 +518,6 @@ SpuReturnCode CmdCos  (SpuInfo_t* spu_info)
     return SPU_SUCCESS;
 }
 
-//------------------------------------------------//
-
 SpuReturnCode CmdIn   (SpuInfo_t* spu_info)
 {
     int a = 0;
@@ -639,10 +636,12 @@ SpuReturnCode CmdJb   (SpuInfo_t* spu_info)
 
     if (b < a)
     {
+    // fprintf(stderr, "%d < %d\n", b, a);
         spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
     }
     else
     {
+    // fprintf(stderr, "%d >= %d\n", b, a);
         spu_info->proc.ip++;
     }
 
@@ -804,21 +803,21 @@ SpuReturnCode StaticTerminalDraw(SpuInfo_t* spu_info, int start_ram_index, int s
         {
             if (spu_info->ram.ram[start_ram_index + j] == 0)
             {
-                printf("\033[37;47m           \033[0m");
+                printf("\033[37;47m  \033[0m");
 
                 continue;
             }
 
             if (spu_info->ram.ram[start_ram_index + j] == 1)
             {
-                printf("\033[37;44m           \033[0m");
+                printf("\033[37;44m  \033[0m");
 
                 continue;
             }
 
             if (spu_info->ram.ram[start_ram_index + j] == 2)
             {
-                printf("\033[37;41m           \033[0m");
+                printf("\033[37;41m  \033[0m");
 
                 continue;
             }
@@ -956,7 +955,6 @@ SpuReturnCode CmdCall(SpuInfo_t* spu_info)
 SpuReturnCode CmdRet(SpuInfo_t* spu_info)
 {
     int ret_ip = StackPop(spu_info->stk.id);
-
     spu_info->proc.ip = ret_ip;
 
     return SPU_SUCCESS;
