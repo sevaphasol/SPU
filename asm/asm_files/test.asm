@@ -1,29 +1,33 @@
-push 2
-push 2
-mul
-pop [AX]
-push 2
-push 2
-add
-pop [1]
-push [AX]
-push [AX + 1]
-mul
-push 1 + BX
-add
-out
-jb HUY:
+1:
+2:
+3:
+4:
+5:
+6:
+7:
+8:
+9:
+10:
+11:
+12:
+13:
+14:
+15:
+16:
+17:
+18:
+19:
+20:
+21:
+22:
+23:
+24:
+25:
+26:
+27:
+28:
+29:
+30:
+31:
+32:
 HUY:
-hlt
-
-call INPUT:
-INPUT:
-in
-in
-in
-
-pop CX
-pop BX
-pop AX
-ret
-

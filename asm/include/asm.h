@@ -4,15 +4,15 @@
 #ifndef ASM_H__
 #define ASM_H__
 
-#define ASM_INFO_INIT .input        = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},                  \
-                      .output       = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},                  \
-                      .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = nullptr},                  \
-                      .labels       = {.len = LabelsSize, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}}  \
+#define ASM_INFO_INIT .input        = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},        \
+                      .output       = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},        \
+                      .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = nullptr},        \
+                      .labels       = {.len = 0, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}} \
 
 #define PRINT_WRITTEN_CODE
 
 const int CommandsAmount  = 23;
-const int LabelsSize      = 32;
+const int LabelsSize      = 1024;
 const int MaxLabelName    = 32;
 const int MaxLineSize     = 64;
 const int RegistersAmount = 8;
@@ -40,6 +40,7 @@ typedef enum AsmReturnCodes
     ASM_MAKE_STRINGS_ERROR,
     ASM_PARSE_ARG_ERROR,
     ASM_INVALID_LABEL_ERROR,
+    ASM_LABELS_OBERFLOW_ERROR,
     ASM_INVALID_LABEL_NAME_ERROR,
     ASM_DOUBLE_LABEL_ERROR,
     ASM_ADD_LABEL_ERROR,
@@ -146,7 +147,7 @@ typedef struct Labels
     size_t    len;
     size_t    elem_size;
     size_t    n_labels;
-    Label_t   labels[LabelsSize];
+    Label_t*  labels;
     FixUpTable_t fix_up_table;
 } Labels_t;
 
@@ -236,11 +237,11 @@ AsmReturnCode ParseLabelArg     (AsmInfo_t* asm_info, const char* arg);
 AsmReturnCode ParseNumLabel     (AsmInfo_t* asm_info, int label);
 AsmReturnCode ParseNamedLabel   (AsmInfo_t* asm_info, const char* label);
 
-AsmReturnCode AddLable          (AsmInfo* asm_info,   const char* cmd);
+AsmReturnCode AddLabel          (AsmInfo* asm_info,   const char* cmd);
 
-AsmReturnCode FixUpLabels        (AsmInfo_t* asm_info);
+AsmReturnCode FixUpLabels       (AsmInfo_t* asm_info);
 
-AsmReturnCode WriteCode         (const AsmInfo_t* asm_info);
+AsmReturnCode WriteCode         (AsmInfo_t* asm_info);
 
 AsmReturnCode CloseCode         (AsmInfo_t* asm_info);
 

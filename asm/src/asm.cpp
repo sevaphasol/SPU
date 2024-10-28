@@ -26,9 +26,8 @@ AsmReturnCode OpenCode (AsmInfo* asm_info, int argc, const char* argv[])
     }
 
     asm_info->input.ptr  = fopen(asm_info->input.name,  "r");
-    asm_info->output.ptr = fopen(asm_info->output.name, "wb");
 
-    if (!(asm_info->input.ptr) || !(asm_info->output.ptr))
+    if (!(asm_info->input.ptr))
     {
         fprintf(stderr, "FILE OPEN ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
@@ -97,12 +96,15 @@ AsmReturnCode ReadCode (AsmInfo_t* asm_info)
         return ASM_GET_FILE_SIZE_ERROR;
     }
 
-    asm_info->input.data = (char*) calloc(asm_info->input.size, sizeof(char));
+    asm_info->input.data    = (char*)        calloc(asm_info->input.size, sizeof(char));
 
-    asm_info->code.code  = (int*)  calloc(asm_info->input.size, sizeof(int));                                                                    //TODO ask about problem with sizeof(char) -> sizeof(int)
+    asm_info->code.code     = (int*)         calloc(asm_info->input.size, sizeof(int));
 
-    asm_info->labels.fix_up_table.fix_ups = (FixUpElem_t*) calloc(asm_info->input.size + \
-                                             asm_info->input.size % sizeof(FixUpElem_t), sizeof(char));
+    asm_info->labels.len    = LabelsSize;
+    asm_info->labels.labels = (Label_t*)     calloc(asm_info->labels.len, sizeof(Label_t));
+
+    asm_info->labels.fix_up_table.fix_ups \
+                            = (FixUpElem_t*) calloc(asm_info->input.size, sizeof(FixUpElem_t));
 
     asm_info->code.len   = asm_info->input.size;
 
@@ -625,7 +627,7 @@ AsmReturnCode ParseNamedLabel (AsmInfo_t* asm_info, const char* label_name)
 
 //------------------------------------------------//
 
-AsmReturnCode AddLable (AsmInfo* asm_info, const char* cmd)
+AsmReturnCode AddLabel (AsmInfo* asm_info, const char* cmd)
 {
     if (!asm_info)
     {
@@ -635,6 +637,7 @@ AsmReturnCode AddLable (AsmInfo* asm_info, const char* cmd)
     }
 
     int  label              = atoi(cmd);
+    bool inited             = false;
     char name[MaxLabelName] = {};
 
     if (label == 0) // not a number
@@ -654,21 +657,42 @@ AsmReturnCode AddLable (AsmInfo* asm_info, const char* cmd)
             {
                 memcpy(asm_info->labels.labels[i].name, name, MaxLabelName);
                 asm_info->labels.labels[i].addr    = asm_info->code.ip;
-                asm_info->labels.labels[i].inited  = true;
+                asm_info->labels.labels[i].inited  = inited = true;
                 asm_info->labels.n_labels++;
 
                 return ASM_SUCCESS;
             }
         }
 
+        if (inited == false)
+        {
+            size_t new_label_index = asm_info->labels.len;
+
+            asm_info->labels.labels = (Label_t*) realloc(asm_info->labels.labels, asm_info->labels.len * 2 * sizeof(Label_t));
+            asm_info->labels.len = asm_info->labels.len * 2;
+
+            memcpy(asm_info->labels.labels[new_label_index].name, name, MaxLabelName);
+            asm_info->labels.labels[new_label_index].addr    = asm_info->code.ip;
+            asm_info->labels.labels[new_label_index].inited  = inited = true;
+            asm_info->labels.n_labels++;
+
+            return ASM_SUCCESS;
+        }
+
         return ASM_SUCCESS;
     }
 
-    if ((label < 1) || (label > LabelsSize))
+    if ((label < 1))
     {
         fprintf(stderr, "INVALID LABEL ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
         return ASM_INVALID_LABEL_ERROR;
+    }
+
+    if (label > asm_info->labels.len)
+    {
+        asm_info->labels.labels = (Label_t*) realloc(asm_info->labels.labels, asm_info->labels.len * 2 * sizeof(Label_t));
+        asm_info->labels.len = asm_info->labels.len * 2;
     }
 
     if (asm_info->labels.labels[label - 1].inited)
@@ -850,7 +874,7 @@ AsmReturnCode ParseLine (AsmInfo_t* asm_info, char** str, char* cmd, char* arg, 
 
     if (strchr(cmd, ':'))
     {
-        if (AddLable(asm_info, cmd) != ASM_SUCCESS)
+        if (AddLabel(asm_info, cmd) != ASM_SUCCESS)
         {
             fprintf(stderr, "ADD LABEL ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
 
@@ -930,7 +954,7 @@ AsmReturnCode FixUpLabels (AsmInfo* asm_info)
 
 //------------------------------------------------//
 
-AsmReturnCode WriteCode(const AsmInfo* asm_info)
+AsmReturnCode WriteCode(AsmInfo* asm_info)
 {
     if (!asm_info)
     {
@@ -949,6 +973,15 @@ AsmReturnCode WriteCode(const AsmInfo* asm_info)
     }
 
     #endif
+
+    asm_info->output.ptr = fopen(asm_info->output.name, "wb");
+
+    if (!(asm_info->output.ptr))
+    {
+        fprintf(stderr, "FILE OPEN ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return ASM_FILE_OPEN_ERROR;
+    }
 
     fwrite(&asm_info->code.len, sizeof(asm_info->code.len), 1, asm_info->output.ptr);
     fwrite(asm_info->code.code, asm_info->code.elem_size, asm_info->code.len, asm_info->output.ptr);
