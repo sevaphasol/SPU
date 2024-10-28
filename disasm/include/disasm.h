@@ -200,39 +200,6 @@ DisAsmReturnCode ParseLabelArg     (DisAsmInfo_t* dis_asm_info);
 DisAsmReturnCode ParseDrawArg      (DisAsmInfo_t* dis_asm_info);
 
 
-// DisAsmReturnCode GetFileSize       (FILE* const file, size_t* file_size);
-//
-// DisAsmReturnCode BuildCode         (AsmInfo_t* asm_info);
-//
-// DisAsmReturnCode ParseLine         (AsmInfo_t* asm_info, char** str, char* cmd, char* arg, int* nchars);
-//
-// RegCode       GetRegCode        (const char* str);
-//
-// DisAsmReturnCode ParsePushPopArg   (AsmInfo_t* asm_info, const char* arg);
-//
-// DisAsmReturnCode ParseImcRegRam    (AsmInfo_t* asm_info, int imc, const char* reg);
-// DisAsmReturnCode ParseRegImcRam    (AsmInfo_t* asm_info, int imc, const char* reg);
-// DisAsmReturnCode ParseImcRam       (AsmInfo_t* asm_info, int imc);
-// DisAsmReturnCode ParseRegRam       (AsmInfo_t* asm_info, const char* reg);
-// DisAsmReturnCode ParseReg          (AsmInfo_t* asm_info, const char* reg);
-// DisAsmReturnCode ParseImcReg       (AsmInfo_t* asm_info, int imc, const char* reg);
-// DisAsmReturnCode ParseRegImc       (AsmInfo_t* asm_info, int imc, const char* reg);
-// DisAsmReturnCode ParseImc          (AsmInfo_t* asm_info, int imc);
-//
-// DisAsmReturnCode ParseRegImc       (AsmInfo_t* asm_info, const char* arg);
-// DisAsmReturnCode ParseImc          (AsmInfo_t* asm_info, const char* arg);
-//
-// DisAsmReturnCode ParseLabelArg     (AsmInfo_t* asm_info, const char* arg);
-//
-// DisAsmReturnCode ParseNumLabel     (AsmInfo_t* asm_info, int label);
-// DisAsmReturnCode ParseNamedLabel   (AsmInfo_t* asm_info, const char* label);
-//
-// DisAsmReturnCode AddLable          (AsmInfo* asm_info,   const char* cmd);
-//
-// DisAsmReturnCode FixUpLabels        (AsmInfo_t* asm_info);
-//
-// DisAsmReturnCode WriteCode         (const AsmInfo_t* asm_info);
-
-// DisAsmReturnCode CloseCode         (AsmInfo_t* asm_info);
+DisAsmReturnCode CloseCode         (DisAsmInfo_t*dis_asm_info);
 
 #endif // DIS_ASM_H__

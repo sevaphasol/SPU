@@ -11,7 +11,7 @@ SOURCES_DIR   = src
 OBJECTS_DIR   = bin
 BUILD_DIR     = build
 
-EXECUTABLE = dis_asm
+EXECUTABLE = disasm
 EXECUTABLE_PATH = $(BUILD_DIR)/$(EXECUTABLE)
 
 SOURCE_FILES = $(wildcard $(SOURCES_DIR)/*.cpp)
@@ -21,7 +21,6 @@ all: $(EXECUTABLE_PATH)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
-	mkdir -p $(LOGS_DIR)
 
 $(OBJECTS_DIR):
 	mkdir -p $(OBJECTS_DIR)

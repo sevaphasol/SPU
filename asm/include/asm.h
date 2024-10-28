@@ -9,7 +9,7 @@
                       .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = nullptr},        \
                       .labels       = {.len = 0, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}} \
 
-#define PRINT_WRITTEN_CODE
+// #define PRINT_WRITTEN_CODE
 
 const int CommandsAmount  = 23;
 const int LabelsSize      = 1024;

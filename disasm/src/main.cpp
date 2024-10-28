@@ -10,36 +10,29 @@ int main(int argc, const char* argv[])
 
     if (OpenCode (&dis_asm_info, argc, argv) != DIS_ASM_SUCCESS)
     {
-        // CloseCode (&asm_dis_asm_info);
+        CloseCode (&dis_asm_info);
 
         return EXIT_FAILURE;
     }
 
     if (ReadCode (&dis_asm_info) != DIS_ASM_SUCCESS)
     {
-        // CloseCode (&dis_asm_info);
+        CloseCode (&dis_asm_info);
 
         return EXIT_FAILURE;
     }
 
     if (BuildCode (&dis_asm_info) != DIS_ASM_SUCCESS)
     {
-        // CloseCode (&asmdis_asm_info_info);
+        CloseCode (&dis_asm_info);
 
         return EXIT_FAILURE;
     }
-//
-//     if (WriteCode (&asm_info) != DIS_ASM_SUCCESS)
-//     {
-//         CloseCode (&asm_info);
-//
-//         return EXIT_FAILURE;
-//     }
-//
-//     if (CloseCode (&asm_info) != DIS_ASM_SUCCESS)
-//     {
-//         return EXIT_FAILURE;
-//     }
+
+    if (CloseCode (&dis_asm_info) != DIS_ASM_SUCCESS)
+    {
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

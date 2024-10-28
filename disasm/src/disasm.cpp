@@ -528,3 +528,35 @@ DisAsmReturnCode ParseDrawArg      (DisAsmInfo_t* dis_asm_info)
 }
 
 //---------------------------------------------//
+
+DisAsmReturnCode CloseCode         (DisAsmInfo_t*dis_asm_info)
+{
+    if (!dis_asm_info)
+    {
+        fprintf(stderr, "DIS ASM INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return DIS_ASM_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!dis_asm_info->input.ptr)
+    {
+        fprintf(stderr, "DIS ASM FILE CLOSE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return DIS_ASM_FILE_CLOSE_ERROR;
+    }
+
+    fclose(dis_asm_info->input.ptr);
+
+    if (!dis_asm_info->output.ptr)
+    {
+        fprintf(stderr, "DIS ASM FILE CLOSE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return DIS_ASM_FILE_CLOSE_ERROR;
+    }
+
+    fclose(dis_asm_info->output.ptr);
+
+    free(dis_asm_info->code.code);
+
+    return DIS_ASM_SUCCESS;
+}
