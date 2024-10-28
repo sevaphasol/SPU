@@ -270,7 +270,9 @@ AsmReturnCode ParsePushPopArg (AsmInfo_t* asm_info, const char* arg)
         return ASM_SUCCESS;
     }
 
-    return ASM_PARSE_ARG_ERROR;
+    fprintf(stderr, "PARSE PUSH POP ARG ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+    return ASM_PARSE_PUSH_POP_ARG_ERROR;
 }
 
 //------------------------------------------------//
@@ -806,7 +808,7 @@ AsmReturnCode ParseLine (AsmInfo_t* asm_info, char** str, char* cmd, char* arg, 
                     return ASM_SUCCESS;
                 }
 
-                case DRAW_ARG:
+                case DRAW_ARG: //TODO ParseDrawArg
                 {
                     asm_info->code.code[asm_info->code.ip++] = command.code;
 

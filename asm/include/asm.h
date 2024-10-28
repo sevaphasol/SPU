@@ -22,8 +22,8 @@ const int ImmerseConstCode = 1;
 const int RegisterCode     = 2;
 const int RamCode          = 4;
 
-const char* const DefaultInput  = "asm_files/circle.asm";
-const char* const DefaultOutput = "executable_files/circle.bin";
+const char* const DefaultInput  = "asm_files/test.asm";
+const char* const DefaultOutput = "executable_files/test.bin";
 
 typedef enum AsmReturnCodes
 {
@@ -190,6 +190,7 @@ const Command_t CommandsTabel[]   = {{.name = "hlt",  .code = HLT,  .arg_type = 
                                      {.name = "jb",   .code = JB,   .arg_type = LABEL_ARG},
                                      {.name = "jae",  .code = JAE,  .arg_type = LABEL_ARG},
                                      {.name = "jbe",  .code = JBE,  .arg_type = LABEL_ARG},
+                                     {.name = "je",   .code = JE,   .arg_type = LABEL_ARG},
                                      {.name = "jne",  .code = JNE,  .arg_type = LABEL_ARG},
                                      {.name = "draw", .code = DRAW, .arg_type = DRAW_ARG},
                                      {.name = "call", .code = CALL, .arg_type = LABEL_ARG},
