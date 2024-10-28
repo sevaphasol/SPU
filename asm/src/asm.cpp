@@ -99,8 +99,7 @@ AsmReturnCode ReadCode (AsmInfo_t* asm_info)
 
     asm_info->input.data = (char*) calloc(asm_info->input.size, sizeof(char));
 
-    asm_info->code.code  = (int*)  calloc(asm_info->input.size + \
-                                          asm_info->input.size % sizeof(int), sizeof(char));                                                                    //TODO ask about problem with sizeof(char) -> sizeof(int)
+    asm_info->code.code  = (int*)  calloc(asm_info->input.size, sizeof(int));                                                                    //TODO ask about problem with sizeof(char) -> sizeof(int)
 
     asm_info->labels.fix_up_table.fix_ups = (FixUpElem_t*) calloc(asm_info->input.size + \
                                              asm_info->input.size % sizeof(FixUpElem_t), sizeof(char));
@@ -611,7 +610,6 @@ AsmReturnCode ParseNamedLabel (AsmInfo_t* asm_info, const char* label_name)
             return ASM_SUCCESS;
         }
     }
-
     asm_info->code.code[++asm_info->code.ip] = -1;
 
     size_t fix_up_index = asm_info->labels.fix_up_table.n_fix_ups++;
@@ -891,7 +889,6 @@ AsmReturnCode FixUpLabels (AsmInfo* asm_info)
 
         return ASM_INFO_NULL_PTR_ERROR;
     }
-
     for (int fix_up_index = 0; fix_up_index < asm_info->labels.fix_up_table.n_fix_ups; fix_up_index++)
     {
         int      insert_ip        = asm_info->labels.fix_up_table.fix_ups[fix_up_index].ip;

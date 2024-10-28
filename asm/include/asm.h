@@ -4,9 +4,9 @@
 #ifndef ASM_H__
 #define ASM_H__
 
-#define ASM_INFO_INIT .input        = {.name = nullptr, .ptr = nullptr, .size = 0, .data = nullptr},                     \
-                      .output       = {.name = nullptr, .ptr = nullptr, .size = 0, .data = nullptr},                     \
-                      .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = {0}},                      \
+#define ASM_INFO_INIT .input        = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},                  \
+                      .output       = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},                  \
+                      .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = nullptr},                  \
                       .labels       = {.len = LabelsSize, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}}  \
 
 #define PRINT_WRITTEN_CODE

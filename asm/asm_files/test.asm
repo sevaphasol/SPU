@@ -12,8 +12,8 @@ mul
 push 1 + BX
 add
 out
-HUY:
 jb HUY:
+HUY:
 hlt
 
 call INPUT:
