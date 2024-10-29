@@ -4,14 +4,14 @@
 #ifndef ASM_H__
 #define ASM_H__
 
-#define ASM_INFO_INIT .input        = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},        \
-                      .output       = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},        \
-                      .code         = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = nullptr},        \
-                      .labels       = {.len = 0, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}} \
+#define ASM_INFO_INIT .input  = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},        \
+                      .output = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},        \
+                      .code   = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = nullptr},        \
+                      .labels = {.len = 0, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}} \
 
 // #define PRINT_WRITTEN_CODE
 
-const int CommandsAmount  = 23;
+const int CommandsAmount  = 25;
 const int LabelsSize      = 1024;
 const int MaxLabelName    = 32;
 const int MaxLineSize     = 64;
@@ -81,6 +81,8 @@ typedef enum CmdCodes
     DRAW  = 20,
     CALL  = 21,
     RET   = 22,
+    CLEAR = 23,
+    SLEEP = 24,
 } CmdCode;
 
 typedef enum ArgTypeCodes
@@ -173,29 +175,32 @@ typedef struct Register
     RegCode    code;
 } Register_t;
 
-const Command_t CommandsTabel[]   = {{.name = "hlt",  .code = HLT,  .arg_type = NO_ARG},
-                                     {.name = "push", .code = PUSH, .arg_type = PUSH_POP_ARG},
-                                     {.name = "pop",  .code = POP,  .arg_type = PUSH_POP_ARG},
-                                     {.name = "add",  .code = ADD,  .arg_type = NO_ARG},
-                                     {.name = "sub",  .code = SUB,  .arg_type = NO_ARG},
-                                     {.name = "mul",  .code = MUL,  .arg_type = NO_ARG},
-                                     {.name = "div",  .code = DIV,  .arg_type = NO_ARG},
-                                     {.name = "sqrt", .code = SQRT, .arg_type = NO_ARG},
-                                     {.name = "sin",  .code = SIN,  .arg_type = NO_ARG},
-                                     {.name = "cos",  .code = COS,  .arg_type = NO_ARG},
-                                     {.name = "in",   .code = IN,   .arg_type = NO_ARG},
-                                     {.name = "out",  .code = OUT,  .arg_type = NO_ARG},
-                                     {.name = "dump", .code = DUMP, .arg_type = NO_ARG},
-                                     {.name = "jmp",  .code = JMP,  .arg_type = LABEL_ARG},
-                                     {.name = "ja",   .code = JA,   .arg_type = LABEL_ARG},
-                                     {.name = "jb",   .code = JB,   .arg_type = LABEL_ARG},
-                                     {.name = "jae",  .code = JAE,  .arg_type = LABEL_ARG},
-                                     {.name = "jbe",  .code = JBE,  .arg_type = LABEL_ARG},
-                                     {.name = "je",   .code = JE,   .arg_type = LABEL_ARG},
-                                     {.name = "jne",  .code = JNE,  .arg_type = LABEL_ARG},
-                                     {.name = "draw", .code = DRAW, .arg_type = DRAW_ARG},
-                                     {.name = "call", .code = CALL, .arg_type = LABEL_ARG},
-                                     {.name = "ret",  .code = RET,  .arg_type = NO_ARG}};
+const Command_t CommandsTabel[]   = {{.name = "hlt",   .code = HLT,   .arg_type = NO_ARG},
+                                     {.name = "push",  .code = PUSH,  .arg_type = PUSH_POP_ARG},
+                                     {.name = "pop",   .code = POP,   .arg_type = PUSH_POP_ARG},
+                                     {.name = "add",   .code = ADD,   .arg_type = NO_ARG},
+                                     {.name = "sub",   .code = SUB,   .arg_type = NO_ARG},
+                                     {.name = "mul",   .code = MUL,   .arg_type = NO_ARG},
+                                     {.name = "div",   .code = DIV,   .arg_type = NO_ARG},
+                                     {.name = "sqrt",  .code = SQRT,  .arg_type = NO_ARG},
+                                     {.name = "sin",   .code = SIN,   .arg_type = NO_ARG},
+                                     {.name = "cos",   .code = COS,   .arg_type = NO_ARG},
+                                     {.name = "in",    .code = IN,    .arg_type = NO_ARG},
+                                     {.name = "out",   .code = OUT,   .arg_type = NO_ARG},
+                                     {.name = "dump",  .code = DUMP,  .arg_type = NO_ARG},
+                                     {.name = "jmp",   .code = JMP,   .arg_type = LABEL_ARG},
+                                     {.name = "ja",    .code = JA,    .arg_type = LABEL_ARG},
+                                     {.name = "jb",    .code = JB,    .arg_type = LABEL_ARG},
+                                     {.name = "jae",   .code = JAE,   .arg_type = LABEL_ARG},
+                                     {.name = "jbe",   .code = JBE,   .arg_type = LABEL_ARG},
+                                     {.name = "je",    .code = JE,    .arg_type = LABEL_ARG},
+                                     {.name = "jne",   .code = JNE,   .arg_type = LABEL_ARG},
+                                     {.name = "draw",  .code = DRAW,  .arg_type = DRAW_ARG},
+                                     {.name = "call",  .code = CALL,  .arg_type = LABEL_ARG},
+                                     {.name = "ret",   .code = RET,   .arg_type = NO_ARG},
+                                     {.name = "clear", .code = CLEAR, .arg_type = NO_ARG},
+                                     {.name = "sleep", .code = SLEEP, .arg_type = NO_ARG}};
+
 
 const Register_t RegistersTabel[] = {{.name = "AX", .code = AX},
                                      {.name = "BX", .code = BX},

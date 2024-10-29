@@ -24,6 +24,7 @@ const size_t RegsSize       = 8;
 const int    ImcCode        = 1;
 const int    RegCode        = 2;
 const int    RamIndexCode   = 4;
+const int    PixelSize      = 5;
 
 const char* const DefaultInput = "asm/executable_files/bad_apple.bin";
 
@@ -74,6 +75,8 @@ typedef enum CmdCodes
     DRAW  = 20,
     CALL  = 21,
     RET   = 22,
+    CLEAR = 23,
+    SLEEP = 24,
 } CmdCode;
 
 typedef enum RegisterCodes
@@ -160,29 +163,32 @@ SpuReturnCode DynamicTerminalDraw      (SpuInfo_t* spu_info, int start_ram_index
 SpuReturnCode StaticGraphicWindowDraw  (SpuInfo_t* spu_info, int start_ram_index, int size);
 SpuReturnCode DynamicGraphicWindowDraw (SpuInfo_t* spu_info, int start_ram_index, int size);
 
-SpuReturnCode CmdHlt  (SpuInfo_t* spu_info);
-SpuReturnCode CmdPush (SpuInfo_t* spu_info);
-SpuReturnCode CmdPop  (SpuInfo_t* spu_info);
-SpuReturnCode CmdAdd  (SpuInfo_t* spu_info);
-SpuReturnCode CmdSub  (SpuInfo_t* spu_info);
-SpuReturnCode CmdMul  (SpuInfo_t* spu_info);
-SpuReturnCode CmdDiv  (SpuInfo_t* spu_info);
-SpuReturnCode CmdSqrt (SpuInfo_t* spu_info);
-SpuReturnCode CmdSin  (SpuInfo_t* spu_info);
-SpuReturnCode CmdCos  (SpuInfo_t* spu_info);
-SpuReturnCode CmdIn   (SpuInfo_t* spu_info);
-SpuReturnCode CmdOut  (SpuInfo_t* spu_info);
-SpuReturnCode CmdDump (SpuInfo_t* spu_info);
-SpuReturnCode CmdJmp  (SpuInfo_t* spu_info);
-SpuReturnCode CmdJa   (SpuInfo_t* spu_info);
-SpuReturnCode CmdJb   (SpuInfo_t* spu_info);
-SpuReturnCode CmdJae  (SpuInfo_t* spu_info);
-SpuReturnCode CmdJbe  (SpuInfo_t* spu_info);
-SpuReturnCode CmdJe   (SpuInfo_t* spu_info);
-SpuReturnCode CmdJne  (SpuInfo_t* spu_info);
-SpuReturnCode CmdDraw (SpuInfo_t* spu_info);
-SpuReturnCode CmdCall (SpuInfo_t* spu_info);
-SpuReturnCode CmdRet  (SpuInfo_t* spu_info);
+SpuReturnCode CmdHlt    (SpuInfo_t* spu_info);
+SpuReturnCode CmdPush   (SpuInfo_t* spu_info);
+SpuReturnCode CmdPop    (SpuInfo_t* spu_info);
+SpuReturnCode CmdAdd    (SpuInfo_t* spu_info);
+SpuReturnCode CmdSub    (SpuInfo_t* spu_info);
+SpuReturnCode CmdMul    (SpuInfo_t* spu_info);
+SpuReturnCode CmdDiv    (SpuInfo_t* spu_info);
+SpuReturnCode CmdSqrt   (SpuInfo_t* spu_info);
+SpuReturnCode CmdSin    (SpuInfo_t* spu_info);
+SpuReturnCode CmdCos    (SpuInfo_t* spu_info);
+SpuReturnCode CmdIn     (SpuInfo_t* spu_info);
+SpuReturnCode CmdOut    (SpuInfo_t* spu_info);
+SpuReturnCode CmdDump   (SpuInfo_t* spu_info);
+SpuReturnCode CmdJmp    (SpuInfo_t* spu_info);
+SpuReturnCode CmdJa     (SpuInfo_t* spu_info);
+SpuReturnCode CmdJb     (SpuInfo_t* spu_info);
+SpuReturnCode CmdJae    (SpuInfo_t* spu_info);
+SpuReturnCode CmdJbe    (SpuInfo_t* spu_info);
+SpuReturnCode CmdJe     (SpuInfo_t* spu_info);
+SpuReturnCode CmdJne    (SpuInfo_t* spu_info);
+SpuReturnCode CmdDraw   (SpuInfo_t* spu_info);
+SpuReturnCode CmdCall   (SpuInfo_t* spu_info);
+SpuReturnCode CmdRet    (SpuInfo_t* spu_info);
+SpuReturnCode CmdClear  (SpuInfo_t* spu_info);
+SpuReturnCode CmdSleep  (SpuInfo_t* spu_info);
+
 
 #endif // PROC_H__
 

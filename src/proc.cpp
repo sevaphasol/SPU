@@ -335,6 +335,20 @@ SpuReturnCode ExecuteCode(SpuInfo_t* spu_info)
                 break;
             }
 
+            case CLEAR:
+            {
+                CmdClear(spu_info);
+
+                break;
+            }
+
+            case SLEEP:
+            {
+                CmdSleep(spu_info);
+
+                break;
+            }
+
             default:
             {
                 fprintf(stderr, "INVALID INSTRUCTION ERROR: %d in %s:%d:%s\n", \
@@ -846,7 +860,7 @@ SpuReturnCode DynamicTerminalDraw(SpuInfo_t* spu_info, int start_ram_index, int 
 
     int* ram = spu_info->ram.ram;
 
-    for (int frame_index = 0; frame_index < size/(FrameSize); frame_index++)
+    for (int frame_index = 0; frame_index < size / (FrameSize); frame_index++)
     {
         char buf[FrameSize];
 
@@ -876,15 +890,18 @@ SpuReturnCode StaticGraphicWindowDraw(SpuInfo_t* spu_info, int start_ram_index, 
         return SPU_INVALID_START_RAM_INDEX_ERROR;
     }
 
-    sf::RenderWindow window(sf::VideoMode(1000, 660), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(1000, 660), "SPU");
 
-    sf::RectangleShape rectangle(sf::Vector2f(5.f, 5.f));
+    sf::RenderTexture texture;
+    texture.create(size*PixelSize, size*PixelSize);
+
+    sf::RectangleShape rectangle(sf::Vector2f((float) PixelSize, (float) PixelSize));
 
     float x, y = 0;
 
     for (int i = 0; i < size; i++)
     {
-        for (int j = start_ram_index + i * size; j < start_ram_index + (i + 1) * size; j++) // render texture
+        for (int j = start_ram_index + i * size; j < start_ram_index + (i + 1) * size; j++)
         {
             rectangle.setPosition(x, y);
 
@@ -903,14 +920,18 @@ SpuReturnCode StaticGraphicWindowDraw(SpuInfo_t* spu_info, int start_ram_index, 
                 rectangle.setFillColor(sf::Color::Blue);
             }
 
-            window.draw(rectangle);
+            texture.draw(rectangle);
 
-            x += 5;
+            x += PixelSize;
         }
 
         x = 0;
-        y += 5;
+        y += PixelSize;
     }
+
+   texture.display();
+
+   window.clear();
 
     while (window.isOpen())
     {
@@ -920,6 +941,9 @@ SpuReturnCode StaticGraphicWindowDraw(SpuInfo_t* spu_info, int start_ram_index, 
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
+        sf::Sprite sprite(texture.getTexture());
+        window.draw(sprite);
 
         window.display();
     }
@@ -960,6 +984,24 @@ SpuReturnCode CmdRet(SpuInfo_t* spu_info)
 {
     int ret_ip = StackPop(spu_info->stk.id);
     spu_info->proc.ip = ret_ip;
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdClear (SpuInfo_t* spu_info)
+{
+    system("clear");
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdSleep (SpuInfo_t* spu_info)
+{
+    usleep(10000);
 
     return SPU_SUCCESS;
 }

@@ -1,33 +1,43 @@
-1:
-2:
-3:
-4:
-5:
-6:
-7:
-8:
-9:
-10:
-11:
-12:
-13:
-14:
-15:
-16:
-17:
-18:
-19:
-20:
-21:
-22:
-23:
-24:
-25:
-26:
-27:
-28:
-29:
-30:
-31:
-32:
-HUY:
+WHITE:
+push 0
+pop [AX]
+call INCREMENT_AX:
+push 100
+push AX
+ja WHITE:
+
+draw 0 0 10
+dump
+
+BLUE:
+push 1
+pop [AX]
+call INCREMENT_AX:
+push 200
+push AX
+ja BLUE:
+
+draw 0 100 10
+dump
+
+RED:
+push 2
+pop [AX]
+call INCREMENT_AX:
+push 300
+push AX
+ja RED:
+
+draw 0 200 10
+
+sleep
+clear
+
+hlt
+
+INCREMENT_AX:
+push AX
+push 1
+add
+pop AX
+ret
