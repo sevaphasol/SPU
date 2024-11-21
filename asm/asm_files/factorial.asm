@@ -1,35 +1,41 @@
-push 1
-pop BX
+push 4
 
-call FACTORIAL:
+call FUNC:
 
-push BX
+push AX
 out
 
 hlt
 
-FACTORIAL:
-call INCREMENT_AX:
-push AX
-push BX
-mul
-pop BX
+FUNC:
+    dump
+    pop DX
+    pop AX
+    push DX
+    push AX
 
-push AX
-push 30
-jb STEP:
-pop [0]
-pop [0]
-ret
-STEP:
-pop [0]
-pop [0]
-call FACTORIAL:
-ret
+    pop AX
+    push AX
+    push 1
 
-INCREMENT_AX:
-push 1
-push AX
-add
-pop AX
-ret
+    jne Note:
+        push 1
+        pop AX
+
+        ret
+
+    Note:
+        push AX
+
+        push AX
+        push 1
+        sub
+
+        call FUNC:
+
+        push AX
+        mul
+
+        pop AX
+
+    ret

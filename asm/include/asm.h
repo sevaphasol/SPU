@@ -4,12 +4,9 @@
 #ifndef ASM_H__
 #define ASM_H__
 
-#define ASM_INFO_INIT .input  = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},        \
-                      .output = {.name = nullptr, .ptr = nullptr, .size = 0,  .data   = nullptr},        \
-                      .code   = {.len = 0, .elem_size = sizeof(int), .ip = 0, .code   = nullptr},        \
-                      .labels = {.len = 0, .elem_size = sizeof(int), .labels = {0}, .fix_up_table = {0}} \
+#define PRINT_WRITTEN_CODE
 
-// #define PRINT_WRITTEN_CODE
+//———————————————————————————————————————————————————————————————————//
 
 const int CommandsAmount  = 25;
 const int LabelsSize      = 1024;
@@ -17,46 +14,80 @@ const int MaxLabelName    = 32;
 const int MaxLineSize     = 64;
 const int RegistersAmount = 8;
 const int MaxRegNameSize  = 2;
+const int nLines = 9;
+
+//-------------------------------------------------------------------//
 
 const int ImmerseConstCode = 1;
 const int RegisterCode     = 2;
 const int RamCode          = 4;
 
+//-------------------------------------------------------------------//
+
 const char* const DefaultInput  = "asm_files/test.asm";
 const char* const DefaultOutput = "executable_files/test.bin";
 
-typedef enum AsmReturnCodes
-{
-    ASM_SUCCESS,
-    ASM_FILE_OPEN_ERROR,
-    ASM_INVALID_ARGV_ERROR,
-    ASM_FILE_READ_ERROR,
-    ASM_FILE_CLOSE_ERROR,
-    ASM_INFO_NULL_PTR_ERROR,
-    ASM_INFO_VALID,
-    ASM_INFO_INVALID,
-    ASM_GET_FILE_SIZE_ERROR,
-    ASM_GET_NUM_OF_STRINGS_ERROR,
-    ASM_MAKE_STRINGS_ERROR,
-    ASM_PARSE_ARG_ERROR,
-    ASM_INVALID_LABEL_ERROR,
-    ASM_LABELS_OBERFLOW_ERROR,
-    ASM_INVALID_LABEL_NAME_ERROR,
-    ASM_DOUBLE_LABEL_ERROR,
-    ASM_ADD_LABEL_ERROR,
-    ASM_NOT_INITIALIZED_LABEL_ERROR,
-    ASM_INVALID_REGISTER_CODE_ERROR,
-    ASM_PARSE_PUSH_POP_ARG_ERROR,
-    ASM_PARSE_LABEL_ARG_ERROR,
-    ASM_DRAW_SIZE_ERROR,
-    ASM_INVALID_COMMAND_ERROR,
-    ASM_DRAW_ARGS_SCANF_ERROR,
-    ASM_PARSE_ARGV_ERROR,
-    ASM_NULL_PTR_ERROR,
-    ASM_PARSE_LINE_ERROR,
-} AsmReturnCode;
+//-------------------------------------------------------------------//
 
-typedef enum CmdCodes
+const char* const Delim         = " ";
+
+//———————————————————————————————————————————————————————————————————//
+
+enum AsmReturnCode
+{
+    ASM_SUCCESS                      = 0,
+    ASM_OPEN_CODE_ERROR              = 1,
+    ASM_FILE_OPEN_ERROR              = 2,
+    ASM_READ_CODE_ERROR              = 3,
+    ASM_INVALID_ARGV_ERROR           = 4,
+    ASM_FILE_READ_ERROR              = 5,
+    ASM_FILE_CLOSE_ERROR             = 6,
+    ASM_INFO_NULL_PTR_ERROR          = 7,
+    ASM_INFO_VALID                   = 8,
+    ASM_INFO_INVALID                 = 9,
+    ASM_GET_FILE_SIZE_ERROR          = 10,
+    ASM_GET_NUM_OF_STRINGS_ERROR     = 11,
+    ASM_MAKE_STRINGS_ERROR           = 12,
+    ASM_PARSE_ARG_ERROR              = 13,
+    ASM_INVALID_LABEL_ERROR          = 14,
+    ASM_LABELS_OBERFLOW_ERROR        = 15,
+    ASM_INVALID_LABEL_NAME_ERROR     = 16,
+    ASM_DOUBLE_LABEL_ERROR           = 17,
+    ASM_ADD_LABEL_ERROR              = 18,
+    ASM_NOT_INITIALIZED_LABEL_ERROR  = 19,
+    ASM_INVALID_REGISTER_CODE_ERROR  = 20,
+    ASM_PARSE_PUSH_POP_ARG_ERROR     = 21,
+    ASM_PARSE_LABEL_ARG_ERROR        = 22,
+    ASM_DRAW_SIZE_ERROR              = 23,
+    ASM_INVALID_COMMAND_ERROR        = 24,
+    ASM_DRAW_ARGS_SCANF_ERROR        = 25,
+    ASM_PARSE_ARGV_ERROR             = 26,
+    ASM_NULL_PTR_ERROR               = 27,
+    ASM_PARSE_LINE_ERROR             = 28,
+    ASM_PARSE_FUNC_ERROR             = 29,
+    ASM_GET_CUR_STRING_ERROR         = 30,
+    ASM_INSERT_PUSH_POP_ARG_ERROR    = 31,
+    ASM_SKIPPED_LINE_STATUS          = 32,
+    ASM_IS_NOT_AN_EMPTY_LINE_STATUS  = 33,
+    ASM_ADDED_LABEL_STATUS           = 34,
+    ASM_IS_NOT_A_LABEL_STATUS        = 35,
+    ASM_PARSED_COMMAND_STATUS        = 36,
+    ASM_IS_NOT_A_COMMAND_STATUS      = 37,
+};
+
+//-------------------------------------------------------------------//
+
+enum ScanfOrder
+{
+    IMC,
+    REG,
+    IMC_REG,
+    REG_IMC,
+};
+
+//-------------------------------------------------------------------//
+
+enum CmdCode
 {
     HLT   = 0,
     PUSH  = 1,
@@ -83,17 +114,21 @@ typedef enum CmdCodes
     RET   = 22,
     CLEAR = 23,
     SLEEP = 24,
-} CmdCode;
+};
 
-typedef enum ArgTypeCodes
+//-------------------------------------------------------------------//
+
+enum ArgType
 {
     NO_ARG       = 0,
     PUSH_POP_ARG = 1,
     LABEL_ARG    = 2,
     DRAW_ARG     = 3,
-} ArgType;
+};
 
-typedef enum RegCodes
+//-------------------------------------------------------------------//
+
+enum RegCode
 {
     INVALID_REG_CODE = -1,
     AX               = 1,
@@ -104,103 +139,140 @@ typedef enum RegCodes
     BP               = 6,
     SI               = 7,
     DI               = 8,
-} RegCode;
+};
 
-typedef struct Stream
+//-------------------------------------------------------------------//
+
+struct Stream_t
 {
     const char* name;
     FILE*       ptr;
     size_t      size;
     size_t      n_strings;
     char*       data;
-} Stream_t;
+};
 
-typedef struct Code
+//-------------------------------------------------------------------//
+
+struct Code_t
 {
     size_t len;
     size_t elem_size;
     int    ip;
     int*   code;
-} Code_t;
+};
 
-typedef struct Label
+//-------------------------------------------------------------------//
+
+struct Label_t
 {
     bool inited;
     char name[MaxLabelName];
     int  addr;
-} Label_t;
+};
 
-typedef struct FixUpElem
+//-------------------------------------------------------------------//
+
+struct FixUpElem_t
 {
     bool named;
     int  ip;
     char label_name[MaxLabelName];
     Label_t* label_ptr;
-} FixUpElem_t;
+};
 
-typedef struct FixUpTable
+//-------------------------------------------------------------------//
+
+struct FixUpTable_t
 {
     size_t n_fix_ups;
-    FixUpElem* fix_ups;
-} FixUpTable_t;
+    FixUpElem_t* fix_ups;
+};
 
-typedef struct Labels
+//-------------------------------------------------------------------//
+
+struct Labels_t
 {
     size_t    len;
     size_t    elem_size;
     size_t    n_labels;
     Label_t*  labels;
     FixUpTable_t fix_up_table;
-} Labels_t;
+};
 
-typedef struct AsmInfo
+//-------------------------------------------------------------------//
+
+struct AsmInfo_t
 {
     Stream_t  input;
     Stream_t  output;
     Code_t    code;
     Labels_t  labels;
-} AsmInfo_t;
+};
 
-typedef struct Command
+//-------------------------------------------------------------------//
+
+struct Command_t
 {
-    const char name[MaxLineSize];
-    CmdCode    code;
-    ArgType    arg_type;
-} Command_t;
+    const char    name[MaxLineSize];
+    CmdCode       code;
+    AsmReturnCode (*parse_func)(AsmInfo_t*, char*);
+};
 
+//-------------------------------------------------------------------//
 
-typedef struct Register
+struct Register_t
 {
     const char name[MaxRegNameSize + 1];
     RegCode    code;
-} Register_t;
+};
 
-const Command_t CommandsTabel[]   = {{.name = "hlt",   .code = HLT,   .arg_type = NO_ARG},
-                                     {.name = "push",  .code = PUSH,  .arg_type = PUSH_POP_ARG},
-                                     {.name = "pop",   .code = POP,   .arg_type = PUSH_POP_ARG},
-                                     {.name = "add",   .code = ADD,   .arg_type = NO_ARG},
-                                     {.name = "sub",   .code = SUB,   .arg_type = NO_ARG},
-                                     {.name = "mul",   .code = MUL,   .arg_type = NO_ARG},
-                                     {.name = "div",   .code = DIV,   .arg_type = NO_ARG},
-                                     {.name = "sqrt",  .code = SQRT,  .arg_type = NO_ARG},
-                                     {.name = "sin",   .code = SIN,   .arg_type = NO_ARG},
-                                     {.name = "cos",   .code = COS,   .arg_type = NO_ARG},
-                                     {.name = "in",    .code = IN,    .arg_type = NO_ARG},
-                                     {.name = "out",   .code = OUT,   .arg_type = NO_ARG},
-                                     {.name = "dump",  .code = DUMP,  .arg_type = NO_ARG},
-                                     {.name = "jmp",   .code = JMP,   .arg_type = LABEL_ARG},
-                                     {.name = "ja",    .code = JA,    .arg_type = LABEL_ARG},
-                                     {.name = "jb",    .code = JB,    .arg_type = LABEL_ARG},
-                                     {.name = "jae",   .code = JAE,   .arg_type = LABEL_ARG},
-                                     {.name = "jbe",   .code = JBE,   .arg_type = LABEL_ARG},
-                                     {.name = "je",    .code = JE,    .arg_type = LABEL_ARG},
-                                     {.name = "jne",   .code = JNE,   .arg_type = LABEL_ARG},
-                                     {.name = "draw",  .code = DRAW,  .arg_type = DRAW_ARG},
-                                     {.name = "call",  .code = CALL,  .arg_type = LABEL_ARG},
-                                     {.name = "ret",   .code = RET,   .arg_type = NO_ARG},
-                                     {.name = "clear", .code = CLEAR, .arg_type = NO_ARG},
-                                     {.name = "sleep", .code = SLEEP, .arg_type = NO_ARG}};
+//-------------------------------------------------------------------//
 
+struct PushPopLine_t
+{
+    const char* format_line;
+    ScanfOrder  scanf_order;
+    int         need_imc;
+    int         need_reg;
+    int         need_ram;
+};
+
+//-------------------------------------------------------------------//
+
+AsmReturnCode ParsePushPopArg   (AsmInfo_t* asm_info, char* arg);
+AsmReturnCode ParseLabelArg     (AsmInfo_t* asm_info, char* arg);
+AsmReturnCode ParseDrawArg      (AsmInfo_t* asm_info, char* arg);
+
+//———————————————————————————————————————————————————————————————————//
+
+const Command_t CommandsTabel[] = {{.name = "hlt",   .code = HLT,   .parse_func = nullptr},
+                                   {.name = "push",  .code = PUSH,  .parse_func = &ParsePushPopArg},
+                                   {.name = "pop",   .code = POP,   .parse_func = &ParsePushPopArg},
+                                   {.name = "add",   .code = ADD,   .parse_func = nullptr},
+                                   {.name = "sub",   .code = SUB,   .parse_func = nullptr},
+                                   {.name = "mul",   .code = MUL,   .parse_func = nullptr},
+                                   {.name = "div",   .code = DIV,   .parse_func = nullptr},
+                                   {.name = "sqrt",  .code = SQRT,  .parse_func = nullptr},
+                                   {.name = "sin",   .code = SIN,   .parse_func = nullptr},
+                                   {.name = "cos",   .code = COS,   .parse_func = nullptr},
+                                   {.name = "in",    .code = IN,    .parse_func = nullptr},
+                                   {.name = "out",   .code = OUT,   .parse_func = nullptr},
+                                   {.name = "dump",  .code = DUMP,  .parse_func = nullptr},
+                                   {.name = "jmp",   .code = JMP,   .parse_func = &ParseLabelArg},
+                                   {.name = "ja",    .code = JA,    .parse_func = &ParseLabelArg},
+                                   {.name = "jb",    .code = JB,    .parse_func = &ParseLabelArg},
+                                   {.name = "jae",   .code = JAE,   .parse_func = &ParseLabelArg},
+                                   {.name = "jbe",   .code = JBE,   .parse_func = &ParseLabelArg},
+                                   {.name = "je",    .code = JE,    .parse_func = &ParseLabelArg},
+                                   {.name = "jne",   .code = JNE,   .parse_func = &ParseLabelArg},
+                                   {.name = "draw",  .code = DRAW,  .parse_func = &ParseDrawArg},
+                                   {.name = "call",  .code = CALL,  .parse_func = &ParseLabelArg},
+                                   {.name = "ret",   .code = RET,   .parse_func = nullptr},
+                                   {.name = "clear", .code = CLEAR, .parse_func = nullptr},
+                                   {.name = "sleep", .code = SLEEP, .parse_func = nullptr}};
+
+//-------------------------------------------------------------------//
 
 const Register_t RegistersTabel[] = {{.name = "AX", .code = AX},
                                      {.name = "BX", .code = BX},
@@ -211,43 +283,27 @@ const Register_t RegistersTabel[] = {{.name = "AX", .code = AX},
                                      {.name = "SI", .code = SI},
                                      {.name = "DI", .code = DI}};
 
-AsmReturnCode OpenCode          (AsmInfo_t* asm_info, int argc, const char* argv[]);
-AsmReturnCode ParseArgv         (AsmInfo* asm_info, int argc, const char* argv[]);
+//-------------------------------------------------------------------//
 
-AsmReturnCode ReadCode          (AsmInfo_t* asm_info);
-AsmReturnCode GetFileSize       (FILE* const file, size_t* file_size);
+const PushPopLine_t PushPopLines[nLines] = \
+{{.format_line = "[%d + %[ABCDXSBPSDI]]", .scanf_order = IMC_REG, .need_imc = 1, .need_reg = 1, .need_ram = 1},
+ {.format_line = "[%[ABCDXSBPSDI] + %d]", .scanf_order = REG_IMC, .need_imc = 1, .need_reg = 1, .need_ram = 1},
+ {.format_line = "[%[ABCDXSBPSDI]]",      .scanf_order = REG,     .need_imc = 0, .need_reg = 1, .need_ram = 1},
+ {.format_line = "[%d]",                  .scanf_order = IMC,     .need_imc = 1, .need_reg = 0, .need_ram = 1},
+ {.format_line = "%[ABCDXSBPSDI] + %d",   .scanf_order = REG_IMC, .need_imc = 1, .need_reg = 1, .need_ram = 0},
+ {.format_line = "%d + %[ABCDXSBPSDI]",   .scanf_order = IMC_REG, .need_imc = 1, .need_reg = 1, .need_ram = 0},
+ {.format_line = "%[ABCDXSBPSDI]",        .scanf_order = REG,     .need_imc = 0, .need_reg = 1, .need_ram = 0},
+ {.format_line = "%d",                    .scanf_order = IMC,     .need_imc = 1, .need_reg = 0, .need_ram = 0}};
 
-AsmReturnCode BuildCode         (AsmInfo_t* asm_info);
 
-AsmReturnCode ParseLine         (AsmInfo_t* asm_info, char** str, char* cmd, char* arg, int* nchars);
+//———————————————————————————————————————————————————————————————————//
 
-RegCode       GetRegCode        (const char* str);
+AsmReturnCode AsmCtor     (AsmInfo_t* asm_info, int argc, const char* argv[]);
+AsmReturnCode BuildCode   (AsmInfo_t* asm_info);
+AsmReturnCode FixUpLabels (AsmInfo_t* asm_info);
+AsmReturnCode WriteCode   (AsmInfo_t* asm_info);
+AsmReturnCode CloseCode   (AsmInfo_t* asm_info);
 
-AsmReturnCode ParsePushPopArg   (AsmInfo_t* asm_info, const char* arg);
-
-AsmReturnCode ParseImcRegRam    (AsmInfo_t* asm_info, int imc, const char* reg);
-AsmReturnCode ParseRegImcRam    (AsmInfo_t* asm_info, int imc, const char* reg);
-AsmReturnCode ParseImcRam       (AsmInfo_t* asm_info, int imc);
-AsmReturnCode ParseRegRam       (AsmInfo_t* asm_info, const char* reg);
-AsmReturnCode ParseReg          (AsmInfo_t* asm_info, const char* reg);
-AsmReturnCode ParseImcReg       (AsmInfo_t* asm_info, int imc, const char* reg);
-AsmReturnCode ParseRegImc       (AsmInfo_t* asm_info, int imc, const char* reg);
-AsmReturnCode ParseImc          (AsmInfo_t* asm_info, int imc);
-
-AsmReturnCode ParseRegImc       (AsmInfo_t* asm_info, const char* arg);
-AsmReturnCode ParseImc          (AsmInfo_t* asm_info, const char* arg);
-
-AsmReturnCode ParseLabelArg     (AsmInfo_t* asm_info, const char* arg);
-
-AsmReturnCode ParseNumLabel     (AsmInfo_t* asm_info, int label);
-AsmReturnCode ParseNamedLabel   (AsmInfo_t* asm_info, const char* label);
-
-AsmReturnCode AddLabel          (AsmInfo* asm_info,   const char* cmd);
-
-AsmReturnCode FixUpLabels       (AsmInfo_t* asm_info);
-
-AsmReturnCode WriteCode         (AsmInfo_t* asm_info);
-
-AsmReturnCode CloseCode         (AsmInfo_t* asm_info);
+//———————————————————————————————————————————————————————————————————//
 
 #endif // ASM_H__

@@ -1,95 +1,89 @@
-#include "stack.h"
-
 #ifndef PROC_H__
 #define PROC_H__
 
-#define SPU_INFO_INIT .input = {.name = nullptr, .ptr = nullptr, .size = 0, .n_strings = 0, .data = nullptr},    \
-                      .dump  = {.name = nullptr, .ptr = nullptr, .size = 0, .n_strings = 0, .data = nullptr},    \
-                      .proc  = {.running = false, .len = 0, .elem_size = sizeof(int), .ip = 0, .code = nullptr,  \
-                      .regs  = {.len = RegsSize, .regs = {0}}},                                                  \
-                      .stk   = {.len = StackSize, .id = {0}},                                                    \
-                      .ram   = {.len = 0, .elem_size = sizeof(int), .ram = nullptr}                              \
+//———————————————————————————————————————————————————————————————————//
 
-#define REG_CTOR(reg_code) spu_info->proc.regs.regs[reg_code - 1].name = #reg_code; \
-                           spu_info->proc.regs.regs[reg_code - 1].code = reg_code;  \
+#include <SFML/Graphics.hpp>
+
+//-------------------------------------------------------------------//
+
+#include "stack.h"
+
+//———————————————————————————————————————————————————————————————————//
 
 // #define PRINT_READ_CODE
 
-const size_t StackSize      = 8;
-const size_t RamSize        = 1024*1024*1024;
-const size_t RamDisplaySize = 128;
-const size_t FrameSize      = 97*36;
-const size_t MaxRegName     = 2;
-const size_t RegsSize       = 8;
-const int    ImcCode        = 1;
-const int    RegCode        = 2;
-const int    RamIndexCode   = 4;
-const int    PixelSize      = 5;
+//———————————————————————————————————————————————————————————————————//
 
-const char* const DefaultInput = "asm/executable_files/bad_apple.bin";
+const size_t StackSize                 = 8;
 
-const char* const DefaultDump  = "logs/proc_dump.log";
+//-------------------------------------------------------------------//
 
-typedef enum SpuReturnCodes
+const size_t RegsAmount                = 8;
+const size_t MaxRegName                = 2;
+const char* const RegNames[RegsAmount] = {"AX", "BX", "CX", "DX", "SP", "BP", "SI", "DI"};
+
+//-------------------------------------------------------------------//
+
+const size_t RamSize                   = 1024*1024*1024;
+const size_t RamDisplaySize            = 128;
+
+//-------------------------------------------------------------------//
+
+const int    ImcCode                   = 1;
+const int    RegCode                   = 2;
+const int    RamIndexCode              = 4;
+
+//-------------------------------------------------------------------//
+
+const size_t FrameSize                 = 97*36;
+const int    PixelLength               = 5;
+const int    PixelWidth                = 10;
+const int    GraphicWindowLength       = 97*PixelLength;
+const int    GraphicWindowWidth        = 36*PixelWidth;
+const int    TerminalDrawCode          = 0;
+const int    GraphicWindowDrawCode     = 1;
+const char* const GraphicWindowName    = "SPU";
+const char* const BadAppleMusicFile    = "sounds/BadApple.wav";
+
+//-------------------------------------------------------------------//
+
+const char* const DefaultInput         = "asm/executable_files/circle2.bin";
+const char* const DefaultDump          = "logs/proc_dump.log";
+
+//———————————————————————————————————————————————————————————————————//
+
+enum SpuReturnCode
 {
-    SPU_SUCCESS,
-    SPU_FILE_OPEN_ERROR,
-    SPU_INVALID_ARGV_ERROR,
-    SPU_NULL_PTR_ERROR,
-    SPU_OPEN_CODE_ERROR,
-    SPU_READ_CODE_ERROR,
-    SPU_INVALID_INSRUCTION_ERROR,
-    SPU_DIVISION_BY_ZERO_ERROR,
-    SPU_INFO_NULL_PTR_ERROR,
-    SPU_CLOSE_INPUT_FILE_ERROR,
-    SPU_CLOSE_DUMP_FILE_ERROR,
-    SPU_INVALID_START_RAM_INDEX_ERROR,
-    SPU_CMD_DRAW_ERROR,
-    SPU_ROOT_OF_A_NEGATIVE_ERROR,
-    SPU_DIV_ERROR,
-    SPU_SQRT_ERROR,
-} SpuReturnCode;
+    SPU_SUCCESS                       = 0,
+    SPU_STACK_CTOR_ERROR              = 1,
+    SPU_REGS_CTOR_ERROR               = 2,
+    SPU_RAM_CTOR_ERROR                = 3,
+    SPU_GRAPHICS_CTOR_ERROR           = 4,
+    SPU_PARSE_ARGV_ERROR              = 5,
+    SPU_FILE_OPEN_ERROR               = 6,
+    SPU_INVALID_ARGV_ERROR            = 7,
+    SPU_NULL_PTR_ERROR                = 8,
+    SPU_OPEN_CODE_ERROR               = 9,
+    SPU_READ_CODE_ERROR               = 10,
+    SPU_INVALID_INSRUCTION_ERROR      = 11,
+    SPU_DIVISION_BY_ZERO_ERROR        = 12,
+    SPU_INFO_NULL_PTR_ERROR           = 13,
+    SPU_CLOSE_INPUT_FILE_ERROR        = 14,
+    SPU_CLOSE_DUMP_FILE_ERROR         = 15,
+    SPU_INVALID_START_RAM_INDEX_ERROR = 16,
+    SPU_CMD_DRAW_ERROR                = 17,
+    SPU_ROOT_OF_A_NEGATIVE_ERROR      = 18,
+    SPU_DIV_ERROR                     = 19,
+    SPU_SQRT_ERROR                    = 20,
+    SPU_INVALID_DRAW_PARAM_ERROR      = 21,
+    SPU_WINDOW_IS_NOT_OPENED_ERROR    = 22,
+    SPU_DRAW_ERROR                    = 23,
+    SPU_START_PROGRAMM_ERROR          = 24,
+    SPU_EXECUTE_CODE_ERROR            = 25,
+};
 
-typedef enum CmdCodes
-{
-    HLT   = 0,
-    PUSH  = 1,
-    POP   = 2,
-    ADD   = 3,
-    SUB   = 4,
-    MUL   = 5,
-    DIV   = 6,
-    SQRT  = 7,
-    SIN   = 8,
-    COS   = 9,
-    IN    = 10,
-    OUT   = 11,
-    DUMP  = 12,
-    JMP   = 13,
-    JA    = 14,
-    JB    = 15,
-    JAE   = 16,
-    JBE   = 17,
-    JE    = 18,
-    JNE   = 19,
-    DRAW  = 20,
-    CALL  = 21,
-    RET   = 22,
-    CLEAR = 23,
-    SLEEP = 24,
-} CmdCode;
-
-typedef enum RegisterCodes
-{
-    AX = 1,
-    BX = 2,
-    CX = 3,
-    DX = 4,
-    SP = 5,
-    BP = 6,
-    SI = 7,
-    DI = 8,
-} RegisterCode;
+//-------------------------------------------------------------------//
 
 typedef struct Stream
 {
@@ -100,6 +94,8 @@ typedef struct Stream
     char*       data;
 } Stream_t;
 
+//-------------------------------------------------------------------//
+
 typedef struct Register
 {
     const char* name;
@@ -107,11 +103,15 @@ typedef struct Register
     int         value;
 } Reg_t;
 
+//-------------------------------------------------------------------//
+
 typedef struct Registers
 {
     size_t len;
-    Reg_t  regs[RegsSize];
+    Reg_t  regs[RegsAmount];
 } Regs_t;
+
+//-------------------------------------------------------------------//
 
 typedef struct Proc
 {
@@ -123,11 +123,15 @@ typedef struct Proc
     Regs_t regs;
 } Proc_t;
 
+//-------------------------------------------------------------------//
+
 typedef struct Stk
 {
     size_t len;
     StackId_t id;
 } Stk_t;
+
+//-------------------------------------------------------------------//
 
 typedef struct Ram
 {
@@ -136,59 +140,39 @@ typedef struct Ram
     int*   ram;
 } Ram_t;
 
+//-------------------------------------------------------------------//
+
+typedef struct Graphics
+{
+    bool              open_window;
+    bool              play_sound;
+    int               length;
+    int               width;
+    int               pixel_length;
+    int               pixel_width;
+    const char*       name;
+    sf::RenderWindow* window;
+} Graphics_t;
+
+//-------------------------------------------------------------------//
+
 typedef struct SpuInfo
 {
-    Stream_t input;
-    Stream_t dump;
-    Proc_t   proc;
-    Stk_t    stk;
-    Ram_t    ram;
+    Stream_t   input;
+    Stream_t   dump;
+    Proc_t     proc;
+    Stk_t      stk;
+    Ram_t      ram;
+    Graphics_t graphics;
 } SpuInfo_t;
 
-SpuReturnCode SpuInfoCtor(SpuInfo_t* spu_info, int argc, const char* argv[]);
+//———————————————————————————————————————————————————————————————————//
 
-SpuReturnCode OpenCode   (SpuInfo_t* spu_info, int argc, const char* argv[]);
-SpuReturnCode ParseArgv  (SpuInfo*   spu_info, int argc, const char* argv[]);
-
-SpuReturnCode ReadCode   (SpuInfo_t* spu_info);
-
-SpuReturnCode ExecuteCode(SpuInfo_t* spu_info);
-
+SpuReturnCode SpuInfoCtor(SpuInfo_t* spu_info, sf::RenderWindow* window, int argc, const char* argv[]);
+SpuReturnCode StartProgramm(SpuInfo_t* spu_info);
 SpuReturnCode SpuInfoDtor(SpuInfo_t* spu_info);
 
-int*          GetArg  (SpuInfo_t* spu_info);
-
-SpuReturnCode StaticTerminalDraw       (SpuInfo_t* spu_info, int start_ram_index, int size);
-SpuReturnCode DynamicTerminalDraw      (SpuInfo_t* spu_info, int start_ram_index, int size);
-SpuReturnCode StaticGraphicWindowDraw  (SpuInfo_t* spu_info, int start_ram_index, int size);
-SpuReturnCode DynamicGraphicWindowDraw (SpuInfo_t* spu_info, int start_ram_index, int size);
-
-SpuReturnCode CmdHlt    (SpuInfo_t* spu_info);
-SpuReturnCode CmdPush   (SpuInfo_t* spu_info);
-SpuReturnCode CmdPop    (SpuInfo_t* spu_info);
-SpuReturnCode CmdAdd    (SpuInfo_t* spu_info);
-SpuReturnCode CmdSub    (SpuInfo_t* spu_info);
-SpuReturnCode CmdMul    (SpuInfo_t* spu_info);
-SpuReturnCode CmdDiv    (SpuInfo_t* spu_info);
-SpuReturnCode CmdSqrt   (SpuInfo_t* spu_info);
-SpuReturnCode CmdSin    (SpuInfo_t* spu_info);
-SpuReturnCode CmdCos    (SpuInfo_t* spu_info);
-SpuReturnCode CmdIn     (SpuInfo_t* spu_info);
-SpuReturnCode CmdOut    (SpuInfo_t* spu_info);
-SpuReturnCode CmdDump   (SpuInfo_t* spu_info);
-SpuReturnCode CmdJmp    (SpuInfo_t* spu_info);
-SpuReturnCode CmdJa     (SpuInfo_t* spu_info);
-SpuReturnCode CmdJb     (SpuInfo_t* spu_info);
-SpuReturnCode CmdJae    (SpuInfo_t* spu_info);
-SpuReturnCode CmdJbe    (SpuInfo_t* spu_info);
-SpuReturnCode CmdJe     (SpuInfo_t* spu_info);
-SpuReturnCode CmdJne    (SpuInfo_t* spu_info);
-SpuReturnCode CmdDraw   (SpuInfo_t* spu_info);
-SpuReturnCode CmdCall   (SpuInfo_t* spu_info);
-SpuReturnCode CmdRet    (SpuInfo_t* spu_info);
-SpuReturnCode CmdClear  (SpuInfo_t* spu_info);
-SpuReturnCode CmdSleep  (SpuInfo_t* spu_info);
-
+//———————————————————————————————————————————————————————————————————//
 
 #endif // PROC_H__
 

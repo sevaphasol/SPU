@@ -2,6 +2,10 @@
     "files.associations": {
         "system_error": "cpp",
         "cmath": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "vector": "cpp"
     }
 }

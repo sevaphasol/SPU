@@ -23,7 +23,7 @@ STEP:
     out
 
     push CX
-    push 10
+    push 15
 jb STEP:
 
 hlt

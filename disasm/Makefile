@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -g -I include -I ../color_print/include -Wcast-qual -Wconversion -Wctor-dtor-privacy    \
-		 -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op    \
+		 -Wempty-body -Wignored-qualifiers -Wlogical-op    \
          -Wno-missing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual        \
 		 -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing           	\
 		 -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -fexceptions -pipe    	\

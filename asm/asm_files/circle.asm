@@ -20,6 +20,8 @@ COLL:
         push BX
         push BX
         mul
+        push 4
+        mul
         push CX
         push CX
         mul
@@ -29,20 +31,13 @@ COLL:
         push AX
         mul
 
-        push AX
-        out
-        push BX
-        out
-        push CX
-        out
+        jbe DOT:
 
-        jb RED:
-
-        push 0
+        push 32
         jmp STEP:
 
-        RED:
-            push 2
+        DOT:
+            push 42
 
         STEP:
         push BX
@@ -68,8 +63,8 @@ COLL:
     push SI
 jb COLL:
 
+draw 0 DI SI SI
 
-draw 0 DI SI
 hlt
 
 INCREMENT_BX:

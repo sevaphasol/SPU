@@ -1,0 +1,1122 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+#include <SFML/Graphics.hpp>
+#include <unistd.h>
+
+#include "proc.h"
+#include "stack.h"
+#include "custom_assert.h"
+
+//———————————————————————————————————————————————————————————————————//
+
+static SpuReturnCode RegsCtor (Regs_t* regs);
+static SpuReturnCode RamCtor  (Ram_t*  ram);
+static SpuReturnCode GraphicsCtor(Graphics_t* graphics, sf::RenderWindow* window);
+
+//———————————————————————————————————————————————————————————————————//
+
+SpuReturnCode SpuInfoCtor (SpuInfo_t* spu_info, sf::RenderWindow* window, int argc, const char* argv[])
+{
+    ASSERT(spu_info);
+    ASSERT(window);
+    ASSERT(argv);
+
+    //-------------------------------------------------------------------//
+
+    VERIFY(OpenCode(spu_info, argc, argv) != SPU_SUCCESS,
+           return SPU_OPEN_CODE_ERROR);
+
+    VERIFY(ReadCode(spu_info) != SPU_SUCCESS,
+           return SPU_READ_CODE_ERROR);
+
+    //-------------------------------------------------------------------//
+
+    spu_info->stk.id = STACK_CTOR(StackSize);
+    VERIFY(spu_info->stk.id == INVALID_STACK_ID,
+           return SPU_STACK_CTOR_ERROR);
+
+    //-------------------------------------------------------------------//
+
+    // VERIFY(RegsCtor(&spu_info->proc.regs),
+    //        return SPU_REGS_CTOR_ERROR);
+
+    REG_CTOR(AX);
+    REG_CTOR(BX);
+    REG_CTOR(CX);
+    REG_CTOR(DX);
+    REG_CTOR(SP);
+    REG_CTOR(BP);
+    REG_CTOR(SI);
+    REG_CTOR(DI);
+
+
+    //-------------------------------------------------------------------//
+
+    // VERIFY(RamCtor(&spu_info->ram),
+    //        return SPU_RAM_CTOR_ERROR);
+
+    spu_info->ram.ram = (int*) calloc(RamSize , spu_info->ram.elem_size);
+
+    spu_info->ram.len = RamSize;
+
+    //-------------------------------------------------------------------//
+
+    spu_info->graphics.length       = GraphicWindowLength;
+    spu_info->graphics.width        = GraphicWindowWidth;
+    spu_info->graphics.pixel_length = PixelLength;
+    spu_info->graphics.pixel_width  = PixelWidth;
+    spu_info->graphics.name         = GraphicWindowName;
+    spu_info->graphics.window       = window;
+
+    // VERIFY(GraphicsCtor(&spu_info->graphics, window),
+    //        return SPU_GRAPHICS_CTOR_ERROR);
+
+    //-------------------------------------------------------------------//
+
+    return SPU_SUCCESS;
+}
+
+//===================================================================//
+
+SpuReturnCode RegsCtor(Regs_t* regs)
+{
+    ASSERT(regs);
+
+    regs->len = RegsAmount;
+
+    for (int reg_code = 1; reg_code <= regs->len; reg_code++)
+    {
+        regs->regs[reg_code - 1].name = RegNames[reg_code];
+        regs->regs[reg_code - 1].code = reg_code;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//===================================================================//
+
+SpuReturnCode RamCtor(Ram_t* ram)
+{
+    ASSERT(ram);
+
+    ram->len = RamSize;
+
+    ram->ram = (int*) calloc(ram->len, ram->elem_size);
+    VERIFY(!ram->ram, return SPU_RAM_CTOR_ERROR);
+
+    return SPU_SUCCESS;
+}
+
+//===================================================================//
+
+SpuReturnCode GraphicsCtor(Graphics_t* graphics, sf::RenderWindow* window)
+{
+    ASSERT(graphics);
+    ASSERT(window);
+
+    graphics->length       = GraphicWindowLength;
+    graphics->width        = GraphicWindowWidth;
+    graphics->pixel_length = PixelLength;
+    graphics->pixel_width  = PixelWidth;
+    graphics->name         = GraphicWindowName;
+    graphics->window       = window;
+
+    return SPU_SUCCESS;
+}
+
+//===================================================================//
+
+SpuReturnCode OpenCode (SpuInfo_t* spu_info, int argc, const char* argv[])
+{
+    if (!spu_info)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_NULL_PTR_ERROR;
+    }
+
+    if (!argv)
+    {
+        fprintf(stderr, "NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_NULL_PTR_ERROR;
+    }
+
+    ParseArgv(spu_info, argc, argv);
+
+    spu_info->input.ptr  = fopen(spu_info->input.name,  "rb");
+    spu_info->dump.ptr   = fopen(spu_info->dump.name,   "w");
+
+    if (!(spu_info->input.ptr) || !(spu_info->dump.ptr))
+    {
+        fprintf(stderr, "FILE OPEN ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_FILE_OPEN_ERROR;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode ParseArgv (SpuInfo* spu_info, int argc, const char* argv[])
+{
+    if (!argv)
+    {
+        fprintf(stderr, "INVALID ARGV ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_INVALID_ARGV_ERROR;
+    }
+
+    int option_index = 1;
+    int parsed_files = 0;
+
+    if (argc == 1)
+    {
+        spu_info->input.name = DefaultInput;
+        spu_info->dump.name = DefaultDump;
+
+        return SPU_SUCCESS;
+    }
+
+    while (option_index < argc)
+	{
+        if (strcmp(argv[option_index], "--window") == 0 || strcmp(argv[option_index], "-w") == 0)
+		{
+            spu_info->graphics.open_window = true;
+
+			option_index++;
+
+            continue;
+        }
+
+        if (strcmp(argv[option_index], "--sound") == 0 || strcmp(argv[option_index], "-s") == 0)
+		{
+            spu_info->graphics.play_sound = true;
+
+			option_index++;
+
+            continue;
+        }
+
+        if (parsed_files == 0)
+        {
+            spu_info->input.name = argv[option_index];
+
+            parsed_files++;
+
+            option_index++;
+
+            continue;
+        }
+
+        fprintf(stderr, "INCORRECT INPUT\n I/O files set as default\n\n");
+
+        spu_info->input.name = DefaultInput;
+
+        break;
+    }
+
+    spu_info->dump.name = DefaultDump;
+
+//     if (argc != 3)
+//     {
+//         if (argc != 2)
+//         {
+//             if (argc != 1)
+//             {
+//                 fprintf(stderr, "INCORRECT INPUT\n input/dump files set as default\n\n");
+//             }
+//
+//             spu_info->input.name  = DefaultInput;
+//             spu_info->dump.name   = DefaultDump;
+//         }
+//         else
+//         {
+//             spu_info->input.name  = argv[1];
+//             spu_info->dump.name   = DefaultDump;
+//         }
+//     }
+//
+//     else
+//     {
+//         spu_info->input.name  = argv[1];
+//         spu_info->dump.name   = argv[2];
+//     }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode ReadCode (SpuInfo_t* spu_info)
+{
+    if (fread(&spu_info->proc.len, sizeof(size_t), 1, spu_info->input.ptr) != 1)
+    {
+        fprintf(stderr, "READ CODE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_READ_CODE_ERROR;
+    }
+
+    spu_info->proc.elem_size = sizeof(int);
+
+    spu_info->proc.code = (int*) calloc(spu_info->proc.len, spu_info->proc.elem_size);
+
+    if (fread(spu_info->proc.code, spu_info->proc.elem_size, spu_info->proc.len, spu_info->input.ptr) != spu_info->proc.len)                                             \
+    {
+        fprintf(stderr, "READ CODE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_READ_CODE_ERROR;
+    }
+
+    #ifdef PRINT_READ_CODE
+
+    printf("ReadCode:\n");
+
+    for (int i = 0; i < spu_info->proc.len; i++)
+    {
+        printf("[%d] = %d\n", i, spu_info->proc.code[i]);
+    }
+
+    #endif
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode ExecuteCode (SpuInfo_t* spu_info)
+{
+    if (spu_info->graphics.open_window)
+    {
+        sf::Event event;
+
+        while (spu_info->graphics.window->pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                spu_info->graphics.window->close();
+
+                spu_info->proc.running = false;
+
+                return SPU_SUCCESS;
+            }
+        }
+    }
+
+    while (spu_info->proc.running)
+    {
+        if (spu_info->graphics.open_window)
+        {
+            sf::Event event;
+
+            while (spu_info->graphics.window->pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                {
+                    spu_info->graphics.window->close();
+
+                    spu_info->proc.running = false;
+
+                    return SPU_SUCCESS;
+                }
+            }
+        }
+
+        switch (spu_info->proc.code[spu_info->proc.ip++])
+        {
+            case HLT:
+            {
+                CmdHlt(spu_info);
+
+                break;
+            }
+
+            case PUSH:
+            {
+                CmdPush(spu_info);
+
+                break;
+            }
+
+            case ADD:
+            {
+                CmdAdd(spu_info);
+
+                break;
+            }
+
+            case SUB:
+            {
+                CmdSub(spu_info);
+
+                break;
+            }
+
+            case MUL:
+            {
+                CmdMul(spu_info);
+
+                break;
+            }
+
+            case DIV:
+            {
+                if (CmdDiv(spu_info) != SPU_SUCCESS)
+                {
+                    fprintf(stderr, "DIV ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                    return SPU_DIV_ERROR;
+                }
+
+                break;
+            }
+
+            case SQRT:
+            {
+                if (CmdSqrt(spu_info) != SPU_SUCCESS)
+                {
+                    fprintf(stderr, "SQRT ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                    return SPU_SQRT_ERROR;
+                }
+
+                break;
+            }
+
+            case SIN:
+            {
+                CmdSin(spu_info);
+
+                break;
+            }
+
+            case COS:
+            {
+                CmdCos(spu_info);
+
+                break;
+            }
+
+            case IN:
+            {
+                CmdIn(spu_info);
+
+                break;
+            }
+
+            case OUT:
+            {
+                CmdOut(spu_info);
+
+                break;
+            }
+
+            case DUMP:
+            {
+                CmdDump(spu_info);
+
+                break;
+            }
+
+            case POP:
+            {
+                CmdPop(spu_info);
+
+                break;
+            }
+
+            case JMP:
+            {
+                CmdJmp(spu_info);
+
+                break;
+            }
+
+            case JA:
+            {
+                CmdJa(spu_info);
+
+                break;
+            }
+
+            case JB:
+            {
+                CmdJb(spu_info);
+
+                break;
+            }
+
+            case JAE:
+            {
+                CmdJae(spu_info);
+
+                break;
+            }
+
+            case JBE:
+            {
+                CmdJbe(spu_info);
+
+                break;
+            }
+
+            case JE:
+            {
+                CmdJe(spu_info);
+
+                break;
+            }
+
+            case JNE:
+            {
+                CmdJne(spu_info);
+
+                break;
+            }
+
+            case DRAW:
+            {
+                if (CmdDraw(spu_info) != SPU_SUCCESS)
+                {
+                    fprintf(stderr, "DEBUG in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                    return SPU_DRAW_ERROR;
+                }
+
+                break;
+            }
+
+            case CALL:
+            {
+                CmdCall(spu_info);
+
+                break;
+            }
+
+            case RET:
+            {
+                CmdRet(spu_info);
+
+                break;
+            }
+
+            case CLEAR:
+            {
+                CmdClear(spu_info);
+
+                break;
+            }
+
+            case SLEEP:
+            {
+                CmdSleep(spu_info);
+
+                break;
+            }
+
+            default:
+            {
+                fprintf(stderr, "DEBUG in %s:%d%s : %d\n",
+                                __FILE__, __LINE__, __PRETTY_FUNCTION__, spu_info->proc.ip);
+
+                fprintf(stderr, "INVALID INSTRUCTION ERROR: %d in %s:%d:%s\n", \
+                                spu_info->proc.code[spu_info->proc.ip - 1], __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+                spu_info->proc.running = false;
+
+                return SPU_INVALID_INSRUCTION_ERROR;
+            }
+        }
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+int* GetArg (SpuInfo_t* spu_info)
+{
+    int arg_type = spu_info->proc.code[spu_info->proc.ip++];
+
+    static int arg_value;
+
+    arg_value = 0;
+
+    int*       arg_addr  = nullptr;
+
+    if (arg_type & ImcCode)
+    {
+        arg_value +=  spu_info->proc.code[spu_info->proc.ip];
+        arg_addr   = &spu_info->proc.code[spu_info->proc.ip];
+
+        spu_info->proc.ip++;
+    }
+
+    if (arg_type & RegCode)
+    {
+        int reg_number = spu_info->proc.code[spu_info->proc.ip] - 1;
+
+        arg_value +=  spu_info->proc.regs.regs[reg_number].value;
+        arg_addr   = &spu_info->proc.regs.regs[reg_number].value;
+
+        spu_info->proc.ip++;
+    }
+
+    if (arg_type & ImcCode && arg_type & RegCode)
+    {
+        arg_addr = &arg_value;
+    }
+
+    if (arg_type & RamIndexCode)
+    {
+        int ram_addres = arg_value;
+
+        arg_addr = &spu_info->ram.ram[ram_addres];
+    }
+
+    return arg_addr;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdHlt (SpuInfo_t* spu_info)
+{
+    spu_info->proc.running = false;
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdPush (SpuInfo_t* spu_info)
+{
+    int arg = *GetArg(spu_info);
+
+    StackPush(spu_info->stk.id, arg);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdPop (SpuInfo_t* spu_info)
+{
+    int* arg = GetArg(spu_info);
+
+    int val = StackPop(spu_info->stk.id);
+
+    *arg = val;
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdAdd (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    StackPush(spu_info->stk.id, a + b);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdSub (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    StackPush(spu_info->stk.id, b - a);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdMul (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    StackPush(spu_info->stk.id, a * b);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdDiv (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    if (a == 0)
+    {
+        fprintf(stderr, "DIVISION BY ZERO ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_DIVISION_BY_ZERO_ERROR;
+    }
+
+    StackPush(spu_info->stk.id, b / a);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdSqrt (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+
+    if (a < 0)
+    {
+        fprintf(stderr, "ROOT OF A NEGATIVE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_ROOT_OF_A_NEGATIVE_ERROR;
+    }
+
+    StackPush(spu_info->stk.id, (int) sqrt(a));
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdSin (SpuInfo_t* spu_info)
+{
+    StackPush(spu_info->stk.id, (int) sin(StackPop(spu_info->stk.id))); // allways returns 0
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdCos (SpuInfo_t* spu_info)
+{
+    StackPush(spu_info->stk.id, (int) cos(StackPop(spu_info->stk.id))); // allways returns 0
+
+    return SPU_SUCCESS;
+}
+
+SpuReturnCode CmdIn (SpuInfo_t* spu_info)
+{
+    int a = 0;
+    scanf("%d", &a);
+
+    StackPush(spu_info->stk.id, a);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdOut  (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+
+    printf("%d\n", a);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdDump (SpuInfo_t* spu_info)
+{
+    SpecialStackDump(spu_info->stk.id);
+
+    FILE* dump_file = spu_info->dump.ptr;
+
+    time_t RawTime;
+    struct tm* TimeInfo;
+    time(&RawTime);
+    TimeInfo = localtime(&RawTime);
+
+    fprintf(dump_file, "Local time and date: %s\n", asctime(TimeInfo));
+
+    fprintf(dump_file, "Local time and date: %s\n", asctime(TimeInfo));
+
+    fprintf(dump_file, "input file = %s\n", spu_info->input.name);
+    fprintf(dump_file, "input file pointer = %p\n\n", spu_info->input.ptr);
+
+    fprintf(dump_file, "running = %s\n\n", spu_info->proc.running ? "true" : "false");
+
+    fprintf(dump_file, "arr_size = %ld\n",  spu_info->proc.len);
+    fprintf(dump_file, "regs_size = %ld\n", spu_info->proc.regs.len);
+    fprintf(dump_file, "ram_size = %ld\n",  spu_info->ram.len);
+
+    fprintf(dump_file, "\nlen_code = %ld\n",  spu_info->proc.len);
+    fprintf(dump_file, "ip       = %d\n\n", spu_info->proc.ip);
+
+    fprintf(dump_file, "CODE ARRAY\n\n");
+
+    for (int i = 0; i < spu_info->proc.len; i++)
+    {
+        fprintf(dump_file, "[%d] = %d\n", i, spu_info->proc.code[i]);
+    }
+
+
+    fprintf(dump_file, "\nREGISTERS\n\n");
+
+    for (int i = 0; i < spu_info->proc.regs.len; i++)
+    {
+        fprintf(dump_file, "%s [ak %d] = %d\n",
+                spu_info->proc.regs.regs[i].name, spu_info->proc.regs.regs[i].code, spu_info->proc.regs.regs[i].value);
+    }
+
+    fprintf(dump_file, "\nRAM\n\n");
+
+    for (int i = 0; i < RamDisplaySize; i++)
+    {
+        fprintf(dump_file, "[%d] = %d\n", i, spu_info->ram.ram[i]);
+    }
+
+    fflush(dump_file);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdJmp  (SpuInfo_t* spu_info)
+{
+    spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdJa (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    if (b > a)
+    {
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
+    }
+    else
+    {
+        spu_info->proc.ip++;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdJb (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    if (b < a)
+    {
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
+    }
+    else
+    {
+        spu_info->proc.ip++;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdJae  (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    if (b >= a)
+    {
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
+    }
+    else
+    {
+        spu_info->proc.ip++;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdJbe  (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    if (b <= a)
+    {
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
+    }
+    else
+    {
+        spu_info->proc.ip++;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdJe (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    if (b == a)
+    {
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
+    }
+    else
+    {
+        spu_info->proc.ip++;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdJne (SpuInfo_t* spu_info)
+{
+    int a = StackPop(spu_info->stk.id);
+    int b = StackPop(spu_info->stk.id);
+
+    if (b != a)
+    {
+        spu_info->proc.ip = spu_info->proc.code[spu_info->proc.ip];
+    }
+    else
+    {
+        spu_info->proc.ip++;
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdDraw (SpuInfo_t* spu_info)
+{
+    int mode            = spu_info->proc.code[spu_info->proc.ip++];
+    int start_ram_index = *GetArg(spu_info);
+    int length          = *GetArg(spu_info);
+    int width           = *GetArg(spu_info);
+
+    if (spu_info->graphics.open_window)
+    {
+        if (GraphicWindowDraw (spu_info, start_ram_index, length, width) != SPU_SUCCESS)
+        {
+            fprintf(stderr, "CMD DRAW ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+            return SPU_CMD_DRAW_ERROR;
+        }
+    }
+
+    else
+    {
+        if (TerminalDraw (spu_info, start_ram_index, length, width) != SPU_SUCCESS)
+        {
+            fprintf(stderr, "CMD DRAW ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+            return SPU_CMD_DRAW_ERROR;
+        }
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode TerminalDraw (SpuInfo_t* spu_info, int start_ram_index, int length, int width)
+{
+    if (start_ram_index + length * width >= RamSize)
+    {
+        fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_INVALID_START_RAM_INDEX_ERROR;
+    }
+
+    if (length < 0 || width < 0)
+    {
+        fprintf(stderr, "INVALID DRAW PARAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_INVALID_DRAW_PARAM_ERROR;
+    }
+
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = i * length; j < (i + 1) * length; j++)
+        {
+            putchar(spu_info->ram.ram[start_ram_index + j]);
+        }
+
+        putchar('\n');
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode GraphicWindowDraw (SpuInfo_t* spu_info, int start_ram_index, int length, int width)
+{
+    if (!spu_info->graphics.open_window)
+    {
+        fprintf(stderr, "WINDOW IS NOT OPENED ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_WINDOW_IS_NOT_OPENED_ERROR;
+    }
+
+    if (start_ram_index + length * width >= RamSize)
+    {
+        fprintf(stderr, "INVALID START RAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_INVALID_START_RAM_INDEX_ERROR;
+    }
+
+    if (length < 0 || width < 0)
+    {
+        fprintf(stderr, "INVALID DRAW PARAM INDEX ERROR in %s:%d%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_INVALID_DRAW_PARAM_ERROR;
+    }
+
+    sf::RenderTexture texture;
+    texture.create(length*spu_info->graphics.pixel_length, width*PixelWidth);
+
+    sf::RectangleShape rectangle(sf::Vector2f((float) PixelLength, (float) (PixelWidth)));
+
+    float x, y = 0;
+
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = start_ram_index + i * length; j < start_ram_index + (i + 1) * length; j++)
+        {
+            rectangle.setPosition(x, y);
+
+            if (isspace(spu_info->ram.ram[j]) || spu_info->ram.ram[j] == 0)
+            {
+                rectangle.setFillColor(sf::Color::Black);
+            }
+            else
+            {
+                rectangle.setFillColor(sf::Color::White);
+            }
+
+            texture.draw(rectangle);
+
+            x += PixelLength;
+        }
+
+        x = 0;
+        y += PixelWidth;
+    }
+
+    texture.display();
+
+    sf::Sprite sprite(texture.getTexture());
+
+    (*(spu_info->graphics.window)).clear();
+    (*(spu_info->graphics.window)).draw(sprite);
+    (*(spu_info->graphics.window)).display();
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdCall(SpuInfo_t* spu_info)
+{
+    int func_ip = spu_info->proc.code[spu_info->proc.ip];
+    int ret_ip  = spu_info->proc.ip + 1;
+
+    StackPush(spu_info->stk.id, ret_ip);
+
+    spu_info->proc.ip = func_ip;
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdRet(SpuInfo_t* spu_info)
+{
+    int ret_ip = StackPop(spu_info->stk.id);
+    spu_info->proc.ip = ret_ip;
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdClear (SpuInfo_t* spu_info)
+{
+    system("clear");
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode CmdSleep (SpuInfo_t* spu_info)
+{
+    if (!spu_info->graphics.open_window)
+    {
+        usleep(30000);
+    }
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//
+
+SpuReturnCode SpuInfoDtor(SpuInfo_t* spu_info)
+{
+    if (!spu_info)
+    {
+        fprintf(stderr, "SPU INFO NULL PTR ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_INFO_NULL_PTR_ERROR;
+    }
+
+    if (!spu_info->input.ptr)
+    {
+        fprintf(stderr, "SPU CLOSE INPUT FILE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_CLOSE_INPUT_FILE_ERROR;
+    }
+
+    fclose(spu_info->input.ptr);
+
+    if (!spu_info->dump.ptr)
+    {
+        fprintf(stderr, "SPU CLOSE DUMP FILE ERROR in %s:%d:%s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+
+        return SPU_CLOSE_DUMP_FILE_ERROR;
+    }
+
+    fclose(spu_info->dump.ptr);
+
+    free(spu_info->proc.code);
+
+    free(spu_info->ram.ram);
+
+    StackDtor(spu_info->stk.id);
+
+    return SPU_SUCCESS;
+}
+
+//------------------------------------------------//

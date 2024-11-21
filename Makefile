@@ -1,11 +1,11 @@
 CC = g++
-CFLAGS = -g -I include -fPIC -I stack/include -Wcast-qual -Wconversion -Wctor-dtor-privacy    \
+CFLAGS = -g -I include -fPIE -I stack/include -Wcast-qual -Wconversion -Wctor-dtor-privacy    \
 		 -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op \
          -Wno-missing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual     \
 		 -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing           \
 		 -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -fexceptions -pipe     \
 
-LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lstdc++
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lstdc++
 
 SOURCES_DIR = src
 OBJECTS_DIR = bin

@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include "colors.h"
 
+//———————————————————————————————————————————————————————————————————//
+
 void color_print(const char *color_code, const char *str, ...)
 {
 	va_list list;
@@ -17,12 +19,18 @@ void color_print(const char *color_code, const char *str, ...)
     va_end(list);
 }
 
+//===================================================================//
+
 void set_color(const char *color_code)
 {
 	printf("%s", color_code);
 }
 
+//===================================================================//
+
 void reset_color()
 {
 	printf(WHITE_CODE);
 }
+
+//———————————————————————————————————————————————————————————————————//
