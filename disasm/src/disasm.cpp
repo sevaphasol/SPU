@@ -319,7 +319,7 @@ DisAsmReturnCode PrintPushPopArg(DisAsmInfo_t* dis_asm_info, const PushPopLine_t
 
             color_print(PURPLE_CODE, line->format_line, imc);
 
-            break;imc
+            break;
         }
         case REG:
         {
