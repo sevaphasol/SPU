@@ -155,8 +155,6 @@ AsmReturnCode ReadCode (AsmInfo_t* asm_info)
     return ASM_SUCCESS;
 }
 
-//===================================================================//
-
 AsmReturnCode GetFileSize (FILE* const file, size_t* file_size)
 {
     ASSERT(file);
@@ -351,7 +349,7 @@ AsmReturnCode ParseIfCommand(AsmInfo_t* asm_info, char** str, char* cmd, char* a
     {
         Command_t command = CommandsTabel[cmd_index];
 
-        if (strcmp(cmd, command.name) == 0)
+        if (strcmp(cmd, command.name) == 0) //TODO * ((int*) char*) - hash
         {
             asm_info->code.code[asm_info->code.ip] = command.code;
 

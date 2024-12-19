@@ -48,7 +48,7 @@ const char* const BadAppleMusicFile    = "sounds/BadApple.wav";
 
 //-------------------------------------------------------------------//
 
-const char* const DefaultInput         = "asm/executable_files/circle2.bin";
+const char* const DefaultInput         = "asm/executable_files/fibo.bin";
 const char* const DefaultDump          = "logs/proc_dump.log";
 
 //———————————————————————————————————————————————————————————————————//
@@ -168,9 +168,9 @@ typedef struct SpuInfo
 
 //———————————————————————————————————————————————————————————————————//
 
-SpuReturnCode SpuInfoCtor(SpuInfo_t* spu_info, sf::RenderWindow* window, int argc, const char* argv[]);
-SpuReturnCode StartProgramm(SpuInfo_t* spu_info);
-SpuReturnCode SpuInfoDtor(SpuInfo_t* spu_info);
+SpuReturnCode SpuInfoCtor   (SpuInfo_t* spu_info, sf::RenderWindow* window, int argc, const char* argv[]);
+SpuReturnCode StartProgramm (SpuInfo_t* spu_info);
+SpuReturnCode SpuInfoDtor   (SpuInfo_t* spu_info);
 
 //———————————————————————————————————————————————————————————————————//
 

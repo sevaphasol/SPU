@@ -6,6 +6,10 @@ push DX
 push 0
 
 ja TWO_ROOTS:
+
+push DX
+push 0
+
 je ONE_ROOT:
 
 hlt

@@ -17,6 +17,7 @@ static SpuReturnCode StackCtor         (Stk_t*      stk);
 static SpuReturnCode RegsCtor          (Regs_t*     regs);
 static SpuReturnCode RamCtor           (Ram_t*      ram);
 static SpuReturnCode GraphicsCtor      (Graphics_t* graphics, sf::RenderWindow* window);
+static SpuReturnCode LoadSoundBuffer   ();
 
 static SpuReturnCode OpenCode          (SpuInfo_t* spu_info, int argc, const char* argv[]);
 static SpuReturnCode ParseArgv         (SpuInfo*   spu_info, int argc, const char* argv[]);
@@ -280,14 +281,7 @@ SpuReturnCode StartProgramm(SpuInfo_t* spu_info)
 
     if (spu_info->graphics.play_sound)
     {
-        sf::SoundBuffer buffer;
-        sf::Sound sound;
-
-        if (buffer.loadFromFile(BadAppleMusicFile))
-        {
-            sound.setBuffer(buffer);
-            sound.play();
-        }
+        LoadSoundBuffer();
     }
 
     spu_info->proc.running = true;
@@ -306,6 +300,22 @@ SpuReturnCode StartProgramm(SpuInfo_t* spu_info)
 
         VERIFY((ExecuteCode (spu_info) != SPU_SUCCESS),
                return SPU_EXECUTE_CODE_ERROR);
+    }
+
+    return SPU_SUCCESS;
+}
+
+//===================================================================//
+
+SpuReturnCode LoadSoundBuffer()
+{
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
+
+    if (buffer.loadFromFile(BadAppleMusicFile))
+    {
+        sound.setBuffer(buffer);
+        sound.play();
     }
 
     return SPU_SUCCESS;
@@ -357,7 +367,7 @@ SpuReturnCode ExecuteCode(SpuInfo_t* spu_info)
 
         bool executed = false;
 
-        for (int command = 0; command < nCommands; command++)
+        for (int command = 0; command < nCommands; command++) //TODO checking if indexes in massive equal to codes
         {
             if (spu_info->proc.code[spu_info->proc.ip] == CommandsTabel[command].code)
             {
